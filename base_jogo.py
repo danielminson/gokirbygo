@@ -1,5 +1,6 @@
 import pygame
 import random
+from time import sleep 
 from os import path
 
 img_dir = path.join(path.dirname(__file__), 'imagens')
@@ -18,7 +19,6 @@ YELLOW = (255, 255, 0)
 
 
 class Kirby(pygame.sprite.Sprite):
-    
     # Construtor da classe.
     def __init__(self, foto_kirby):
         
@@ -44,15 +44,53 @@ class Kirby(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
 
-    def update(self):
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
+    #def update(self):
+       # self.rect.x += self.speedx
+       # self.rect.y += self.speedy
         # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+       # if self.rect.right > WIDTH:
+       #     self.rect.right = WIDTH
+       # if self.rect.left < 0:
+       #     self.rect.left = 0
+        self.x = 10
+        self.y = 100
+        self.speed = 100
+        self.isjump=0
+        self.massa = 10
+        self.force = 6
+        F = 0 
+    def direita(self):
+        self.x+=self.speed 
+    def esquerda(self):
+        self.x-=self.speed
+    def jump(self):
+        self.isjump = 1
+    def update(self):
+        if self.isjump:
+            if self.force > 0: 
+                F = (0.5*self.massa*(self.force*self.force))
+                #mudando de posicao
+                self.y = self.y-F
+                #velocidade
+                self.force = self.force-1
+                #chegando no chão
+                if self.y == 100:
+                    self.y = 100
+                    self.isjump = 0
+                    self.force = 6
+            else:
+                F = -0.5*self.massa*(self.force*self.force)
+                #mudando de posicao
+                self.y = self.y-F
+                #velocidade
+                self.force = self.force-1
+                #chegando no chão
+                if self.y == 100:
+                    self.y = 100
+                    self.isjump = 0
+                    self.force = 6
 
+        
 
 def load_assets(img_dir):
 	assets = {}
@@ -126,7 +164,6 @@ try:
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
-            
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
