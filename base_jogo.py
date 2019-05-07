@@ -6,6 +6,7 @@ img_dir = path.join(path.dirname(__file__), 'imagens')
 
 # Dados gerais do jogo.
 WIDTH = 1440 # Largura da tela
+
 HEIGHT = 900 # Altura da tela
 FPS = 60 # Frames por segundo
 
@@ -110,7 +111,7 @@ try:
                 if event.key == pygame.K_RIGHT:
                     kirby.speedx = 8
                 if event.key == pygame.K_SPACE:
-                	kirby.speedy = -4
+                	kirby.rect.y += -10
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -120,7 +121,7 @@ try:
                 if event.key == pygame.K_RIGHT:
                     kirby.speedx = 0
                 if event.key == pygame.K_SPACE:
-                	kirby.speedy = 0
+                	kirby.rect.y = HEIGHT
 
                     
         # Depois de processar os eventos.
