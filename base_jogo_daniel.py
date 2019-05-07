@@ -2,11 +2,12 @@ import pygame
 import random
 from os import path
 
-img_dir = path.join(path.dirname(__file__), 'imagens')
+img_dir = path.join(path.dirname(__file__), 'Imagens')
+#img_dir = path.join(path.dirname(__file__), 'Imagens', 'png')
 
 # Dados gerais do jogo.
 WIDTH = 1440 # Largura da tela
-HEIGHT = 900 # Altura da tela
+HEIGHT = 800 # Altura da tela
 FPS = 60 # Frames por segundo
 
 WHITE = (255, 255, 255)
@@ -39,7 +40,7 @@ class Kirby(pygame.sprite.Sprite):
         
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 10
+        self.rect.bottom = HEIGHT - 85
 
         self.speedx = 0
         self.speedy = 0
@@ -57,7 +58,7 @@ class Kirby(pygame.sprite.Sprite):
 def load_assets(img_dir):
 	assets = {}
 	assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
-	assets["fundo"] = pygame.image.load(path.join(img_dir, "fundo.jpg")).convert()
+	assets["fundo"] = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
 	return assets
 
 #Inicializacao
@@ -110,7 +111,7 @@ try:
                 if event.key == pygame.K_RIGHT:
                     kirby.speedx = 8
                 if event.key == pygame.K_SPACE:
-                	kirby.speedy = -4
+                	kirby.speedy = -1
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
