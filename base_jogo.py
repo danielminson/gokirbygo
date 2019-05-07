@@ -5,8 +5,8 @@ from os import path
 img_dir = path.join(path.dirname(__file__), 'imagens')
 
 # Dados gerais do jogo.
-WIDTH = 600 # Largura da tela
-HEIGHT = 600 # Altura da tela
+WIDTH = 400 # Largura da tela
+HEIGHT = 900 # Altura da tela
 FPS = 60 # Frames por segundo
 
 WHITE = (255, 255, 255)
