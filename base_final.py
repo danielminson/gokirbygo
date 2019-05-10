@@ -6,7 +6,7 @@ from os import path
 
 pygame.init()
 
-WIDTH, HEIGHT = 1440, 800
+WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
@@ -18,9 +18,13 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-img_dir = path.join(path.dirname(_file_), 'Imagens')
+
+
+img_dir = path.join(path.dirname(__file__), 'Imagens')
+
 
 clock = pygame.time.Clock()
+
 CHAO = 0
 JUMP = 1
 
@@ -28,10 +32,10 @@ JUMP = 1
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def _init_(self):
+    def __init__(self):
         
         # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite._init_(self)
+        pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
@@ -146,10 +150,10 @@ while running:
     fundoX -= 5
     fundoX2 -= 5
 
-    if fundoX < fundo.get_width() * -1:  
+    if fundoX < fundo.get_width() *-1:  
         fundoX = fundo.get_width()
     
-    if fundoX2 < fundo.get_width() * -1:
+    if fundoX2 < fundo.get_width() *-1:
         fundoX2 = fundo.get_width()
 
 
