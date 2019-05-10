@@ -18,13 +18,9 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-
-
-img_dir = path.join(path.dirname(__file__), 'Imagens')
-
+img_dir = path.join(path.dirname(_file_), 'Imagens')
 
 clock = pygame.time.Clock()
-
 CHAO = 0
 JUMP = 1
 
@@ -32,10 +28,10 @@ JUMP = 1
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
-    def __init__(self):
+    def _init_(self):
         
         # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
+        pygame.sprite.Sprite._init_(self)
         
         # Carregando a imagem de fundo
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
@@ -105,7 +101,6 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
-
 
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0)) 

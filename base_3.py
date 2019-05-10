@@ -1,15 +1,20 @@
+# -*- coding: utf-8 -*-
+
+# Importando as bibliotecas necessárias.
 import pygame
-from pygame.locals import *
-import sys
-import math
+import random
+import time
 from os import path
 
-pygame.init()
+# Estabelece a pasta que contem as figuras e sons.
+img_dir = path.join(path.dirname(__file__), 'Imagens')
 
-WIDTH, HEIGHT = 1440, 800
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
-pygame.display.set_caption('Go Kirby Go')
+# Dados gerais do jogo.
+WIDTH = 1280 # Largura da tela
+HEIGHT = 720 # Altura da tela
+FPS = 60 # Frames por segundo
 
+# Define algumas variáveis com as cores básicas
 size = [1280, 720]
 WHITE = (255, 255, 255)
 black = (0, 0, 0)
@@ -17,16 +22,17 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
-
-
-
-img_dir = path.join(path.dirname(__file__), 'Imagens')
-
-
-clock = pygame.time.Clock()
+mainState = 0
+jumpState = 1
+slideState = 2
 
 CHAO = 0
 JUMP = 1
+
+def redesenhafundo():
+    screen.blit(fundo, (fundoX, 0)) 
+    screen.blit(fundo, (fundoX2, 0))  
+    pygame.display.update()
 
 # Classe Jogador que representa a nave
 class Player(pygame.sprite.Sprite):
@@ -92,7 +98,7 @@ class Player(pygame.sprite.Sprite):
                 if event.key == pygame.K_RIGHT:
                     self.speedx = 0
 
-
+    # Metodo que atualiza a posição da navinha
     def update(self):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
@@ -107,10 +113,31 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = 0
 
 
-def redesenhafundo():
-    screen.blit(fundo, (fundoX, 0)) 
-    screen.blit(fundo, (fundoX2, 0))  
-    pygame.display.update()
+    def jump(self):
+        self.rect.centery -= self.jumpSpeed
+
+    def fall(self):   
+        self.rect.centery += self.fallSpeed
+    
+    def estado_parado(self):
+        self.rect.center = self.rect.center
+pygame.init()
+pygame.mixer.init()
+
+# Tamanho da tela.
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# Nome do jogo
+pygame.display.set_caption("Kirby")
+
+# Variável para o ajuste de velocidade
+clock = pygame.time.Clock()
+timeElapsed = 0
+timeReset = 0
+# Carrega o fundo do jogo
+
+#background = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
+#background_rect = background.get_rect()
 
 
 fundo = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
@@ -123,39 +150,45 @@ player = Player()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-running = True
-speed = 60  
+# Comando para evitar travamentos.
+try:
+    # Loop principal.
+    running = True
+    while running:
 
-while running:
+        redesenhafundo() 
+        fundoX -= 5
+        fundoX2 -= 5
 
-    for event in pygame.event.get(): 
-        player.process_event(event) 
-        if event.type == pygame.QUIT: 
-            running = False    
-            pygame.quit() 
-            quit()
-    # Depois de processar os eventos.
+        if fundoX < fundo.get_width() * -1:  
+            fundoX = fundo.get_width()
+        
+        if fundoX2 < fundo.get_width() * -1:
+            fundoX2 = fundo.get_width()
+
+        clockTime = clock.tick(60)
+        timeElapsed += clockTime
+        timeSec = timeElapsed / 1000
+        timeElapsed += clockTime
+
+        for event in pygame.event.get():
+            player.process_event(event)
+
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
-
-
-    all_sprites.update()
-
-    # A cada loop, redesenha o fundo e os sprites
-    screen.fill(black)
-    redesenhafundo()
-    all_sprites.draw(screen)
+        all_sprites.update()
     
-    # Depois de desenhar tudo, inverte o display.
-    pygame.display.flip()
-
-    fundoX -= 5
-    fundoX2 -= 5
-
-    if fundoX < fundo.get_width() * -1:  
-        fundoX = fundo.get_width()
+        # A cada loop, redesenha o fundo e os sprites
+        screen.fill(black)
+        #screen.blit(background, background_rect)
+        all_sprites.draw(screen)
+        
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+        
+finally:
     
-    if fundoX2 < fundo.get_width() * -1:
-        fundoX2 = fundo.get_width()
-
-
-    clock.tick(speed) 
+    pygame.quit()
