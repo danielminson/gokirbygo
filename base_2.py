@@ -1,11 +1,11 @@
 import pygame, random, sys
 pygame.init()
-global screen, size, background, state, mainState, pularState
+global screen, size, background, state, mainState, jumpState
 from time import sleep 
 from os import path
 
 mainState = 0
-pularState = 1
+jumpState = 1
 slideState = 2
 size = [1280, 720]
 white = (255, 255, 255)
@@ -28,12 +28,12 @@ class Player_Kirby(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.posX, self.posY = 50, size[1] - 180
         self.rect.center = (self.posX, self.posY)
-        self.pularSpeed = 10
+        self.jumpSpeed = 10
         self.cairSpeed = 11
         self.slideDis = 4
         
-    def pular(self):
-        self.rect.centery -= self.pularSpeed
+    def jump(self):
+        self.rect.centery -= self.jumpSpeed
 
     def cair(self):   
         self.rect.centery += self.cairSpeed
@@ -120,19 +120,19 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if state == mainState:
                     if event.key == pygame.K_SPACE:
-                        state = pularState
+                        state = jumpState
                         timeReset = 0
                     if event.key == pygame.K_s:
                         state = slideState
                         timeReset = 0
             
-        if state == pularState and timeReset < 5:
-            player.pular()
+        if state == jumpState and timeReset < 5:
+            player.jump()
             timeReset += 1
-        elif state == pularState and timeReset < 7:
+        elif state == jumpState and timeReset < 7:
             player.estado_parado()
             timeReset += 1
-        elif state == pularState and timeReset < 11:
+        elif state == jumpState and timeReset < 11:
             player.cair()
             player.cairSpeed += 1
             timeReset += 1
@@ -196,7 +196,7 @@ def intro():
         
         introString = []
         introString.append("Don't get hit by the block")
-        introString.append("Press 'space' to pular")
+        introString.append("Press 'space' to jump")
         introString.append("Press 's' to slide")
         introString.append("Press 'space' to continue")
         i = 0
