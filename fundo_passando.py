@@ -17,17 +17,17 @@ fundoX2 = fundo.get_width()
 clock = pygame.time.Clock()
 
 def redesenhafundo():
-    screen.blit(fundo, (fundoX, 0))  # draws our first bg image
-    screen.blit(fundo, (fundoX2, 0))  # draws the seconf bg image
-    pygame.display.update()  # updates the screen
+    screen.blit(fundo, (fundoX, 0)) 
+    screen.blit(fundo, (fundoX2, 0))  
+    pygame.display.update()
 
 running = True
-speed = 30  
+speed = 60  
 
 while running:
     redesenhafundo() 
-    fundoX -= 1.4  
-    fundoX2 -= 1.4
+    fundoX -= 5
+    fundoX2 -= 5
 
     if fundoX < fundo.get_width() * -1:  
         fundoX = fundo.get_width()
@@ -40,8 +40,5 @@ while running:
             running = False    
             pygame.quit() 
             quit()
-    
-        if event.type == USEREVENT+1: # Checks if timer goes off
-            speed += 1 # Increases speed
 
     clock.tick(speed) 
