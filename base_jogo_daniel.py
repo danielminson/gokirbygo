@@ -66,7 +66,7 @@ pygame.init()
 pygame.mixer.init()
 
 # Tamanho da tela.
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT),pygame.FULLSCREEN)
 
 # Nome do jogo
 pygame.display.set_caption("Go Kirby Go")
@@ -102,10 +102,12 @@ try:
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 running = False
-            
+
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.K_ESC:
+                    running = False
                 if event.key == pygame.K_LEFT:
                     kirby.speedx = -8
                 if event.key == pygame.K_RIGHT:
