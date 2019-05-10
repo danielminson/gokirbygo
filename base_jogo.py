@@ -57,7 +57,7 @@ class Kirby(pygame.sprite.Sprite):
 
 def load_assets(img_dir):
 	assets = {}
-	assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "King_Dedede.png")).convert()
+	assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
 	assets["fundo"] = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
 	return assets
 
