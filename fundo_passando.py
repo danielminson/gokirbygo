@@ -12,7 +12,7 @@ pygame.display.set_caption('Go Kirby Go')
 
 fundo = pygame.image.load(os.path.join('Imagens','cenário_atual.png')).convert()
 fundoX = 0
-fundoX2 = bg.get_width()
+fundoX2 = fundo.get_width()
 
 clock = pygame.time.Clock()
 
