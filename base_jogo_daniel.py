@@ -1,14 +1,13 @@
 import pygame
 import random
-from time import sleep 
 from os import path
 
-img_dir = path.join(path.dirname(__file__), 'imagens')
+img_dir = path.join(path.dirname(__file__), 'Imagens')
+#img_dir = path.join(path.dirname(__file__), 'Imagens', 'png')
 
 # Dados gerais do jogo.
 WIDTH = 1440 # Largura da tela
-
-HEIGHT = 900 # Altura da tela
+HEIGHT = 800 # Altura da tela
 FPS = 60 # Frames por segundo
 
 WHITE = (255, 255, 255)
@@ -20,6 +19,7 @@ YELLOW = (255, 255, 0)
 
 
 class Kirby(pygame.sprite.Sprite):
+    
     # Construtor da classe.
     def __init__(self, foto_kirby):
         
@@ -40,63 +40,25 @@ class Kirby(pygame.sprite.Sprite):
         
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 10
+        self.rect.bottom = HEIGHT - 85
 
         self.speedx = 0
         self.speedy = 0
 
-    #def update(self):
-       # self.rect.x += self.speedx
-       # self.rect.y += self.speedy
-        # Mantem dentro da tela
-       # if self.rect.right > WIDTH:
-       #     self.rect.right = WIDTH
-       # if self.rect.left < 0:
-       #     self.rect.left = 0
-        self.x = 10
-        self.y = 100
-        self.speed = 100
-        self.isjump=0
-        self.massa = 10
-        self.force = 6
-        F = 0 
-    def direita(self):
-        self.x+=self.speed 
-    def esquerda(self):
-        self.x-=self.speed
-    def jump(self):
-        self.isjump = 1
     def update(self):
-        if self.isjump:
-            if self.force > 0: 
-                F = (0.5*self.massa*(self.force*self.force))
-                #mudando de posicao
-                self.y = self.y-F
-                #velocidade
-                self.force = self.force-1
-                #chegando no chão
-                if self.y == 100:
-                    self.y = 100
-                    self.isjump = 0
-                    self.force = 6
-            else:
-                F = -0.5*self.massa*(self.force*self.force)
-                #mudando de posicao
-                self.y = self.y-F
-                #velocidade
-                self.force = self.force-1
-                #chegando no chão
-                if self.y == 100:
-                    self.y = 100
-                    self.isjump = 0
-                    self.force = 6
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
 
-        
 
 def load_assets(img_dir):
 	assets = {}
 	assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
-	assets["fundo"] = pygame.image.load(path.join(img_dir, "fundo.jpg")).convert()
+	assets["fundo"] = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
 	return assets
 
 #Inicializacao
@@ -149,7 +111,7 @@ try:
                 if event.key == pygame.K_RIGHT:
                     kirby.speedx = 8
                 if event.key == pygame.K_SPACE:
-                	kirby.rect.y += -10
+                	kirby.speedy = -1
                     
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -159,12 +121,13 @@ try:
                 if event.key == pygame.K_RIGHT:
                     kirby.speedx = 0
                 if event.key == pygame.K_SPACE:
-                	kirby.rect.y = HEIGHT
+                	kirby.speedy = 0
 
                     
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
+            
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
