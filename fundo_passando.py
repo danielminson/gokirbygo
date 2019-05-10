@@ -6,7 +6,7 @@ from os import path
 
 pygame.init()
 
-WIDTH, HEIGHT = 1440, 800
+WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
