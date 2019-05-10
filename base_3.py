@@ -29,6 +29,11 @@ slideState = 2
 CHAO = 0
 JUMP = 1
 
+def redesenhafundo():
+    screen.blit(fundo, (fundoX, 0)) 
+    screen.blit(fundo, (fundoX2, 0))  
+    pygame.display.update()
+
 # Classe Jogador que representa a nave
 class Player(pygame.sprite.Sprite):
     
@@ -130,8 +135,14 @@ clock = pygame.time.Clock()
 timeElapsed = 0
 timeReset = 0
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
-background_rect = background.get_rect()
+
+#background = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
+#background_rect = background.get_rect()
+
+
+fundo = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
+fundoX = 0
+fundoX2 = fundo.get_width()
 
 #Cria o Kirby
 player = Player()
@@ -139,13 +150,22 @@ player = Player()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-state = mainState
-
 # Comando para evitar travamentos.
 try:
     # Loop principal.
     running = True
     while running:
+
+        redesenhafundo() 
+        fundoX -= 5
+        fundoX2 -= 5
+
+        if fundoX < fundo.get_width() * -1:  
+            fundoX = fundo.get_width()
+        
+        if fundoX2 < fundo.get_width() * -1:
+            fundoX2 = fundo.get_width()
+
         clockTime = clock.tick(60)
         timeElapsed += clockTime
         timeSec = timeElapsed / 1000
@@ -157,49 +177,13 @@ try:
             if event.type == pygame.QUIT:
                 running = False
 
-            """ 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    player.jumping = True
-                    timeReset = 0
-                if event.key == pygame.K_s:
-                    timeReset = 0
-                #Dependendo da tecla,aletra a velocidade
-                if event.key == pygame.K_LEFT:
-                    player.speedx == -7
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 7
-                #Verifica se soltou alguma tecla
-            if event.type == pygame.KEYUP:
-                if event.type == pygame.K_RIGHT:
-                    player.speedx = 0
-                if event.key == pygame.K_LEFT:
-                    player.speedx = 0
-            
-            if state == jumpState and timeReset < 5:
-                Player.jump()
-                timeReset += 1  
-            elif state == jumpState and timeReset < 7:
-                Player.estado_parado()
-                timeReset += 1
-            elif state == jumpState and timeReset < 11:
-                Player.fall()
-                Player.fallSpeed += 1
-                timeReset += 1
-            elif state == slideState and timeReset <10:
-                Player.slide()
-                timeReset += 1
-            else:
-                Player.fallSpeed = 11
-                state = mainState
-            """
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
     
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(black)
-        screen.blit(background, background_rect)
+        #screen.blit(background, background_rect)
         all_sprites.draw(screen)
         
         # Depois de desenhar tudo, inverte o display.
