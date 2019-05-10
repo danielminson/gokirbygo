@@ -9,7 +9,7 @@ jumpState = 1
 slideState = 2
 size = [1280, 720]
 white = (255, 255, 255)
-BLACK = (0, 0, 0)
+black = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
@@ -24,26 +24,26 @@ class Player_Kirby(pygame.sprite.Sprite):
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
         self.image = player_img
         self.image = pygame.transform.scale(player_img, (100, 100))
-        self.image.set_colorkey(BLACK)
+        self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
         self.posX, self.posY = 50, size[1] - 180
         self.rect.center = (self.posX, self.posY)
         self.jumpSpeed = 10
-        self.cairSpeed = 11
+        self.fallSpeed = 11
         self.slideDis = 4
         
     def jump(self):
         self.rect.centery -= self.jumpSpeed
 
-    def cair(self):   
-        self.rect.centery += self.cairSpeed
+    def fall(self):   
+        self.rect.centery += self.fallSpeed
     
     def estado_parado(self):
-         self.rect.center = self.rect.center
+        self.rect.center = self.rect.center
      
 class Ground (pygame.sprite.Sprite):
     def __init__(self, screen):
-        color = BLACK
+        color = black
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((size[0], size[0]))
         rect = pygame.Rect(20, 20, 20, 20)
@@ -54,7 +54,7 @@ class Ground (pygame.sprite.Sprite):
 
 class Obstacle (pygame.sprite.Sprite):
     def __init__(self, screen):
-        color = BLACK
+        color = black
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((30, 30))
         rect = pygame.Rect(20, 20, 20, 20)
@@ -80,7 +80,8 @@ def load_assets(img_dir):
     assets = {}
     assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
     assets["fundo"] = pygame.image.load(path.join(img_dir, "cenario1_teste.png")).convert()
-    return assets           
+    return assets    
+
 def main():
     state = mainState
     score = 0
@@ -108,7 +109,7 @@ def main():
         
         clockTime = clock.tick(60)
         timeElapsed += clockTime
-        timeSec = timeElapsed / 1000
+        timeSec = timeElapsed/1000
         timeElapsed += clockTime
 
         scoreText = "Score: " +str(score)
@@ -133,15 +134,15 @@ def main():
             player.estado_parado()
             timeReset += 1
         elif state == jumpState and timeReset < 11:
-            player.cair()
-            player.cairSpeed += 1
+            player.fall()
+            player.fallSpeed += 1
             timeReset += 1
         elif state == slideState and timeReset <10:
             player.slide()
             timeReset += 1
         else:
             player.reset()
-            player.cairSpeed = 11
+            player.fallSpeed = 11
             state = mainState
 
         guyCollide = pygame.sprite.collide_rect(player, obstacleSprite)
@@ -156,7 +157,7 @@ def main():
         allSprites.draw(screen)
 
         font=pygame.font.Font(None,30)
-        scoretext=font.render(scoreText, 1 , (BLACK))
+        scoretext=font.render(scoreText, 1 , (black))
         screen.blit(scoretext, (10 , 10))
    
         pygame.display.flip()
@@ -203,7 +204,7 @@ def intro():
         ix = 100
         for i in range(len(introString)):
             font=pygame.font.Font(None,30)
-            introText=font.render(introString[i], 1 , (BLACK))
+            introText=font.render(introString[i], 1 , (black))
             screen.blit(introText, ((size[0] / 2) - 130 , size[1] / 2 - ix))
             i += 1
             ix -= 25
@@ -248,7 +249,7 @@ def gameOver(score):
         ix = 100
         for i in range(len(introString)):
             font=pygame.font.Font(None,30)
-            introText=font.render(introString[i], 1 , (BLACK))
+            introText=font.render(introString[i], 1 , (black))
             screen.blit(introText, ((size[0] / 2) - 130 , size[1] / 2 - ix))
             i += 1
             ix -= 25

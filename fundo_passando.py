@@ -6,38 +6,38 @@ import math
 
 pygame.init()
 
-W, H = 1200, 700
+W, H = 1440, 800
 screen = pygame.display.set_mode((W,H))
 pygame.display.set_caption('Go Kirby Go')
 
-bg = pygame.image.load(os.path.join('Imagens','cenário_atual.png')).convert()
-bgX = 0
-bgX2 = bg.get_width()
+fundo = pygame.image.load(os.path.join('Imagens','cenário_atual.png')).convert()
+fundoX = 0
+fundoX2 = fundo.get_width()
 
 clock = pygame.time.Clock()
 
-def redrawWindow():
-    screen.blit(bg, (bgX, 0))  # draws our first bg image
-    screen.blit(bg, (bgX2, 0))  # draws the seconf bg image
+def redesenhafundo():
+    screen.blit(fundo, (fundoX, 0))  # draws our first bg image
+    screen.blit(fundo, (fundoX2, 0))  # draws the seconf bg image
     pygame.display.update()  # updates the screen
 
-run = True
+running = True
 speed = 30  
 
-while run:
-    redrawWindow() 
-    bgX -= 1.4  
-    bgX2 -= 1.4
+while running:
+    redesenhafundo() 
+    fundoX -= 1.4  
+    fundoX2 -= 1.4
 
-    if bgX < bg.get_width() * -1:  
-        bgX = bg.get_width()
+    if fundoX < fundo.get_width() * -1:  
+        fundoX = fundo.get_width()
     
-    if bgX2 < bg.get_width() * -1:
-        bgX2 = bg.get_width()
+    if fundoX2 < fundo.get_width() * -1:
+        fundoX2 = fundo.get_width()
 
     for event in pygame.event.get():  
         if event.type == pygame.QUIT: 
-            run = False    
+            running = False    
             pygame.quit() 
             quit()
     

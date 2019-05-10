@@ -8,11 +8,10 @@ from os import path
 
 # Estabelece a pasta que contem as figuras e sons.
 img_dir = path.join(path.dirname(__file__), 'img')
-snd_dir = path.join(path.dirname(__file__), 'snd')
 
 # Dados gerais do jogo.
-WIDTH = 480 # Largura da tela
-HEIGHT = 600 # Altura da tela
+WIDTH = 1280 # Largura da tela
+HEIGHT = 720 # Altura da tela
 FPS = 60 # Frames por segundo
 
 # Define algumas variáveis com as cores básicas
@@ -73,27 +72,20 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 # Nome do jogo
-pygame.display.set_caption("Navinha")
+pygame.display.set_caption("Kirby")
 
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, "cenario1_teste.png")).convert()
+background = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
 background_rect = background.get_rect()
-
 
 #Cria o Kirby
 player = Player()
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
-
-# Cria um grupo só dos meteoros
-mobs = pygame.sprite.Group()
-
-# Cria um grupo para tiros
-bullets = pygame.sprite.Group()
 
 # Comando para evitar travamentos.
 try:
@@ -127,7 +119,6 @@ try:
                     player.speedx = 0
                 if event.key == pygame.K_RIGHT:
                     player.speedx = 0
-                    
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
         all_sprites.update()
