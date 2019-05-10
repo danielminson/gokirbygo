@@ -2,12 +2,12 @@ import pygame
 import random
 from os import path
 
-img_dir = path.join(path.dirname(__file__), 'imagens')
+img_dir = path.join(path.dirname(__file__), 'Imagens')
 
 # Dados gerais do jogo.
-WIDTH = 1440 # Largura da tela
+WIDTH = 1300 # Largura da tela
 
-HEIGHT = 800 # Altura da tela
+HEIGHT = 600 # Altura da tela
 FPS = 60 # Frames por segundo
 
 WHITE = (255, 255, 255)
@@ -57,8 +57,8 @@ class Kirby(pygame.sprite.Sprite):
 
 def load_assets(img_dir):
 	assets = {}
-	assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
-	assets["fundo"] = pygame.image.load(path.join(img_dir, "fundo.jpg")).convert()
+	assets["foto_kirby"] = pygame.image.load(path.join(img_dir, "King_Dedede.png")).convert()
+	assets["fundo"] = pygame.image.load(path.join(img_dir, "cenário_atual.png")).convert()
 	return assets
 
 #Inicializacao
