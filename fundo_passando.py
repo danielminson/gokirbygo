@@ -6,7 +6,7 @@ import math
 
 pygame.init()
 
-W, H = 1280, 720
+W, H = 1440, 800
 screen = pygame.display.set_mode((W,H))
 pygame.display.set_caption('Go Kirby Go')
 
