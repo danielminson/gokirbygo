@@ -104,12 +104,12 @@ class Mask(pygame.sprite.Sprite):
     def __init__(self, WIDTH, HEIGHT):
         pygame.sprite.Sprite.__init__(self)
         self.rect.center = (self.posX, self.posY)
-        self.image = pyg.Surface([WIDTH, HEIGHT]) #define condiçoes de tamanho
+        self.image = pygame.Surface([WIDTH, HEIGHT]) #define condiçoes de tamanho
+        self.rect = self.image.get_rect() #cria um rectangulo no formato do cenario para ser considerado uma from_surface
         background_mask =pygame.image.load(path.join(img_dir, "mascara_v1.png.png")).convert_alpha()       
         self.image.fill(black)
         self.rect = self.image.get_rect() # dimençoes de um retangulo sendo do mesmo tamanho que a imagem
-        self.mask = pyg.mask.from_surface(self.image) # Cria a mascara do cenario 
-        self.rect = self.image.get_rect() #cria um rectangulo no formato do cenario para ser considerado uma Surface
+        self.mask = pygame.mask.from_surface(self.image) # Cria a mascara do cenario 
 
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0)) 
@@ -118,13 +118,20 @@ def redesenhafundo():
     screen.blit(cenario, (cenarioX2, 0)) 
     pygame.display.update()
 
- def overlap():
+def overlap():
     #Check for overlap
-    overlap = background_mask.overlap(YELLOW)
+    overlap_1 = background_mask.overlap(YELLOW)
+    overlap_2 = background_mask.overlap(RED)
+    overlap_3 = background_mask.overlap(BLUE) 
     #Confirm overlap
-    if overlap:
-    print("Collision", player.position)
-
+    if overlap_1:
+        print("Collision YELLOW", player.position)
+    #Confirm overlap
+    if overlap_2:
+        print("Collision RED", player.position)
+    #Confirm overlap
+    if overlap_3:
+        print("Collision BLUE", player.position)
 
 fundo = pygame.image.load(path.join('Imagens','imagem_de_fundo_atual.png')).convert()
 fundo.set_colorkey(black)
@@ -154,7 +161,6 @@ while running:
             quit()
     # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
-
 
     all_sprites.update()
 
