@@ -109,12 +109,20 @@ class Player(pygame.sprite.Sprite):
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0)) 
     screen.blit(fundo, (fundoX2, 0))  
+    screen.blit(cenario, (cenarioX, 0)) 
+    screen.blit(cenario, (cenarioX2, 0)) 
     pygame.display.update()
 
 
-fundo = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
+fundo = pygame.image.load(path.join('Imagens','imagem_de_fundo_atual.png')).convert()
+fundo.set_colorkey(black)
 fundoX = 0
 fundoX2 = fundo.get_width()
+cenario = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
+cenario.set_colorkey(black)
+cenarioX = 0
+cenarioX2 = fundo.get_width()
+
 
 #Cria o Kirby
 player = Player()
@@ -149,12 +157,19 @@ while running:
 
     fundoX -= 5
     fundoX2 -= 5
-
+    cenarioX -= 5
+    cenarioX2 -= 5
     if fundoX < fundo.get_width() *-1:  
         fundoX = fundo.get_width()
     
     if fundoX2 < fundo.get_width() *-1:
         fundoX2 = fundo.get_width()
+        
+    if cenarioX < fundo.get_width() *-1:  
+        cenarioX = fundo.get_width()
+    
+    if cenarioX2 < fundo.get_width() *-1:
+        cenarioX2 = fundo.get_width()
 
 
     clock.tick(speed) 
