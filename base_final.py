@@ -123,7 +123,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
 running = True
-speed = 60  
+speed = 40  
 
 while running:
 
