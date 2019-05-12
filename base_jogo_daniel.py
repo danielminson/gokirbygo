@@ -39,13 +39,14 @@ class Player(pygame.sprite.Sprite):
         
         # Carregando a imagem de fundo
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
+    
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (100, 100))
         
         # Deixando transparente.
-        self.image.set_colorkey(black)
+        self.image.set_colorkey(YELLOW)
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -121,8 +122,7 @@ fundoX2 = fundo.get_width()
 cenario = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
 cenario.set_colorkey(black)
 cenarioX = 0
-cenarioX2 = fundo.get_width()
-
+cenarioX2 = cenario.get_width()
 
 #Cria o Kirby
 player = Player()
@@ -165,11 +165,11 @@ while running:
     if fundoX2 < fundo.get_width() *-1:
         fundoX2 = fundo.get_width()
         
-    if cenarioX < fundo.get_width() *-1:  
-        cenarioX = fundo.get_width()
+    if cenarioX < cenario.get_width() *-1:  
+        cenarioX = cenario.get_width()
     
-    if cenarioX2 < fundo.get_width() *-1:
-        cenarioX2 = fundo.get_width()
+    if cenarioX2 < cenario.get_width() *-1:
+        cenarioX2 = cenario.get_width()
 
 
     clock.tick(speed) 
