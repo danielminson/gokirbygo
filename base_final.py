@@ -154,7 +154,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
 running = True
-speed = 40  
+FPS = 30  
 
 while running:
 
@@ -210,4 +210,4 @@ while running:
         mascaraX2 = mascara.get_width()
 
 
-    clock.tick(speed) 
+    clock.tick(FPS) 
