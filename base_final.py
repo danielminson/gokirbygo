@@ -57,13 +57,8 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
 
         # Diminuindo o tamanho da imagem.
-<<<<<<< HEAD
         self.image = pygame.transform.scale(player_img, (200, 200))
 
-=======
-        self.image = pygame.transform.scale(player_img, (100, 100))
-
->>>>>>> 9877836eb6fcc922a8040109037181840a202e44
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
 
