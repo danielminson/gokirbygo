@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (100, 100))
+        self.image = pygame.transform.scale(player_img, (200, 200))
         
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
@@ -72,11 +72,6 @@ class Player(pygame.sprite.Sprite):
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
-        self.posX, self.posY = 50, size[1] - 180
-        self.rect.center = (self.posX, self.posY)
-        self.jumpSpeed = 10
-        self.fallSpeed = 11
-        self.slideDis = 4
         self.jumping = False
         self.estado = CHAO
 
@@ -134,7 +129,13 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        
+"""
+class Plataforma_Perigosas(pygame.sprite.Sprite):
+    # Construindo a classe
+    def __init__(self, x,y, width, height):
+        #Construtor da classe 
+        pygame.sprite.Sprite.__init__(self)
+"""
 def redesenhafundo():
     screen.blit(mascara, (mascaraX, 0)) 
     screen.blit(mascara, (mascaraX2, 0)) 
@@ -195,7 +196,6 @@ while running:
     # Verifica se houve colisão entre nave e meteoro
     hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
     if hits:
-        print(hits)
         # Toca o som da colisão
         player.estado = CHAO
         player.speedy = 0
