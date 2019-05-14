@@ -23,7 +23,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
 img_dir = path.join(path.dirname(__file__), 'Imagens')
-png_dir = path.join(path.dirname(__file__), 'Imagens', 'png')
+cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 
 lives=3
 
@@ -139,8 +139,6 @@ class Plataforma_Perigosas(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 """
 def redesenhafundo():
-    screen.blit(mascara, (mascaraX, 0))
-    screen.blit(mascara, (mascaraX2, 0))
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
     screen.blit(cenario, (cenarioX, 0))
@@ -149,8 +147,8 @@ def redesenhafundo():
 
 
 def Menu():
-    menu_img = pygame.image.load(path.join(png_dir, "entrada_v1.png")).convert()
-    menu2 = menu.img.get_rect()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
+    menu2 = menu_img.get_rect()
     intro = True
     while intro:
         for event in pygame.event.get():
@@ -163,7 +161,7 @@ def Menu():
                 if event.key == pygame.K_p:
                     intro = False
         screen.fill(BLACK)
-        screen.blit(menu,menu2)
+        screen.blit(menu_img,menu2)
         pygame.display.update()
         clock.tick(15)
 
@@ -172,18 +170,14 @@ def Menu():
  #   text = smallfont.render("Pontos:" , black)
   #  screen.blit(text, [0,0])
 
-fundo = pygame.image.load(path.join('Imagens','imagem_de_fundo_atual.png')).convert()
+fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(black)
 fundoX = 0
 fundoX2 = fundo.get_width()
-cenario = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
+cenario = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
 cenario.set_colorkey(black)
 cenarioX = 0
 cenarioX2 = cenario.get_width()
-mascara = pygame.image.load(path.join('Imagens','mascara_atual.png')).convert()
-mascara.set_colorkey(black)
-mascaraX=0
-mascaraX2=mascara.get_width()
 
 #Cria o Kirby
 player = Player()
@@ -245,8 +239,6 @@ while running:
     fundoX2 -= 5
     cenarioX -= 5
     cenarioX2 -= 5
-    mascaraX -=5
-    mascaraX2-=5
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
 
@@ -258,12 +250,6 @@ while running:
 
     if cenarioX2 < cenario.get_width() *-1:
         cenarioX2 = cenario.get_width()
-
-    if mascaraX < mascara.get_width() *-1:
-        mascaraX = mascara.get_width()
-
-    if mascaraX2 < mascara.get_width() *-1:
-        mascaraX2 = mascara.get_width()
 
 
     clock.tick(FPS)
