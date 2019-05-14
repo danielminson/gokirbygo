@@ -81,7 +81,6 @@ class Player(pygame.sprite.Sprite):
         self.estado = CHAO
 
     def process_event(self, event):
-        print(event.type)
 
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
@@ -90,6 +89,7 @@ class Player(pygame.sprite.Sprite):
             self.estado = JUMP
 
         if self.estado == CHAO:
+            self.speedy = 0
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
@@ -120,6 +120,21 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+class Plataforma(pygame.sprite.Sprite):
+    
+    # Construtor da classe.
+    def __init__(self, x, y, width, height):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo
+        self.image = pygame.Surface((width, height))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        
 def redesenhafundo():
     screen.blit(mascara, (mascaraX, 0)) 
     screen.blit(mascara, (mascaraX2, 0)) 
@@ -153,6 +168,13 @@ player = Player()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
+
+# Cria as plataformas.
+all_platforms = pygame.sprite.Group()
+
+chao = Plataforma(0, HEIGHT - 100, 1280, 100)
+all_platforms.add(chao)
+
 running = True
 speed = 40  
 
@@ -169,6 +191,15 @@ while running:
 
 
     all_sprites.update()
+
+    # Verifica se houve colisão entre nave e meteoro
+    hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
+    if hits:
+        print(hits)
+        # Toca o som da colisão
+        player.estado = CHAO
+        player.speedy = 0
+
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
