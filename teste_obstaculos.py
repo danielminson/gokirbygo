@@ -10,60 +10,40 @@ WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
-fontname = pygame.font.match_font("arial")  #  Fonte da letra usada no score e timer.
-font_size = 50
-
 size = [1280, 720]
 WHITE = (255, 255, 255)
 black = (0, 0, 0)
-BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
+
+
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 
-lives=3
 
 clock = pygame.time.Clock()
 
 CHAO = 0
 JUMP = 1
-score = 0
 
-#Escreve o score na tela
-def draw_text(surface, text, font_size, x, y, color):
-    font = pygame.font.Font(fontname, font_size)
-    text_surface = font.render(text, True, color)
-    text_rect=text_surface.get_rect()
-    text_rect.midtop = (x, y)
-    surface.blit(text_surface, text_rect)
-    
-    
 # Classe Jogador que representa a nave
 class Player(pygame.sprite.Sprite):
     
     # Construtor da classe.
     def __init__(self):
-        
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-        
         # Carregando a imagem de fundo
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
-    
         self.image = player_img
-        
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (100, 100))
-        
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
-        
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT -150        
@@ -72,15 +52,16 @@ class Player(pygame.sprite.Sprite):
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 25
-        self.posX, self.posY = 50, size[1] - 180
-        self.rect.center = (self.posX, self.posY)
         self.jumpSpeed = 10
         self.fallSpeed = 11
         self.slideDis = 4
         self.jumping = False
         self.estado = CHAO
+        #Cria a mascara do kirby
+        self.mask = pygame.mask.from_surface(self.image, 100)
 
     def process_event(self, event):
+        print(event.type)
 
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
@@ -89,7 +70,6 @@ class Player(pygame.sprite.Sprite):
             self.estado = JUMP
 
         if self.estado == CHAO:
-            self.speedy = 0
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
@@ -110,7 +90,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        
+
         if self.estado == JUMP:
             self.speedy += 1
         
@@ -120,34 +100,38 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-class Plataforma(pygame.sprite.Sprite):
-    
-    # Construtor da classe.
-    def __init__(self, x, y, width, height):
-        
-        # Construtor da classe pai (Sprite).
+class Mask(pygame.sprite.Sprite):
+    def __init__(self, WIDTH, HEIGHT):
         pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo
-        self.image = pygame.Surface((width, height))
+        self.rect.center = (self.posX, self.posY)
+        self.image = pygame.Surface([WIDTH, HEIGHT]) #define condiçoes de tamanho
+        self.rect = self.image.get_rect() #cria um rectangulo no formato do cenario para ser considerado uma from_surface
+        background_mask =pygame.image.load(path.join(img_dir, "mascara_v1.png.png")).convert_alpha()       
+        self.image.fill(black)
+        self.rect = self.image.get_rect() # dimençoes de um retangulo sendo do mesmo tamanho que a imagem
+        self.mask = pygame.mask.from_surface(self.image) # Cria a mascara do cenario 
 
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        
 def redesenhafundo():
-    screen.blit(mascara, (mascaraX, 0)) 
-    screen.blit(mascara, (mascaraX2, 0)) 
     screen.blit(fundo, (fundoX, 0)) 
     screen.blit(fundo, (fundoX2, 0))  
     screen.blit(cenario, (cenarioX, 0)) 
     screen.blit(cenario, (cenarioX2, 0)) 
     pygame.display.update()
-    
 
-#def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
- #   text = smallfont.render("Pontos:" , black)
-  #  screen.blit(text, [0,0])
+def overlap():
+    #Check for overlap
+    overlap_1 = background_mask.overlap(YELLOW)
+    overlap_2 = background_mask.overlap(RED)
+    overlap_3 = background_mask.overlap(BLUE) 
+    #Confirm overlap
+    if overlap_1:
+        print("Collision YELLOW", player.position)
+    #Confirm overlap
+    if overlap_2:
+        print("Collision RED", player.position)
+    #Confirm overlap
+    if overlap_3:
+        print("Collision BLUE", player.position)
 
 fundo = pygame.image.load(path.join('Imagens','imagem_de_fundo_atual.png')).convert()
 fundo.set_colorkey(black)
@@ -157,10 +141,6 @@ cenario = pygame.image.load(path.join('Imagens','cenário_atual.png')).convert()
 cenario.set_colorkey(black)
 cenarioX = 0
 cenarioX2 = cenario.get_width()
-mascara = pygame.image.load(path.join('Imagens','mascara_atual.png')).convert()
-mascara.set_colorkey(black)
-mascaraX=0
-mascaraX2=mascara.get_width()
 
 #Cria o Kirby
 player = Player()
@@ -168,15 +148,8 @@ player = Player()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
-
-# Cria as plataformas.
-all_platforms = pygame.sprite.Group()
-
-chao = Plataforma(0, HEIGHT - 100, 1280, 100)
-all_platforms.add(chao)
-
 running = True
-FPS = 30  
+speed = 40  
 
 while running:
 
@@ -189,29 +162,12 @@ while running:
     # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
 
-
     all_sprites.update()
 
-    # Verifica se houve colisão entre nave e meteoro
-    hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
-    if hits:
-        print(hits)
-        # Toca o som da colisão
-        player.estado = CHAO
-        player.speedy = 0
-
-
     # A cada loop, redesenha o fundo e os sprites
-    screen.fill(WHITE)
+    screen.fill(black)
     redesenhafundo()
     all_sprites.draw(screen)
-    score+=1
-    #escreve o score na tela
-    draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
-    
-    #mostra a vida na tela
-    draw_text(screen, chr(9829)*lives, 100, 200, 0, RED)
-    
     
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
@@ -220,8 +176,6 @@ while running:
     fundoX2 -= 5
     cenarioX -= 5
     cenarioX2 -= 5
-    mascaraX -=5
-    mascaraX2-=5
     if fundoX < fundo.get_width() *-1:  
         fundoX = fundo.get_width()
     
@@ -233,12 +187,6 @@ while running:
     
     if cenarioX2 < cenario.get_width() *-1:
         cenarioX2 = cenario.get_width()
-        
-    if mascaraX < mascara.get_width() *-1:  
-        mascaraX = mascara.get_width()
-    
-    if mascaraX2 < mascara.get_width() *-1:
-        mascaraX2 = mascara.get_width()
 
 
-    clock.tick(FPS) 
+    clock.tick(speed) 
