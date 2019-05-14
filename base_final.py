@@ -23,6 +23,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
 img_dir = path.join(path.dirname(__file__), 'Imagens')
+png_dir = path.join(path.dirname(__file__), 'Imagens', 'png')
 
 lives=3
 
@@ -89,6 +90,7 @@ class Player(pygame.sprite.Sprite):
             self.estado = JUMP
 
         if self.estado == CHAO:
+            self.speedy = 0
             # Verifica se apertou alguma tecla.
             if event.type == pygame.KEYDOWN:
                 # Dependendo da tecla, altera a velocidade.
@@ -119,6 +121,21 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+class Plataforma(pygame.sprite.Sprite):
+
+    # Construtor da classe.
+    def __init__(self, x, y, width, height):
+
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+
+        # Carregando a imagem de fundo
+        self.image = pygame.Surface((width, height))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
 def redesenhafundo():
     screen.blit(mascara, (mascaraX, 0))
     screen.blit(mascara, (mascaraX2, 0))
@@ -127,6 +144,10 @@ def redesenhafundo():
     screen.blit(cenario, (cenarioX, 0))
     screen.blit(cenario, (cenarioX2, 0))
     pygame.display.update()
+
+
+def Menu(screen):
+    menu_img = pygame.image.load(path.join(img_dir, "entrada_v1.png")).convert()
 
 
 #def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
@@ -154,6 +175,13 @@ all_sprites.add(player)
 all_sprites.add(player)
 
 
+
+# Cria as plataformas.
+all_platforms = pygame.sprite.Group()
+
+chao = Plataforma(0, HEIGHT - 100, 1280, 100)
+all_platforms.add(chao)
+
 running = True
 speed = 60
 
@@ -170,6 +198,14 @@ while running:
 
 
     all_sprites.update()
+
+    # Verifica se houve colisão entre nave e meteoro
+    hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
+    if hits:
+        # Toca o som da colisão
+        player.estado = CHAO
+        player.speedy = 0
+
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
