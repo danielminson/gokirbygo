@@ -30,29 +30,29 @@ JUMP = 1
 
 # Classe Jogador que representa a nave
 class Player(pygame.sprite.Sprite):
-    
+
     # Construtor da classe.
     def __init__(self):
-        
+
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-        
+
         # Carregando a imagem de fundo
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
         self.image = player_img
-        
+
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (100, 100))
-        
+
         # Deixando transparente.
         self.image.set_colorkey(black)
-        
+
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        
+
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT -150        
+        self.rect.bottom = HEIGHT -150
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
@@ -67,7 +67,6 @@ class Player(pygame.sprite.Sprite):
         self.estado = CHAO
 
     def process_event(self, event):
-        print(event.type)
 
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
@@ -99,16 +98,28 @@ class Player(pygame.sprite.Sprite):
 
         if self.estado == JUMP:
             self.speedy += 1
-        
+
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
 
+class Plataforma(pygame.sprite.Sprite):
+    def __init__(self):
+
+        pygame.sprite.Sprite.__init__(self)
+        self.image = 
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
+
 def redesenhafundo():
-    screen.blit(fundo, (fundoX, 0)) 
-    screen.blit(fundo, (fundoX2, 0))  
+    screen.blit(fundo, (fundoX, 0))
+    screen.blit(fundo, (fundoX2, 0))
     pygame.display.update()
 
 
@@ -121,17 +132,22 @@ player = Player()
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+platforms = pygame.sprite.Group()
+p1 = Plataforma()
+all_sprites.add(player)
+platforms.add(p1)
+
 
 running = True
-speed = 60  
+speed = 60
 
 while running:
 
-    for event in pygame.event.get(): 
-        player.process_event(event) 
-        if event.type == pygame.QUIT: 
-            running = False    
-            pygame.quit() 
+    for event in pygame.event.get():
+        player.process_event(event)
+        if event.type == pygame.QUIT:
+            running = False
+            pygame.quit()
             quit()
     # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
@@ -143,18 +159,18 @@ while running:
     screen.fill(black)
     redesenhafundo()
     all_sprites.draw(screen)
-    
+
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
 
     fundoX -= 5
     fundoX2 -= 5
 
-    if fundoX < fundo.get_width() *-1:  
+    if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
-    
+
     if fundoX2 < fundo.get_width() *-1:
         fundoX2 = fundo.get_width()
 
 
-    clock.tick(speed) 
+    clock.tick(speed)
