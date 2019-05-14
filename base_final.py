@@ -56,14 +56,8 @@ class Player(pygame.sprite.Sprite):
 
         self.image = player_img
 
-        # Diminuindo o tamanho da imagem.
-<<<<<<< HEAD
         self.image = pygame.transform.scale(player_img, (200, 200))
 
-=======
-        self.image = pygame.transform.scale(player_img, (100, 100))
-
->>>>>>> 9877836eb6fcc922a8040109037181840a202e44
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
 
@@ -135,7 +129,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        
+
 """
 class Plataforma_Perigosas(pygame.sprite.Sprite):
     # Construindo a classe
@@ -153,8 +147,9 @@ def redesenhafundo():
     pygame.display.update()
 
 
-def Menu(screen):
+def Menu():
     menu_img = pygame.image.load(path.join(png_dir, "entrada_v1.png")).convert()
+    menu2 = menu.img.get_rect()
     intro = True
     while intro:
         for event in pygame.event.get():
@@ -162,6 +157,12 @@ def Menu(screen):
                 running = False
                 pygame.quit()
                 quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    intro = False
+        screen.fill(BLACK)
+        screen.blit(menu,menu2)
         pygame.display.update()
         clock.tick(15)
 
@@ -203,7 +204,7 @@ FPS = 30
 
 while running:
 
-    Menu(screen)
+    Menu()
 
     for event in pygame.event.get():
         player.process_event(event)
