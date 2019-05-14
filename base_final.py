@@ -59,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         # Diminuindo o tamanho da imagem.
 <<<<<<< HEAD
         self.image = pygame.transform.scale(player_img, (200, 200))
-        
+
 =======
         self.image = pygame.transform.scale(player_img, (100, 100))
 
@@ -135,17 +135,14 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-<<<<<<< HEAD
+        
 """
 class Plataforma_Perigosas(pygame.sprite.Sprite):
     # Construindo a classe
     def __init__(self, x,y, width, height):
-        #Construtor da classe 
+        #Construtor da classe
         pygame.sprite.Sprite.__init__(self)
 """
-=======
-
->>>>>>> 9877836eb6fcc922a8040109037181840a202e44
 def redesenhafundo():
     screen.blit(mascara, (mascaraX, 0))
     screen.blit(mascara, (mascaraX2, 0))
@@ -157,7 +154,16 @@ def redesenhafundo():
 
 
 def Menu(screen):
-    menu_img = pygame.image.load(path.join(img_dir, "entrada_v1.png")).convert()
+    menu_img = pygame.image.load(path.join(png_dir, "entrada_v1.png")).convert()
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                quit()
+        pygame.display.update()
+        clock.tick(15)
 
 
 #def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
@@ -193,13 +199,11 @@ chao = Plataforma(0, HEIGHT - 140, 1280, 150)
 all_platforms.add(chao)
 
 running = True
-<<<<<<< HEAD
-speed = 60
-=======
-FPS = 30  
->>>>>>> cf502f8cd1fe090c84b5cf62831c38acc8b188f8
+FPS = 30
 
 while running:
+
+    Menu(screen)
 
     for event in pygame.event.get():
         player.process_event(event)
@@ -232,7 +236,6 @@ while running:
     #mostra a vida na tela
     draw_text(screen, chr(9829)*lives, 100, 200, 0, RED)
 
-
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
 
@@ -261,8 +264,4 @@ while running:
         mascaraX2 = mascara.get_width()
 
 
-<<<<<<< HEAD
-    clock.tick(speed)
-=======
-    clock.tick(FPS) 
->>>>>>> cf502f8cd1fe090c84b5cf62831c38acc8b188f8
+    clock.tick(FPS)
