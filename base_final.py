@@ -177,7 +177,7 @@ chao = Plataforma(0, HEIGHT - 100, 1280, 100)
 all_platforms.add(chao)
 
 running = True
-speed = 40  
+FPS = 30  
 
 while running:
 
@@ -241,4 +241,4 @@ while running:
         mascaraX2 = mascara.get_width()
 
 
-    clock.tick(speed) 
+    clock.tick(FPS) 
