@@ -172,7 +172,7 @@ all_sprites.add(player)
 # Cria as plataformas.
 all_platforms = pygame.sprite.Group()
 
-chao = Plataforma(0, HEIGHT - 100, 1280, 100)
+chao = Plataforma(0, HEIGHT - 140, 1280, 150)
 all_platforms.add(chao)
 
 running = True
