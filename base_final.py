@@ -147,7 +147,16 @@ def redesenhafundo():
 
 
 def Menu(screen):
-    menu_img = pygame.image.load(path.join(img_dir, "entrada_v1.png")).convert()
+    menu_img = pygame.image.load(path.join(png_dir, "entrada_v1.png")).convert()
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                quit()
+        pygame.display.update()
+        clock.tick(15)
 
 
 #def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
@@ -183,13 +192,11 @@ chao = Plataforma(0, HEIGHT - 140, 1280, 150)
 all_platforms.add(chao)
 
 running = True
-<<<<<<< HEAD
-speed = 60
-=======
-FPS = 30  
->>>>>>> cf502f8cd1fe090c84b5cf62831c38acc8b188f8
+FPS = 30
 
 while running:
+
+    Menu(screen)
 
     for event in pygame.event.get():
         player.process_event(event)
@@ -222,7 +229,6 @@ while running:
     #mostra a vida na tela
     draw_text(screen, chr(9829)*lives, 100, 200, 0, RED)
 
-
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
 
@@ -251,8 +257,4 @@ while running:
         mascaraX2 = mascara.get_width()
 
 
-<<<<<<< HEAD
-    clock.tick(speed)
-=======
-    clock.tick(FPS) 
->>>>>>> cf502f8cd1fe090c84b5cf62831c38acc8b188f8
+    clock.tick(FPS)
