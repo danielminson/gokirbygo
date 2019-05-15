@@ -148,18 +148,15 @@ def Menu():
                 if event.key == pygame.K_p:
                     intro = False
 
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_p:
-                    intro = False
-
         screen.fill(BLACK)
         screen.blit(menu_img,menu2)
         pygame.display.flip()
         clock.tick(15)
 
-#def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
- #   text = smallfont.render("Pontos:" , black)
-  #  screen.blit(text, [0,0])
+# Funçao que mostra o numero de pontos obtidos pelo jogador.
+#def score(score):
+#  text = smallfont.render("Pontos:" , black)
+#  screen.blit(text, [0,0])
 
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(black)
@@ -188,8 +185,8 @@ running = True
 FPS = 30
 
 while running:
+    Menu()
     for event in pygame.event.get():
-        #Menu()
         player.process_event(event)
         if event.type == pygame.QUIT:
             running = False
