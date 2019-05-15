@@ -10,7 +10,7 @@ WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
-fontname = pygame.font.match_font("arial")  #  Fonte da letra usada no score e timer.
+fontname = pygame.font.match_font("arial")  # Fonte da letra usada no score e timer.
 font_size = 50
 
 size = [1280, 720]
@@ -22,6 +22,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
+#Diretorios de imagens
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 
@@ -41,8 +42,7 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
 
-
-# Classe Jogador que representa a nave
+# Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
 
     # Construtor da classe.
@@ -86,22 +86,6 @@ class Player(pygame.sprite.Sprite):
 
         if self.estado == CHAO:
             self.speedy = 0
-            # Verifica se apertou alguma tecla.
-            if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    self.speedx = -8
-                if event.key == pygame.K_RIGHT:
-                    self.speedx = 8
-
-            # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYUP:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    self.speedx = 0
-                if event.key == pygame.K_RIGHT:
-                    self.speedx = 0
-
 
     def update(self):
         self.rect.x += self.speedx
@@ -116,6 +100,7 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+#Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
 
     # Construtor da classe.
@@ -138,33 +123,39 @@ class Plataforma_Perigosas(pygame.sprite.Sprite):
         #Construtor da classe
         pygame.sprite.Sprite.__init__(self)
 """
+
+#Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
-    screen.blit(cenario, (cenarioX, 0))
-    screen.blit(cenario, (cenarioX2, 0))
+    screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
+    screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
 
 def Menu():
+    #Converte a imagem de menu
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
     menu2 = menu_img.get_rect()
     intro = True
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
                 pygame.quit()
                 quit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_p:
+                    intro = False
+
         screen.fill(BLACK)
         screen.blit(menu_img,menu2)
-        pygame.display.update()
+        pygame.display.flip()
         clock.tick(15)
-
 
 #def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
  #   text = smallfont.render("Pontos:" , black)
@@ -174,10 +165,10 @@ fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert
 fundo.set_colorkey(black)
 fundoX = 0
 fundoX2 = fundo.get_width()
-cenario = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
-cenario.set_colorkey(black)
-cenarioX = 0
-cenarioX2 = cenario.get_width()
+cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma.set_colorkey(black)
+cenario_plataformaX = 0
+cenario_plataformaX2 = cenario_plataforma.get_width()
 
 #Cria o Kirby
 player = Player()
@@ -186,11 +177,10 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 all_sprites.add(player)
 
-
-
 # Cria as plataformas.
 all_platforms = pygame.sprite.Group()
 
+#Plataforma principal de chao
 chao = Plataforma(0, HEIGHT - 140, 1280, 150)
 all_platforms.add(chao)
 
@@ -198,19 +188,15 @@ running = True
 FPS = 30
 
 while running:
-
-    Menu()
-
     for event in pygame.event.get():
+        #Menu()
         player.process_event(event)
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             quit()
     # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite.
-
-
+    # Atualiza a acao de cada sprite.
     all_sprites.update()
 
     # Verifica se houve colisão entre nave e meteoro
@@ -225,6 +211,7 @@ while running:
     screen.fill(WHITE)
     redesenhafundo()
     all_sprites.draw(screen)
+
     score+=1
     #escreve o score na tela
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
@@ -235,21 +222,22 @@ while running:
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
 
+    #Velocidade dos fundos
     fundoX -= 5
     fundoX2 -= 5
-    cenarioX -= 5
-    cenarioX2 -= 5
+    cenario_plataformaX -= 5
+    cenario_plataformaX2 -= 5
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
 
     if fundoX2 < fundo.get_width() *-1:
         fundoX2 = fundo.get_width()
 
-    if cenarioX < cenario.get_width() *-1:
-        cenarioX = cenario.get_width()
+    if cenario_plataformaX < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX = cenario_plataforma.get_width()
 
-    if cenarioX2 < cenario.get_width() *-1:
-        cenarioX2 = cenario.get_width()
+    if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX2 = cenario_plataforma.get_width()
 
 
     clock.tick(FPS)
