@@ -116,7 +116,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.y = y
 
 def imagem_aleatoria():
-    obs_img1 = pygame.image.load(path.join(obs_dir, "imagem_de_fundo.png")).convert()
+    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
     obs_img1.set_colorkey(BLUE)
 
     obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
@@ -137,7 +137,6 @@ def imagem_aleatoria():
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
-
 
 class Obstaculo(pygame.sprite.Sprite):
     # Construindo a classe
@@ -170,13 +169,14 @@ def redesenhafundo():
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
-
 def Menu():
     #Converte a imagem de menu
-    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
-    menu2 = menu_img.get_rect()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
+    menu_rect = menu_img.get_rect()
+
     intro = True
     while intro:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -185,18 +185,30 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
+                if event.key == pygame.K_h:
+                    intro = False
 
         screen.fill(BLACK)
-        screen.blit(menu_img,menu2)
+        screen.blit(menu_img,menu_rect)
         pygame.display.flip()
         clock.tick(15)
 
-# Funçao que mostra o numero de pontos obtidos pelo jogador.
-#def score(score):
-#  text = smallfont.render("Pontos:" , black)
-#  screen.blit(text, [0,0])
+def Help():
+    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
+    help_rect = help_img.get_rect()
+    help = True
+    while help:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == pygame.K_p:
+                    help = False
+        screen.fill(BLACK)
+        screen.blit(help_img,help_rect)
+        pygame.display.flip()
+        clock.tick(15)
 
-fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo_atual2.png')).convert()
+
+fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(black)
 fundoX = 0
 fundoX2 = fundo.get_width()
@@ -227,6 +239,7 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
+Help()
 while running:
     for event in pygame.event.get():
         player.process_event(event)
