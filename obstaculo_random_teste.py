@@ -144,20 +144,10 @@ class saw(object):
         self.vel = 1.4
 
     def draw(self,win):
-        self.hitbox = (self.x + 10, self.y + 5, self.width - 20, self.height - 5)  # Defines the accurate hitbox for our character
-        pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
         if self.rotateCount >= 7:
             self.rotateCount = 0
-        win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (64,64)), (self.x,self.y))  # scales our image down to 64x64 before drawing
+        win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (200,200)), (self.x,self.y))  # scales our image down to 64x64 before drawing
         self.rotateCount += 1
-
-"""
-class Plataforma_Perigosas(pygame.sprite.Sprite):
-    # Construindo a classe
-    def __init__(self, x,y, width, height):
-        #Construtor da classe
-        pygame.sprite.Sprite.__init__(self)
-"""
 
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
@@ -223,7 +213,7 @@ FPS = 30
 
 obstacles = []
 #a cada x tempo ira aparecer obstaculos
-pygame.time.set_timer(USEREVENT+2, random.randrange(2000, 3500))
+pygame.time.set_timer(USEREVENT+2, 10000)
 
 while running:
     #Menu()
@@ -236,7 +226,7 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                obstacles.append(saw(810, HEIGHT-220, 64, 64))
+                obstacles.append(saw(810, HEIGHT-300, 64, 64))
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -265,8 +255,8 @@ while running:
     pygame.display.flip()
 
     #Velocidade dos fundos
-    fundoX -= 5
-    fundoX2 -= 5
+    fundoX -= 8
+    fundoX2 -= 8
     cenario_plataformaX -= 5
     cenario_plataformaX2 -= 5
 

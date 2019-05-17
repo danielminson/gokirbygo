@@ -92,7 +92,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-def redesenhafundo(screen):
+def redesenhafundo(screen,fundoX):
     fundo, fundoX, fundoX2, cenario_plataforma, cenario_plataformaX, cenario_plataformaX2, fontname, font_size = load()
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
@@ -113,7 +113,7 @@ def game(screen):
 
     fundo, fundoX, fundoX2, cenario_plataforma, cenario_plataformaX, cenario_plataformaX2, fontname, font_size = load()
     clock = pygame.time.Clock()
-
+    clock.tick(FPS)
     #Cria o Kirby
     player = Player()
 
@@ -189,6 +189,5 @@ def game(screen):
         if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
             cenario_plataformaX2 = cenario_plataforma.get_width()
 
-    clock.tick(FPS)
 
     return QUIT

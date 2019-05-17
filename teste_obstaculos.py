@@ -201,7 +201,7 @@ def Menu(screen):
 #def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
  #   text = smallfont.render("Pontos:" , black)
   #  screen.blit(text, [0,0])
-  
+
 #Cria as plataformas perigosas em cima do chao
 all_platforms_per = pygame.sprite.Group()
 obstaculo = Plataforma_Perigosas()
@@ -288,4 +288,4 @@ while running:
     if cenarioX2 < cenario.get_width() *-1:
         cenarioX2 = cenario.get_width()
 
-    clock.tick(FPS)
+    #clock.tick(FPS)

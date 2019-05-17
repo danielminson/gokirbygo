@@ -116,14 +116,6 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-"""
-class Plataforma_Perigosas(pygame.sprite.Sprite):
-    # Construindo a classe
-    def __init__(self, x,y, width, height):
-        #Construtor da classe
-        pygame.sprite.Sprite.__init__(self)
-"""
-
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0))
