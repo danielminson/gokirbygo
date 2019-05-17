@@ -16,7 +16,6 @@ font_size = 50
 
 size = [1280, 720]
 WHITE = (255, 255, 255)
-black = (0, 0, 0)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -183,6 +182,7 @@ class Plataforma_Perigosas(pygame.sprite.Sprite):
         #Ira ter uma probabiliade de 1/2 para ter obstaculo == Plataforma_perigosa
         if obstaculo == 0:
             self.rect.center = (random.randrange(self.posX,self.maxPosX),self.posY)
+
         else:
             self.rect.center = (random.randrange(self.posX,self.maxPosX),self.posY)
 
@@ -199,19 +199,19 @@ def Menu(screen):
 
 
 #def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
- #   text = smallfont.render("Pontos:" , black)
+ #   text = smallfont.render("Pontos:" , BLACK)
   #  screen.blit(text, [0,0])
-  
+
 #Cria as plataformas perigosas em cima do chao
 all_platforms_per = pygame.sprite.Group()
 obstaculo = Plataforma_Perigosas()
 all_platforms_per.add()
 fundo = pygame.image.load(path.join('Imagens','imagem_de_fundo_atual.png')).convert()
-fundo.set_colorkey(black)
+fundo.set_colorkey(BLACK)
 fundoX = 0
 fundoX2 = fundo.get_width()
 cenario = pygame.image.load(path.join('Imagens','cenario','cenário_atual.png')).convert()
-cenario.set_colorkey(black)
+cenario.set_colorkey(BLACK)
 cenarioX = 0
 cenarioX2 = cenario.get_width()
 
