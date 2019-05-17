@@ -115,7 +115,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-class saw(object):
+class saw:
     obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
     obs_img1.set_colorkey(BLUE)
 
@@ -135,6 +135,7 @@ class saw(object):
     obs_img6.set_colorkey(BLUE)
 
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
+
     def __init__(self,x,y,width,height):
         self.x = x
         self.y = y
@@ -144,12 +145,58 @@ class saw(object):
         self.vel = 1.4
 
     def draw(self,win):
-        self.hitbox = (self.x + 10, self.y + 5, self.width - 20, self.height - 5)  # Defines the accurate hitbox for our character
-        pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
         if self.rotateCount >= 7:
             self.rotateCount = 0
-        win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (64,64)), (self.x,self.y))  # scales our image down to 64x64 before drawing
+        win.blit(pygame.transform.scale(self.rotate[self.rotateCount], (200,200)), (self.x,self.y))  # scales our image down to 64x64 before drawing
         self.rotateCount += 1
+
+def imagem_aleatoria():
+    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
+    obs_img1.set_colorkey(BLUE)
+
+    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
+    obs_img2.set_colorkey(BLUE)
+
+    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
+    obs_img3.set_colorkey(BLUE)
+
+    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
+    obs_img4.set_colorkey(BLUE)
+
+    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
+    obs_img5.set_colorkey(BLUE)
+
+    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
+    obs_img6.set_colorkey(BLUE)
+
+    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
+
+    return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
+
+
+class Obstaculo(pygame.sprite.Sprite):
+    # Construindo a classe
+    def __init__(self, x, y, width, height):
+
+        #Construtor da classe
+        pygame.sprite.Sprite.__init__(self)
+
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = 8
+
+        self.image = imagem_aleatoria()
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
+
 
 """
 class Plataforma_Perigosas(pygame.sprite.Sprite):
@@ -165,8 +212,6 @@ def redesenhafundo():
     screen.blit(fundo, (fundoX2, 0))
     screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
-    for obstacle in obstacles:
-        obstacle.draw(screen)
     pygame.display.update()
 
 
@@ -221,12 +266,12 @@ all_platforms.add(chao)
 running = True
 FPS = 30
 
-obstacles = []
-#a cada x tempo ira aparecer obstaculos
-pygame.time.set_timer(USEREVENT+2, random.randrange(2000, 3500))
+obstacles = pygame.sprite.Group()
 
+#a cada x tempo ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+2, 8000)
+Menu()
 while running:
-    #Menu()
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
@@ -236,7 +281,10 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                obstacles.append(saw(810, HEIGHT-220, 64, 64))
+                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20) 
+                obstacles.add(new_obstacle)
+                all_sprites.add(new_obstacle)
+
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -265,10 +313,10 @@ while running:
     pygame.display.flip()
 
     #Velocidade dos fundos
-    fundoX -= 5
-    fundoX2 -= 5
-    cenario_plataformaX -= 5
-    cenario_plataformaX2 -= 5
+    fundoX -= 8
+    fundoX2 -= 8
+    cenario_plataformaX -= 10
+    cenario_plataformaX2 -= 10
 
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
@@ -279,10 +327,7 @@ while running:
     if cenario_plataformaX < cenario_plataforma.get_width() *-1:
         cenario_plataformaX = cenario_plataforma.get_width()
 
-    for obstacle in obstacles:
-        obstacle.x -= 1.4
-        if obstacle.x < obstacle.width * -1: # If our obstacle is off the screen we will remove it
-            obstacles.pop(obstacles.index(obstacle))
+
 # This should go in the game loop
 
     clock.tick(FPS)
