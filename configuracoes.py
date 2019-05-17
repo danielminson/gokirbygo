@@ -13,6 +13,10 @@ YELLOW = (255, 255, 0)
 #Diretorios de imagens
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
+png_dir = path.join(path.dirname(__file__), 'Imagens', 'png')
+bos_dir = path.join(path.dirname(__file__), 'Imagens', 'boss')
+plat_dir = path.join(path.dirname(__file__), 'Imagens', 'plataforma')
+obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 
 CHAO = 0
 JUMP = 1

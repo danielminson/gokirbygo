@@ -11,7 +11,7 @@ WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
-fontname = pygame.font.match_font("arial")  #  Fonte da letra usada no score e timer.
+fontname = pygame.font.match_font("arial")  # Fonte da letra usada no score e timer.
 font_size = 50
 
 size = [1280, 720]
@@ -23,11 +23,9 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
+#Diretorios de imagens
 img_dir = path.join(path.dirname(__file__), 'Imagens')
-png_dir = path.join(path.dirname(__file__), 'Imagens', 'png')
-bos_dir = path.join(path.dirname(__file__), 'Imagens', 'boss')
-cen_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
-plat_dir = path.join(path.dirname(__file__), 'Imagens', 'plataforma')
+cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 
 lives=3
@@ -46,8 +44,7 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
 
-
-# Classe Jogador que representa a nave
+# Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
 
     # Construtor da classe.
@@ -91,21 +88,6 @@ class Player(pygame.sprite.Sprite):
 
         if self.estado == CHAO:
             self.speedy = 0
-            # Verifica se apertou alguma tecla.
-            if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    self.speedx = -8
-                if event.key == pygame.K_RIGHT:
-                    self.speedx = 8
-
-            # Verifica se soltou alguma tecla.
-            if event.type == pygame.KEYUP:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    self.speedx = 0
-                if event.key == pygame.K_RIGHT:
-                    self.speedx = 0
 
     def update(self):
         self.rect.x += self.speedx
@@ -120,7 +102,9 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+#Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
+
     # Construtor da classe.
     def __init__(self, x, y, width, height):
         # Construtor da classe pai (Sprite).
@@ -131,119 +115,130 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+class saw(object):
+    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
+    obs_img1.set_colorkey(BLUE)
+
+    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
+    obs_img2.set_colorkey(BLUE)
+
+    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
+    obs_img3.set_colorkey(BLUE)
+
+    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
+    obs_img4.set_colorkey(BLUE)
+
+    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
+    obs_img5.set_colorkey(BLUE)
+
+    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
+    obs_img6.set_colorkey(BLUE)
+
+    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
+    def __init__(self,x,y,width,height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.rotateCount = 0
+        self.vel = 1.4
+
+    def draw(self,win):
+        self.hitbox = (self.x + 10, self.y + 5, self.width - 20, self.height - 5)  # Defines the accurate hitbox for our character
+        pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
+        if self.rotateCount >= 7:
+            self.rotateCount = 0
+        win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (64,64)), (self.x,self.y))  # scales our image down to 64x64 before drawing
+        self.rotateCount += 1
+
+"""
 class Plataforma_Perigosas(pygame.sprite.Sprite):
     # Construindo a classe
-    def __init__(self):
+    def __init__(self, x,y, width, height):
         #Construtor da classe
-        #Posição minima de x  e uma posição fixa para o y
-        self.posX = 100
-        self.posY = HEIGHT - 150
-        #Posição maxima de x
-        self.maxPosX = self.posX * 2
-
         pygame.sprite.Sprite.__init__(self)
-        obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
-        obs_img1.set_colorkey(BLUE)
-        self.image1 = obs_img1
+"""
 
-        #obs_img1.fill(self.RED)
-
-        obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
-        obs_img2.set_colorkey(BLUE)
-        self.image2 = obs_img2
-        #obs_img2.fill(self.RED)
-
-        obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
-        obs_img3.set_colorkey(BLUE)
-        self.image3 = obs_img3
-
-        #obs_img3.fill(self.RED)
-
-        obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
-        obs_img4.set_colorkey(BLUE)
-        self.image4 = obs_img4
-
-        #obs_img4.fill(self.RED)
-
-        obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
-        obs_img5.set_colorkey(BLUE)
-        self.image5 = obs_img5
-        #obs_img5.fill(self.RED)
-
-        obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
-        obs_img6.set_colorkey(BLUE)
-        self.image6 = obs_img6
-        #obs_img6.fill(self.RED)
-
-    def update(self):
-        self.rect.centerx -= self.speedx
-
-    def reset(self):
-        obstaculo = random.randint(0,1)
-        #Ira ter uma probabiliade de 1/2 para ter obstaculo == Plataforma_perigosa
-        if obstaculo == 0:
-            self.rect.center = (random.randrange(self.posX,self.maxPosX),self.posY)
-        else:
-            self.rect.center = (random.randrange(self.posX,self.maxPosX),self.posY)
-
+#Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
-    screen.blit(cenario, (cenarioX, 0))
-    screen.blit(cenario, (cenarioX2, 0))
+    screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
+    screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
+    for obstacle in obstacles:
+        obstacle.draw(screen)
     pygame.display.update()
 
 
-def Menu(screen):
-    menu_img = pygame.image.load(path.join(cen_dir, "entrada_v1.png")).convert()
+def Menu():
+    #Converte a imagem de menu
+    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
+    menu2 = menu_img.get_rect()
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    intro = False
 
-#def score(score):  # Funçao que mostra o numero de pontos obtidos pelo jogador.
- #   text = smallfont.render("Pontos:" , black)
-  #  screen.blit(text, [0,0])
-  
-#Cria as plataformas perigosas em cima do chao
-all_platforms_per = pygame.sprite.Group()
-obstaculo = Plataforma_Perigosas()
-all_platforms_per.add()
-fundo = pygame.image.load(path.join('Imagens','imagem_de_fundo_atual.png')).convert()
+        screen.fill(BLACK)
+        screen.blit(menu_img,menu2)
+        pygame.display.flip()
+        clock.tick(15)
+
+# Funçao que mostra o numero de pontos obtidos pelo jogador.
+#def score(score):
+#  text = smallfont.render("Pontos:" , black)
+#  screen.blit(text, [0,0])
+
+fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(black)
 fundoX = 0
 fundoX2 = fundo.get_width()
-cenario = pygame.image.load(path.join('Imagens','cenario','cenário_atual.png')).convert()
-cenario.set_colorkey(black)
-cenarioX = 0
-cenarioX2 = cenario.get_width()
+cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma.set_colorkey(black)
+cenario_plataformaX = 0
+cenario_plataformaX2 = cenario_plataforma.get_width()
 
 #Cria o Kirby
 player = Player()
-
 # Cria um grupo de todos os sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
 all_sprites.add(player)
 
 # Cria as plataformas.
 all_platforms = pygame.sprite.Group()
+
+#Plataforma principal de chao
 chao = Plataforma(0, HEIGHT - 140, 1280, 150)
 all_platforms.add(chao)
-
-
 
 running = True
 FPS = 30
 
-#Loop Principal
-while running:
+obstacles = []
+#a cada x tempo ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+2, random.randrange(2000, 3500))
 
+while running:
+    #Menu()
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             quit()
+        if event.type == USEREVENT+2:
+            r = random.randrange(0,2)
+            if r == 0 or r ==1:
+                obstacles.append(saw(810, HEIGHT-220, 64, 64))
     # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite.
-
+    # Atualiza a acao de cada sprite.
     all_sprites.update()
 
     # Verifica se houve colisão entre nave e meteoro
@@ -253,16 +248,13 @@ while running:
         player.estado = CHAO
         player.speedy = 0
 
-    hits_2 = pygame.sprite.spritecollide(player, all_platforms_per, False, pygame.sprite.collide_circle)
-    if hits_2:
-        running = False
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
     redesenhafundo()
     all_sprites.draw(screen)
-    score+=1
 
+    score+=1
     #escreve o score na tela
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
@@ -271,10 +263,12 @@ while running:
 
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
+
+    #Velocidade dos fundos
     fundoX -= 5
     fundoX2 -= 5
-    cenarioX -= 5
-    cenarioX2 -= 5
+    cenario_plataformaX -= 5
+    cenario_plataformaX2 -= 5
 
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
@@ -282,10 +276,13 @@ while running:
     if fundoX2 < fundo.get_width() *-1:
         fundoX2 = fundo.get_width()
 
-    if cenarioX < cenario.get_width() *-1:
-        cenarioX = cenario.get_width()
+    if cenario_plataformaX < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX = cenario_plataforma.get_width()
 
-    if cenarioX2 < cenario.get_width() *-1:
-        cenarioX2 = cenario.get_width()
+    for obstacle in obstacles:
+        obstacle.x -= 1.4
+        if obstacle.x < obstacle.width * -1: # If our obstacle is off the screen we will remove it
+            obstacles.pop(obstacles.index(obstacle))
+# This should go in the game loop
 
     clock.tick(FPS)
