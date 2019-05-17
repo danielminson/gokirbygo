@@ -279,6 +279,9 @@ while running:
     if cenario_plataformaX < cenario_plataforma.get_width() *-1:
         cenario_plataformaX = cenario_plataforma.get_width()
 
+    if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX2 = cenario_plataforma.get_width()
+
     for obstacle in obstacles:
         obstacle.x -= 1.4
         if obstacle.x < obstacle.width * -1: # If our obstacle is off the screen we will remove it
