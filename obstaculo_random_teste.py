@@ -107,19 +107,34 @@ class Plataforma(pygame.sprite.Sprite):
 
     # Construtor da classe.
     def __init__(self, x, y, width, height):
-
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-
         # Carregando a imagem de fundo
         self.image = pygame.Surface((width, height))
-
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
 class saw(object):
-    rotate = [pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")),pygame.image.load(path.join(obs_dir, "casinha.png")),pygame.image.load(path.join(obs_dir, "pedra.png")),pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")),pygame.image.load(path.join(obs_dir, "arvore.png")),pygame.image.load(path.join(obs_dir, "obstaculo1.png"))]
+    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
+    obs_img1.set_colorkey(BLUE)
+
+    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
+    obs_img2.set_colorkey(BLUE)
+
+    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
+    obs_img3.set_colorkey(BLUE)
+
+    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
+    obs_img4.set_colorkey(BLUE)
+
+    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
+    obs_img5.set_colorkey(BLUE) 
+
+    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
+    obs_img6.set_colorkey(BLUE)  
+
+    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
     def __init__(self,x,y,width,height):
         self.x = x
         self.y = y
@@ -131,7 +146,7 @@ class saw(object):
     def draw(self,win):
         self.hitbox = (self.x + 10, self.y + 5, self.width - 20, self.height - 5)  # Defines the accurate hitbox for our character
         pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
-        if self.rotateCount >= 7:
+        if self.rotateCount >= 7:  
             self.rotateCount = 0
         win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (64,64)), (self.x,self.y))  # scales our image down to 64x64 before drawing
         self.rotateCount += 1
@@ -221,7 +236,7 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                obstacles.append(saw(810, HEIGHT-220, 64, 64))
+                obstacles.append(saw(810, 310, 64, 64))
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
