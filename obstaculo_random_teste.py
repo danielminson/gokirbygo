@@ -115,41 +115,6 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-class saw:
-    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
-    obs_img1.set_colorkey(BLUE)
-
-    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
-    obs_img2.set_colorkey(BLUE)
-
-    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
-    obs_img3.set_colorkey(BLUE)
-
-    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
-    obs_img4.set_colorkey(BLUE)
-
-    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
-    obs_img5.set_colorkey(BLUE)
-
-    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
-    obs_img6.set_colorkey(BLUE)
-
-    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
-
-    def __init__(self,x,y,width,height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.rotateCount = 0
-        self.vel = 1.4
-
-    def draw(self,win):
-        if self.rotateCount >= 7:
-            self.rotateCount = 0
-        win.blit(pygame.transform.scale(self.rotate[self.rotateCount], (200,200)), (self.x,self.y))  # scales our image down to 64x64 before drawing
-        self.rotateCount += 1
-
 def imagem_aleatoria():
     obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
     obs_img1.set_colorkey(BLUE)
@@ -196,15 +161,6 @@ class Obstaculo(pygame.sprite.Sprite):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
             self.kill()
-
-
-"""
-class Plataforma_Perigosas(pygame.sprite.Sprite):
-    # Construindo a classe
-    def __init__(self, x,y, width, height):
-        #Construtor da classe
-        pygame.sprite.Sprite.__init__(self)
-"""
 
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
@@ -327,6 +283,8 @@ while running:
     if cenario_plataformaX < cenario_plataforma.get_width() *-1:
         cenario_plataformaX = cenario_plataforma.get_width()
 
+    if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX2 = cenario_plataforma.get_width()
 
 # This should go in the game loop
 
