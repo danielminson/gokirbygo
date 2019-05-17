@@ -152,7 +152,9 @@ class Obstaculo(pygame.sprite.Sprite):
         self.vel = 8
 
         self.image = imagem_aleatoria()
+
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
 
@@ -173,6 +175,8 @@ def Menu():
     #Converte a imagem de menu
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
     menu_rect = menu_img.get_rect()
+    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
+    help_rect = help_img.get_rect()
 
     intro = True
     while intro:
@@ -186,24 +190,10 @@ def Menu():
                 if event.key == pygame.K_p:
                     intro = False
                 if event.key == pygame.K_h:
-                    intro = False
+                    screen.blit(help_img,help_rect)
 
         screen.fill(BLACK)
         screen.blit(menu_img,menu_rect)
-        pygame.display.flip()
-        clock.tick(15)
-
-def Help():
-    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
-    help_rect = help_img.get_rect()
-    help = True
-    while help:
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == pygame.K_p:
-                    help = False
-        screen.fill(BLACK)
-        screen.blit(help_img,help_rect)
         pygame.display.flip()
         clock.tick(15)
 
@@ -239,7 +229,6 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
-Help()
 while running:
     for event in pygame.event.get():
         player.process_event(event)
