@@ -117,6 +117,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
 class saw(object):
     rotate = [pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")),pygame.image.load(path.join(obs_dir, "casinha.png")),pygame.image.load(path.join(obs_dir, "pedra.png")),pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")),pygame.image.load(path.join(obs_dir, "arvore.png")),pygame.image.load(path.join(obs_dir, "obstaculo1.png"))]
     def __init__(self,x,y,width,height):
@@ -130,7 +131,7 @@ class saw(object):
     def draw(self,win):
         self.hitbox = (self.x + 10, self.y + 5, self.width - 20, self.height - 5)  # Defines the accurate hitbox for our character
         pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
-        if self.rotateCount >= 7:  
+        if self.rotateCount >= 7:
             self.rotateCount = 0
         win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (64,64)), (self.x,self.y))  # scales our image down to 64x64 before drawing
         self.rotateCount += 1
@@ -220,7 +221,7 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                obstacles.append(saw(810, 310, 64, 64))
+                obstacles.append(saw(810, HEIGHT-220, 64, 64))
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
