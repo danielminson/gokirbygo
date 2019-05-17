@@ -129,10 +129,10 @@ class saw(object):
     obs_img4.set_colorkey(BLUE)
 
     obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
-    obs_img5.set_colorkey(BLUE) 
+    obs_img5.set_colorkey(BLUE)
 
     obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
-    obs_img6.set_colorkey(BLUE)  
+    obs_img6.set_colorkey(BLUE)
 
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
     def __init__(self,x,y,width,height):
@@ -146,7 +146,7 @@ class saw(object):
     def draw(self,win):
         self.hitbox = (self.x + 10, self.y + 5, self.width - 20, self.height - 5)  # Defines the accurate hitbox for our character
         pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
-        if self.rotateCount >= 7:  
+        if self.rotateCount >= 7:
             self.rotateCount = 0
         win.blit(pygame.transform.scale(self.rotate[self.rotateCount//2], (64,64)), (self.x,self.y))  # scales our image down to 64x64 before drawing
         self.rotateCount += 1
@@ -236,7 +236,7 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                obstacles.append(saw(810, 310, 64, 64))
+                obstacles.append(saw(810, HEIGHT-220, 64, 64))
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
