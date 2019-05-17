@@ -116,7 +116,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.y = y
 
 def imagem_aleatoria():
-    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
+    obs_img1 = pygame.image.load(path.join(obs_dir, "imagem_de_fundo.png")).convert()
     obs_img1.set_colorkey(BLUE)
 
     obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
@@ -196,7 +196,7 @@ def Menu():
 #  text = smallfont.render("Pontos:" , black)
 #  screen.blit(text, [0,0])
 
-fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo_atual2.png')).convert()
 fundo.set_colorkey(black)
 fundoX = 0
 fundoX2 = fundo.get_width()
@@ -237,7 +237,7 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20) 
+                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
 
@@ -271,8 +271,8 @@ while running:
     #Velocidade dos fundos
     fundoX -= 8
     fundoX2 -= 8
-    cenario_plataformaX -= 10
-    cenario_plataformaX2 -= 10
+    cenario_plataformaX -= 8
+    cenario_plataformaX2 -= 8
 
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
