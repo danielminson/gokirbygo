@@ -185,7 +185,7 @@ running = True
 FPS = 30
 
 while running:
-    Menu()
+    #Menu()
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
@@ -202,7 +202,6 @@ while running:
         # Toca o som da colisão
         player.estado = CHAO
         player.speedy = 0
-
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)

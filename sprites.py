@@ -4,6 +4,22 @@ from os import path
 
 from configuracoes import img_dir, cenarios_dir, WIDTH, HEIGHT, BLACK, YELLOW, RED, FPS, QUIT, CHAO, JUMP, WHITE
 
+def load():
+    fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+    fundo.set_colorkey(BLACK)
+    fundoX = 0
+    fundoX2 = fundo.get_width()
+
+    cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+    cenario_plataforma.set_colorkey(BLACK)
+    cenario_plataformaX = 0
+    cenario_plataformaX2 = cenario_plataforma.get_width()
+
+    fontname = pygame.font.match_font("arial")  # Fonte da letra usada no score e timer.
+    font_size = 50
+
+    return fundo, fundoX, fundoX2, cenario_plataforma, cenario_plataformaX, cenario_plataformaX2, fontname, font_size
+
 class Player(pygame.sprite.Sprite):
 
     # Construtor da classe.
@@ -28,7 +44,7 @@ class Player(pygame.sprite.Sprite):
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT -150
+        self.rect.bottom = HEIGHT - 150
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
@@ -42,7 +58,7 @@ class Player(pygame.sprite.Sprite):
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
-            self.speedy = -15
+            self.speedy = - 15
             self.estado = JUMP
 
         if self.estado == CHAO:
@@ -77,16 +93,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.y = y
 
 def redesenhafundo(screen):
-    fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-    fundo.set_colorkey(BLACK)
-    fundoX = 0
-    fundoX2 = fundo.get_width()
-
-    cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
-    cenario_plataforma.set_colorkey(BLACK)
-    cenario_plataformaX = 0
-    cenario_plataformaX2 = cenario_plataforma.get_width()
-
+    fundo, fundoX, fundoX2, cenario_plataforma, cenario_plataformaX, cenario_plataformaX2, fontname, font_size = load()
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
     screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
@@ -103,7 +110,8 @@ def draw_text(surface, text, font_size, x, y, color):
     surface.blit(text_surface, text_rect)
 
 def game(screen):
-    
+
+    fundo, fundoX, fundoX2, cenario_plataforma, cenario_plataformaX, cenario_plataformaX2, fontname, font_size = load()
     clock = pygame.time.Clock()
 
     #Cria o Kirby
@@ -124,16 +132,6 @@ def game(screen):
     DONE = 1
     lives = 3
     score = 0
-
-    fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-    fundo.set_colorkey(BLACK)
-    fundoX = 0
-    fundoX2 = fundo.get_width()
-
-    cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
-    cenario_plataforma.set_colorkey(BLACK)
-    cenario_plataformaX = 0
-    cenario_plataformaX2 = cenario_plataforma.get_width()
 
     state = PLAYING
     while state != DONE:
@@ -162,8 +160,6 @@ def game(screen):
         redesenhafundo(screen)
         all_sprites.draw(screen)
 
-        fontname = pygame.font.match_font("arial")  # Fonte da letra usada no score e timer.
-        font_size = 50
         draw_text(screen, chr(9829)* lives, 100, 200, 0, RED)
         score+=1
         #escreve o score na tela
@@ -192,7 +188,6 @@ def game(screen):
 
         if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
             cenario_plataformaX2 = cenario_plataforma.get_width()
-
 
     clock.tick(FPS)
 
