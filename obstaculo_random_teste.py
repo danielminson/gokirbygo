@@ -138,7 +138,6 @@ def imagem_aleatoria():
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
 
-
 class Obstaculo(pygame.sprite.Sprite):
     # Construindo a classe
     def __init__(self, x, y, width, height):
@@ -170,15 +169,14 @@ def redesenhafundo():
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
-
 def Menu():
     #Converte a imagem de menu
-    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
-    help_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
-    help_rect = help_img.get_rect()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
     menu_rect = menu_img.get_rect()
+
     intro = True
     while intro:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -187,18 +185,27 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
-                if event.type == pygame.K_h:
-                    screen.fill(BLACK)
-                    screen.blit(help_img,help_img_rect)
-                if event.key == pygame.K_b:
-                    screen.fill(BLACK)
-                    screen.blit(menu_img,menu_rect)
+                if event.key == pygame.K_h:
+                    intro = False
 
         screen.fill(BLACK)
         screen.blit(menu_img,menu_rect)
         pygame.display.flip()
         clock.tick(15)
 
+def Help():
+    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
+    help_rect = help_img.get_rect()
+    help = True
+    while help:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == pygame.K_p:
+                    help = False
+        screen.fill(BLACK)
+        screen.blit(help_img,help_rect)
+        pygame.display.flip()
+        clock.tick(15)
 
 
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
@@ -232,6 +239,7 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
+Help()
 while running:
     for event in pygame.event.get():
         player.process_event(event)
@@ -276,8 +284,8 @@ while running:
     #Velocidade dos fundos
     fundoX -= 8
     fundoX2 -= 8
-    cenario_plataformaX -= 10
-    cenario_plataformaX2 -= 10
+    cenario_plataformaX -= 8
+    cenario_plataformaX2 -= 8
 
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
