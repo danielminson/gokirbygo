@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
 
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
-        
+
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
 
@@ -133,10 +133,10 @@ class Plataforma(pygame.sprite.Sprite):
 class Plataforma_Perigosas(pygame.sprite.Sprite):
     # Construindo a classe
     def __init__(self):
-        #Construtor da classe 
+        #Construtor da classe
         #Posição minima de x  e uma posição fixa para o y
         self.posX = 100
-        self.posY = HEIGHT - 150 
+        self.posY = HEIGHT - 150
         #Posição maxima de x
         self.maxPosX = self.posX * 2
 
@@ -146,11 +146,11 @@ class Plataforma_Perigosas(pygame.sprite.Sprite):
         self.image1 = obs_img1
 
         #obs_img1.fill(self.RED)
-         
+
         obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
         obs_img2.set_colorkey(BLUE)
         self.image2 = obs_img2
-        #obs_img2.fill(self.RED)       
+        #obs_img2.fill(self.RED)
 
         obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
         obs_img3.set_colorkey(BLUE)
@@ -159,7 +159,7 @@ class Plataforma_Perigosas(pygame.sprite.Sprite):
         #obs_img3.fill(self.RED)
 
         obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
-        obs_img4.set_colorkey(BLUE)        
+        obs_img4.set_colorkey(BLUE)
         self.image4 = obs_img4
 
         #obs_img4.fill(self.RED)
@@ -230,9 +230,9 @@ all_platforms.add(chao)
 
 
 running = True
-FPS = 30  
+FPS = 30
 
-#Loop Principal 
+#Loop Principal
 while running:
 
     for event in pygame.event.get():
@@ -255,9 +255,8 @@ while running:
 
     hits_2 = pygame.sprite.spritecollide(player, all_platforms_per, False, pygame.sprite.collide_circle)
     if hits_2:
-        print("colisão")
         running = False
-        
+
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
     redesenhafundo()
@@ -289,4 +288,4 @@ while running:
     if cenarioX2 < cenario.get_width() *-1:
         cenarioX2 = cenario.get_width()
 
-    clock.tick(FPS) 
+    #clock.tick(FPS)

@@ -135,7 +135,6 @@ def imagem_aleatoria():
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
 
-
 class Obstaculo(pygame.sprite.Sprite):
     # Construindo a classe
     def __init__(self, x, y, width, height):
@@ -150,7 +149,9 @@ class Obstaculo(pygame.sprite.Sprite):
         self.vel = 8
 
         self.image = imagem_aleatoria()
+
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
         self.radius = 20
@@ -167,13 +168,16 @@ def redesenhafundo():
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
-
 def Menu():
     #Converte a imagem de menu
-    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
-    menu2 = menu_img.get_rect()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
+    menu_rect = menu_img.get_rect()
+    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
+    help_rect = help_img.get_rect()
+
     intro = True
     while intro:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -182,16 +186,20 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
+                if event.key == pygame.K_h:
+                    screen.blit(help_img,help_rect)
 
         screen.fill(BLACK)
-        screen.blit(menu_img,menu2)
+        screen.blit(menu_img,menu_rect)
         pygame.display.flip()
         clock.tick(15)
+
 
 # Funçao que mostra o numero de pontos obtidos pelo jogador.
 #def score(score):
 #  text = smallfont.render("Pontos:" , BLACK)
 #  screen.blit(text, [0,0])
+
 
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(BLACK)
@@ -223,7 +231,6 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
-
 while lives > 0:
     while running:
         for event in pygame.event.get():
@@ -294,3 +301,4 @@ while lives > 0:
     # This should go in the game loop
 
         clock.tick(FPS)
+

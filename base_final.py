@@ -116,14 +116,6 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-"""
-class Plataforma_Perigosas(pygame.sprite.Sprite):
-    # Construindo a classe
-    def __init__(self, x,y, width, height):
-        #Construtor da classe
-        pygame.sprite.Sprite.__init__(self)
-"""
-
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0))
@@ -185,7 +177,7 @@ running = True
 FPS = 30
 
 while running:
-    Menu()
+    #Menu()
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
@@ -202,7 +194,6 @@ while running:
         # Toca o som da colisão
         player.estado = CHAO
         player.speedy = 0
-
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
