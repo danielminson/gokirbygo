@@ -11,14 +11,16 @@ import time
 pygame.init()
 pygame.mixer.init()
 
+#atributos da tela
 WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
-fontname = pygame.font.match_font("arial")  # Fonte da letra usada no score e timer.
+# Fonte da letra usada no score e timer.
+fontname = pygame.font.match_font("arial")
 font_size = 50
 
-size = [1280, 720]
+#Cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLACK = (0, 0, 0)
@@ -33,11 +35,16 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 
+ 
+#Vidas totais
 lives=3
 clock = pygame.time.Clock()
 
+#Estados
 CHAO = 0
 JUMP = 1
+
+#Score do jogo
 score = 0
 
 colisaojaaconteceu = False
@@ -74,7 +81,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 7.5
+        self.radius = 0.5
         self.estado = CHAO
         self.vida = 3
 
@@ -115,29 +122,25 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+#Funcao que carrega as imagens de obstaculos
 def imagem_aleatoria():
     obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
-    obs_img1.set_colorkey(BLUE)
 
     obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
-    obs_img2.set_colorkey(BLUE)
 
     obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
-    obs_img3.set_colorkey(BLUE)
 
     obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
-    obs_img4.set_colorkey(BLUE)
 
     obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
-    obs_img5.set_colorkey(BLUE)
 
     obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
-    obs_img6.set_colorkey(BLUE)
 
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
 
+#Classe obstaculos
 class Obstaculo(pygame.sprite.Sprite):
     # Construindo a classe
     def __init__(self, x, y, width, height):
@@ -161,6 +164,31 @@ class Obstaculo(pygame.sprite.Sprite):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
             self.kill()
+        if hits2:
+            self.kill()
+
+class Plataforma_voadora(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height):
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = 10
+
+        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma.png")).convert()
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLACK)
+        self.rect.x = x
+        self.rect.y = y
+
+
+        def update(self):
+            self.rect.x -= self.vel
+            if self.rect.x < -self.width:
+                self.kill()
 
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
@@ -170,6 +198,7 @@ def redesenhafundo():
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
+#Funcao que cria o Menu
 def Menu():
     #Converte a imagem de menu
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
@@ -180,7 +209,6 @@ def Menu():
     intro = True
     pause = False
     while intro:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -189,8 +217,6 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
-                if event.key == pygame.K_h:
-                    screen.blit(help_img,help_rect)
 
         screen.fill(BLACK)
         screen.blit(menu_img,menu_rect)
@@ -207,7 +233,16 @@ def gameover():
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
 
+<<<<<<< HEAD
 
+=======
+# Funçao que mostra o numero de pontos obtidos pelo jogador.
+#def score(score):
+#  text = smallfont.render("Pontos:" , BLACK)
+#  screen.blit(text, [0,0])
+
+#Carrega as Imagens de Fundo e da plataforma de chao
+>>>>>>> e89d7786f8515a1d5332bcbed52afe034b36c38f
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(BLACK)
 fundoX = 0
@@ -219,25 +254,35 @@ cenario_plataformaX2 = cenario_plataforma.get_width()
 
 #Cria o Kirby
 player = Player()
-# Cria um grupo de todos os sprites e adiciona a nave.
+
+# Cria um grupo de todos os sprites e adiciona o Kirby
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
 # Cria as plataformas.
 all_platforms = pygame.sprite.Group()
+pygame.time.set_timer(USEREVENT+3, 10000)
 
 #Plataforma principal de chao
 chao = Plataforma(0, HEIGHT - 150, 1280, 140)
 all_platforms.add(chao)
 
-running = True
-FPS = 30
 
+#Cria os obstaculos
 obstacles = pygame.sprite.Group()
 
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
+
+running = True
+FPS = 30
+
+#Roda o Menu antes do jogo
 Menu()
+
+
+
+lives = 3
 while running:
     for event in pygame.event.get():
         player.process_event(event)
@@ -267,6 +312,12 @@ while running:
                 new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
+        if event.type == USEREVENT+3:
+            r = random.randrange(0,2)
+            if r==0 or r ==1:
+                p_voadora = Plataforma_voadora(random.randrange(0,WIDTH),random.randrange(100, 300),100,64)
+                all_platforms.add(p_voadora)
+                all_sprites.add(p_voadora)
 
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
@@ -274,15 +325,17 @@ while running:
 
     # Verifica se houve colisão entre nave e meteoro
     hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
+
     if hits:
-        # Toca o som da colisão
         player.estado = CHAO
         player.speedy = 0
 
     hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
     if hits2:
-        print("morreu")
-        running = False
+        lives-=1
+        if lives == 0:
+            print("morreu")
+            running = False 
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
@@ -290,6 +343,7 @@ while running:
     all_sprites.draw(screen)
 
     score+=1
+
     #escreve o score na tela
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
@@ -305,6 +359,7 @@ while running:
     cenario_plataformaX -= 10
     cenario_plataformaX2 -= 10
 
+    #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:
         fundoX = fundo.get_width()
 
@@ -316,8 +371,6 @@ while running:
 
     if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
         cenario_plataformaX2 = cenario_plataforma.get_width()
-
-# This should go in the game loop
 
     clock.tick(FPS)
 gameover()
