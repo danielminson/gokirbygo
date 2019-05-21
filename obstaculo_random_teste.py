@@ -4,7 +4,7 @@ import sys
 import math
 from os import path
 import random
-import time 
+import time
 
 
 # Inicialização do Pygame.
@@ -76,7 +76,7 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 10
         self.estado = CHAO
-        self.vida = 3 
+        self.vida = 3
 
     def process_event(self, event):
 
@@ -237,72 +237,8 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
-<<<<<<< HEAD
-pygame.mixer.music.play(loops=-1)
-while running:
-    for event in pygame.event.get():
-        player.process_event(event)
-        if event.type == pygame.QUIT:
-            running = False
-            pygame.quit()
-            quit()
-        if event.type == USEREVENT+2:
-            r = random.randrange(0,2)
-            if r == 0 or r ==1:
-                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
-                obstacles.add(new_obstacle)
-                all_sprites.add(new_obstacle)
-
-    # Depois de processar os eventos.
-    # Atualiza a acao de cada sprite.
-    all_sprites.update()
-
-    # Verifica se houve colisão entre nave e meteoro
-    hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
-    if hits:
-        # Toca o som da colisão
-        player.estado = CHAO
-        player.speedy = 0
-
-
-    # A cada loop, redesenha o fundo e os sprites
-    screen.fill(WHITE)
-    redesenhafundo()
-    all_sprites.draw(screen)
-
-    score+=1
-    #escreve o score na tela
-    draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
-
-    #mostra a vida na tela
-    draw_text(screen, chr(9829)*lives, 100, 200, 0, RED)
-
-    # Depois de desenhar tudo, inverte o display.
-    pygame.display.flip()
-
-    #Velocidade dos fundos
-    fundoX -= 8
-    fundoX2 -= 8
-    cenario_plataformaX -= 8
-    cenario_plataformaX2 -= 8
-
-    if fundoX < fundo.get_width() *-1:
-        fundoX = fundo.get_width()
-
-    if fundoX2 < fundo.get_width() *-1:
-        fundoX2 = fundo.get_width()
-
-    if cenario_plataformaX < cenario_plataforma.get_width() *-1:
-        cenario_plataformaX = cenario_plataforma.get_width()
-
-    if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
-        cenario_plataformaX2 = cenario_plataforma.get_width()
-
-# This should go in the game loop
-
-    clock.tick(FPS)
-=======
 while lives > 0:
+    pygame.mixer.music.play(loops=-1)
     while running:
         for event in pygame.event.get():
             player.process_event(event)
@@ -313,7 +249,7 @@ while lives > 0:
             if event.type == USEREVENT+2:
                 r = random.randrange(0,2)
                 if r == 0 or r ==1:
-                    new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20) 
+                    new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
                     obstacles.add(new_obstacle)
                     all_sprites.add(new_obstacle)
 
@@ -329,12 +265,12 @@ while lives > 0:
             player.speedy = 0
 
         hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
-        if hits2 and colisaojaaconteceu == False:
+        if hits2:
             player.kill()
             lives -= 1
             player = Player()
             all_sprites.add(player)
-        
+            running=False
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill(WHITE)
@@ -372,5 +308,3 @@ while lives > 0:
     # This should go in the game loop
 
         clock.tick(FPS)
-
->>>>>>> 80e62ac1bc017a24963b585ffd210cf71be9c8da
