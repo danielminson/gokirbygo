@@ -35,6 +35,7 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 
+ 
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -80,7 +81,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 7.5
+        self.radius = 0.5
         self.estado = CHAO
         self.vida = 3
 
@@ -163,6 +164,8 @@ class Obstaculo(pygame.sprite.Sprite):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
             self.kill()
+        if hits2:
+            self.kill()
 
 class Plataforma_voadora(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
@@ -205,7 +208,6 @@ def Menu():
 
     intro = True
     while intro:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -272,6 +274,10 @@ FPS = 30
 
 #Roda o Menu antes do jogo
 Menu()
+
+
+
+lives = 3
 while running:
     for event in pygame.event.get():
         player.process_event(event)
@@ -303,10 +309,19 @@ while running:
         player.estado = CHAO
         player.speedy = 0
 
+<<<<<<< HEAD
     #hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
     #if hits2:
     #    print("morreu")
     #    running = False
+=======
+    hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
+    if hits2:
+        lives-=1
+        if lives == 0:
+            print("morreu")
+            running = False 
+>>>>>>> e89d7786f8515a1d5332bcbed52afe034b36c38f
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
