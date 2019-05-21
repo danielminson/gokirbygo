@@ -160,6 +160,8 @@ class Obstaculo(pygame.sprite.Sprite):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
             self.kill()
+        if hits2:
+            self.kill()
 
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
@@ -178,7 +180,6 @@ def Menu():
 
     intro = True
     while intro:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -267,7 +268,6 @@ while running:
     hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
     if hits2:
         lives-=1
-        time.sleep(2)
         if lives == 0:
             print("morreu")
             running = False 
