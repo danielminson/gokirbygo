@@ -33,7 +33,6 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 
-lives=3
 clock = pygame.time.Clock()
 
 CHAO = 0
@@ -74,7 +73,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 7.5
+        self.radius = 0.5
         self.estado = CHAO
         self.vida = 3 
 
@@ -236,6 +235,10 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
+
+
+
+lives = 3
 while running:
     for event in pygame.event.get():
         player.process_event(event)
@@ -263,8 +266,11 @@ while running:
 
     hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
     if hits2:
-        print("morreu")
-        running = False 
+        lives-=1
+        time.sleep(2)
+        if lives == 0:
+            print("morreu")
+            running = False 
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
