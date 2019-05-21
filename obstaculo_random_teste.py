@@ -35,6 +35,8 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 
+#som de colisao
+hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
 
 #Vidas totais
 lives=3
@@ -271,13 +273,30 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
+pygame.mixer.music.play(loops=-1)
 while running:
+
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_b:
+                running = False
+                pause = True
+                while pause == True:
+                    game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
+                    game_paused_rect = game_paused_img.get_rect()
+                    screen.fill(BLACK)
+                    screen.blit(game_paused_img,game_paused_rect)
+                    pygame.display.flip()
+                    clock.tick(15)
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_p:
+                            pause = False
+                            running = True
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
@@ -304,6 +323,7 @@ while running:
     # Verifica se houve colisao entre player e obstaculo
     hits2 = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
     if hits2:
+        hit_sound.play()
         lives-=1
         if lives == 0:
             running = False
