@@ -35,7 +35,9 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 
- 
+#som de colisao
+hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
+
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -233,16 +235,7 @@ def gameover():
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
 
-<<<<<<< HEAD
 
-=======
-# Funçao que mostra o numero de pontos obtidos pelo jogador.
-#def score(score):
-#  text = smallfont.render("Pontos:" , BLACK)
-#  screen.blit(text, [0,0])
-
-#Carrega as Imagens de Fundo e da plataforma de chao
->>>>>>> e89d7786f8515a1d5332bcbed52afe034b36c38f
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(BLACK)
 fundoX = 0
@@ -279,11 +272,10 @@ FPS = 30
 
 #Roda o Menu antes do jogo
 Menu()
-
-
-
+pygame.mixer.music.play(loops=-1)
 lives = 3
 while running:
+
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
@@ -294,18 +286,17 @@ while running:
             if event.key == pygame.K_b:
                 running = False
                 pause = True
-                if pause == True:
-                    while pause == True:
-                        game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
-                        game_paused_rect = game_paused_img.get_rect()
-                        screen.fill(BLACK)
-                        screen.blit(game_paused_img,game_paused_rect)
-                        pygame.display.flip()
-                        clock.tick(15)
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_p:
-                                pause = False
-            running = True
+                while pause == True:
+                    game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
+                    game_paused_rect = game_paused_img.get_rect()
+                    screen.fill(BLACK)
+                    screen.blit(game_paused_img,game_paused_rect)
+                    pygame.display.flip()
+                    clock.tick(15)
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_p:
+                            pause = False
+                            running = True
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
@@ -332,9 +323,11 @@ while running:
 
     hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
     if hits2:
+        hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False 
+            print("morreu")
+            running = False
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
