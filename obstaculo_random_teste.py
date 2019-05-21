@@ -34,8 +34,12 @@ img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
+fnt_dir = path.join(path.dirname(__file__), 'font')
+kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
 
- 
+#som de colisao
+hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
+
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -69,8 +73,10 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
+
+        run = [pygame.image.load(path.join(kirby_dir, str(x) + '.jpg')) for x in range(8,16)]
         # Deixando transparente.
-        self.image.set_colorkey(YELLOW)
+        self.image.set_colorkey(WHITE)
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
@@ -83,7 +89,6 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        self.vida = 3
         
 
     def process_event(self, event):
@@ -91,7 +96,7 @@ class Player(pygame.sprite.Sprite):
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
-            self.speedy = -17
+            self.speedy = -20
             self.estado = JUMP
 
         if self.estado == CHAO:
@@ -161,6 +166,8 @@ class Obstaculo(pygame.sprite.Sprite):
         self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
     def update(self):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
@@ -179,17 +186,17 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.height = height
         self.vel = 10
 
-        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma.png")).convert()
+        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_tipo2.png")).convert()
         self.rect = self.image.get_rect()
-        self.image.set_colorkey(BLACK)
         self.rect.x = x
         self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
 
 
-        def update(self):
-            self.rect.x -= self.vel
-            if self.rect.x < -self.width:
-                self.kill()
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
 
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
@@ -208,6 +215,7 @@ def Menu():
     help_rect = help_img.get_rect()
 
     intro = True
+    tela_help = False
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -217,11 +225,19 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
+                if event.key == pygame.K_h:
+                    tela_help = True
+        if not tela_help:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if tela_help:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            pygame.display.flip()
+            clock.tick(15)
 
-        screen.fill(BLACK)
-        screen.blit(menu_img,menu_rect)
-        pygame.display.flip()
-        clock.tick(15)
 def gameover():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
     gameover_rect = gameover_img.get_rect()
@@ -229,14 +245,30 @@ def gameover():
     screen.blit(gameover_img,gameover_rect)
     pygame.display.flip()
     clock.tick(15)
+
+def pause():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    paused = False
+        game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
+        game_paused_rect = game_paused_img.get_rect()
+        screen.fill(BLACK)
+        screen.blit(game_paused_img,game_paused_rect)
+        pygame.display.flip()
+        clock.tick(5)
+
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
-
-# Funçao que mostra o numero de pontos obtidos pelo jogador.
-#def score(score):
-#  text = smallfont.render("Pontos:" , BLACK)
-#  screen.blit(text, [0,0])
 
 #Carrega as Imagens de Fundo e da plataforma de chao
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
@@ -257,64 +289,77 @@ all_sprites.add(player)
 
 # Cria as plataformas.
 all_platforms = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+3, 10000)
-
 #Plataforma principal de chao
 chao = Plataforma(0, HEIGHT - 150, 1280, 140)
 all_platforms.add(chao)
 
+#Plataformas voadoras
+plataformas_voadoras = pygame.sprite.Group()
+#a cada 10 segundos aparece uma plataforma voadora
+pygame.time.set_timer(USEREVENT+3, 10000)
 
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
-
-#a cada x tempo ira aparecer obstaculos
+#a cada 8 segundos ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 
 running = True
 FPS = 30
+lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
 
 
-
-lives = 3
+pygame.mixer.music.play(loops=-1)
 while running:
+
     for event in pygame.event.get():
         player.process_event(event)
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             quit()
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                pause()
+
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
-            if r == 0 or r ==1:
-                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
+            if r == 0 or r == 1:
+                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
-            if r==0 or r ==1:
-                p_voadora = Plataforma_voadora(random.randrange(0,WIDTH),random.randrange(100, 300),100,64)
-                all_platforms.add(p_voadora)
+            if r == 0 or r == 1:
+                p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
+                plataformas_voadoras.add(p_voadora)
                 all_sprites.add(p_voadora)
 
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
 
-    # Verifica se houve colisão entre nave e meteoro
+    # Verifica se houve colisão entre player e chao
     hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
-
     if hits:
         player.estado = CHAO
         player.speedy = 0
 
-    hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
+    # Verifica se houve colisao entre player e obstaculo
+    hits2 = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
     if hits2:
+        hit_sound.play()
         lives-=1
         if lives == 0:
-e            running = False 
+            running = False 
+    # Verifica se houve colisao entre player e plataforma voadora
+    hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
+    if hits3:
+        player.estado = CHAO
+        player.speedy = 0
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
