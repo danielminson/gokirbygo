@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 10
+        self.radius = 7.5
         self.estado = CHAO
         self.vida = 3 
 
@@ -157,7 +157,6 @@ class Obstaculo(pygame.sprite.Sprite):
         self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
-        self.radius = 20
     def update(self):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
@@ -237,74 +236,70 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
-while lives > 0:
-    while running:
-        for event in pygame.event.get():
-            player.process_event(event)
-            if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
-                quit()
-            if event.type == USEREVENT+2:
-                r = random.randrange(0,2)
-                if r == 0 or r ==1:
-                    new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20) 
-                    obstacles.add(new_obstacle)
-                    all_sprites.add(new_obstacle)
+while running:
+    for event in pygame.event.get():
+        player.process_event(event)
+        if event.type == pygame.QUIT:
+            running = False
+            pygame.quit()
+            quit()
+        if event.type == USEREVENT+2:
+            r = random.randrange(0,2)
+            if r == 0 or r ==1:
+                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20) 
+                obstacles.add(new_obstacle)
+                all_sprites.add(new_obstacle)
 
-        # Depois de processar os eventos.
-        # Atualiza a acao de cada sprite.
-        all_sprites.update()
+    # Depois de processar os eventos.
+    # Atualiza a acao de cada sprite.
+    all_sprites.update()
 
-        # Verifica se houve colisão entre nave e meteoro
-        hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
-        if hits:
-            # Toca o som da colisão
-            player.estado = CHAO
-            player.speedy = 0
+    # Verifica se houve colisão entre nave e meteoro
+    hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
+    if hits:
+        # Toca o som da colisão
+        player.estado = CHAO
+        player.speedy = 0
 
-        hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
-        if hits2 and colisaojaaconteceu == False:
-            player.kill()
-            lives -= 1
-            player = Player()
-            all_sprites.add(player)
-        
+    hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
+    if hits2:
+        print("morreu")
+        running = False 
 
-        # A cada loop, redesenha o fundo e os sprites
-        screen.fill(WHITE)
-        redesenhafundo()
-        all_sprites.draw(screen)
+    # A cada loop, redesenha o fundo e os sprites
+    screen.fill(WHITE)
+    redesenhafundo()
+    all_sprites.draw(screen)
 
-        score+=1
-        #escreve o score na tela
-        draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
+    score+=1
+    #escreve o score na tela
+    draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
-        #mostra a vida na tela
-        draw_text(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10))
+    #mostra a vida na tela
+    draw_text(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10))
 
-        # Depois de desenhar tudo, inverte o display.
-        pygame.display.flip()
+    # Depois de desenhar tudo, inverte o display.
+    pygame.display.flip()
 
-        #Velocidade dos fundos
-        fundoX -= 8
-        fundoX2 -= 8
-        cenario_plataformaX -= 10
-        cenario_plataformaX2 -= 10
+    #Velocidade dos fundos
+    fundoX -= 8
+    fundoX2 -= 8
+    cenario_plataformaX -= 10
+    cenario_plataformaX2 -= 10
 
-        if fundoX < fundo.get_width() *-1:
-            fundoX = fundo.get_width()
+    if fundoX < fundo.get_width() *-1:
+        fundoX = fundo.get_width()
 
-        if fundoX2 < fundo.get_width() *-1:
-            fundoX2 = fundo.get_width()
+    if fundoX2 < fundo.get_width() *-1:
+        fundoX2 = fundo.get_width()
 
-        if cenario_plataformaX < cenario_plataforma.get_width() *-1:
-            cenario_plataformaX = cenario_plataforma.get_width()
+    if cenario_plataformaX < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX = cenario_plataforma.get_width()
 
-        if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
-            cenario_plataformaX2 = cenario_plataforma.get_width()
+    if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
+        cenario_plataformaX2 = cenario_plataforma.get_width()
 
-    # This should go in the game loop
+# This should go in the game loop
 
-        clock.tick(FPS)
+    clock.tick(FPS)
 
