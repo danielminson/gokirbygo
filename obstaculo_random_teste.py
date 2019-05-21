@@ -35,6 +35,7 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
+kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
 
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
@@ -72,8 +73,10 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
+
+        run = [pygame.image.load(path.join(kirby_dir, str(x) + '.jpg')) for x in range(8,16)]
         # Deixando transparente.
-        self.image.set_colorkey(YELLOW)
+        self.image.set_colorkey(WHITE)
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
@@ -262,7 +265,6 @@ def pause():
         screen.blit(game_paused_img,game_paused_rect)
         pygame.display.flip()
         clock.tick(5)
-
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
