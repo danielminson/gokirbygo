@@ -34,6 +34,7 @@ img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
+fnt_dir = path.join(path.dirname(__file__), 'font')
 
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
@@ -162,6 +163,8 @@ class Obstaculo(pygame.sprite.Sprite):
         self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
     def update(self):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
@@ -184,6 +187,8 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
 
     def update(self):
         self.rect.x -= self.vel
@@ -216,6 +221,8 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
+                #if event.key == pygame.K_h:
+
 
         screen.fill(BLACK)
         screen.blit(menu_img,menu_rect)
@@ -300,13 +307,13 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
+                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(1000,1200),random.randrange(350, 400),200,70)
+                p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
                 plataformas_voadoras.add(p_voadora)
                 all_sprites.add(p_voadora)
 
