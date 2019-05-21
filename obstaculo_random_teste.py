@@ -303,14 +303,11 @@ while running:
         player.estado = CHAO
         player.speedy = 0
 
-<<<<<<< HEAD
-=======
-    hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
-    if hits2:
-        print("morreu")
-        running = False
+    #hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
+    #if hits2:
+    #    print("morreu")
+    #    running = False
 
->>>>>>> 9fbb4bbb72142159d699c3c1a46bb841143bc715
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
     redesenhafundo()
