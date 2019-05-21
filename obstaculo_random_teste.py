@@ -4,8 +4,12 @@ import sys
 import math
 from os import path
 import random
+import time
 
+
+# Inicialização do Pygame.
 pygame.init()
+pygame.mixer.init()
 
 #atributos da tela
 WIDTH, HEIGHT = 1280, 720
@@ -18,7 +22,7 @@ font_size = 50
 
 #Cores
 WHITE = (255, 255, 255)
-black = (0, 0, 0)
+BLACK = (0, 0, 0)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -29,10 +33,10 @@ YELLOW = (255, 255, 0)
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
+snr_dir = path.join(path.dirname(__file__))
 
 #Vidas totais
 lives=3
-
 clock = pygame.time.Clock()
 
 #Estados
@@ -42,6 +46,7 @@ JUMP = 1
 #Score do jogo
 score = 0
 
+colisaojaaconteceu = False
 #Escreve o score na tela
 def draw_text(surface, text, font_size, x, y, color):
     font = pygame.font.Font(fontname, font_size)
@@ -58,38 +63,33 @@ class Player(pygame.sprite.Sprite):
 
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-
         # Carregando a imagem de fundo
         player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
-
         self.image = player_img
-
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
-
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
-
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT -150
+        self.rect.bottom = HEIGHT -140
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
         # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 25
-        self.jumping = False
+        self.radius = 7.5
         self.estado = CHAO
+        self.vida = 3
 
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
-            self.speedy = -15
+            self.speedy = -17
             self.estado = JUMP
 
         if self.estado == CHAO:
@@ -159,7 +159,6 @@ class Obstaculo(pygame.sprite.Sprite):
         self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
-
     def update(self):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
@@ -220,14 +219,29 @@ def Menu():
         screen.blit(menu_img,menu_rect)
         pygame.display.flip()
         clock.tick(15)
+def gameover():
+    gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
+    gameover_rect = gameover_img.get_rect()
+    screen.fill(BLACK)
+    screen.blit(gameover_img,gameover_rect)
+    pygame.display.flip()
+    clock.tick(15)
+# Carrega os sons do jogo
+pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
+pygame.mixer.music.set_volume(0.4)
+
+# Funçao que mostra o numero de pontos obtidos pelo jogador.
+#def score(score):
+#  text = smallfont.render("Pontos:" , BLACK)
+#  screen.blit(text, [0,0])
 
 #Carrega as Imagens de Fundo e da plataforma de chao
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-fundo.set_colorkey(black)
+fundo.set_colorkey(BLACK)
 fundoX = 0
 fundoX2 = fundo.get_width()
 cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
-cenario_plataforma.set_colorkey(black)
+cenario_plataforma.set_colorkey(BLACK)
 cenario_plataformaX = 0
 cenario_plataformaX2 = cenario_plataforma.get_width()
 
@@ -243,7 +257,7 @@ all_platforms = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+3, 10000)
 
 #Plataforma principal de chao
-chao = Plataforma(0, HEIGHT - 140, 1280, 150)
+chao = Plataforma(0, HEIGHT - 150, 1280, 140)
 all_platforms.add(chao)
 
 
@@ -289,6 +303,14 @@ while running:
         player.estado = CHAO
         player.speedy = 0
 
+<<<<<<< HEAD
+=======
+    hits2 = pygame.sprite.spritecollide(player,obstacles , False, pygame.sprite.collide_circle)
+    if hits2:
+        print("morreu")
+        running = False
+
+>>>>>>> 9fbb4bbb72142159d699c3c1a46bb841143bc715
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
     redesenhafundo()
@@ -300,7 +322,7 @@ while running:
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
     #mostra a vida na tela
-    draw_text(screen, chr(9829)*lives, 100, 200, 0, RED)
+    draw_text(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10))
 
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
@@ -308,8 +330,8 @@ while running:
     #Velocidade dos fundos
     fundoX -= 8
     fundoX2 -= 8
-    cenario_plataformaX -= 8
-    cenario_plataformaX2 -= 8
+    cenario_plataformaX -= 10
+    cenario_plataformaX2 -= 10
 
     #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:
@@ -325,3 +347,5 @@ while running:
         cenario_plataformaX2 = cenario_plataforma.get_width()
 
     clock.tick(FPS)
+gameover()
+time.sleep(5)
