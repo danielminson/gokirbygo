@@ -35,11 +35,8 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 
-<<<<<<< HEAD
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-=======
->>>>>>> 36244082e6f270317ef1e4c8401ee7f05af9d1b1
 
 #Vidas totais
 lives=3
@@ -237,11 +234,7 @@ def gameover():
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
 
-<<<<<<< HEAD
-
-=======
 #Carrega as Imagens de Fundo e da plataforma de chao
->>>>>>> 36244082e6f270317ef1e4c8401ee7f05af9d1b1
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(BLACK)
 fundoX = 0
@@ -280,11 +273,8 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
-<<<<<<< HEAD
 pygame.mixer.music.play(loops=-1)
 lives = 3
-=======
->>>>>>> 36244082e6f270317ef1e4c8401ee7f05af9d1b1
 while running:
 
     for event in pygame.event.get():
@@ -293,7 +283,6 @@ while running:
             running = False
             pygame.quit()
             quit()
-<<<<<<< HEAD
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_b:
                 running = False
@@ -309,8 +298,6 @@ while running:
                         if event.key == pygame.K_p:
                             pause = False
                             running = True
-=======
->>>>>>> 36244082e6f270317ef1e4c8401ee7f05af9d1b1
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
@@ -340,10 +327,6 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-<<<<<<< HEAD
-            print("morreu")
-            running = False
-=======
             running = False
 
     # Verifica se houve colisao entre player e plataforma voadora
@@ -351,7 +334,6 @@ while running:
     if hits3:
         player.estado = CHAO
         player.speedy = 0
->>>>>>> 36244082e6f270317ef1e4c8401ee7f05af9d1b1
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
