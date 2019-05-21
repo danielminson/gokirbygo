@@ -5,7 +5,9 @@ import math
 from os import path
 import random
 
+# Inicialização do Pygame.
 pygame.init()
+pygame.mixer.init()
 
 WIDTH, HEIGHT = 1280, 720
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -27,6 +29,7 @@ YELLOW = (255, 255, 0)
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
+snr_dir = path.join(path.dirname(__file__))
 
 lives=3
 
@@ -197,6 +200,9 @@ def Menu():
         pygame.display.flip()
         clock.tick(15)
 
+# Carrega os sons do jogo
+pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
+pygame.mixer.music.set_volume(0.4)
 
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(black)
@@ -229,6 +235,7 @@ obstacles = pygame.sprite.Group()
 #a cada x tempo ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 Menu()
+pygame.mixer.music.play(loops=-1)
 while running:
     for event in pygame.event.get():
         player.process_event(event)
