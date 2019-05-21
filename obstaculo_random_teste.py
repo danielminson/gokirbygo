@@ -313,7 +313,6 @@ while running:
     if hits2:
         lives-=1
         if lives == 0:
-            print("morreu")
             running = False 
 
     # A cada loop, redesenha o fundo e os sprites
