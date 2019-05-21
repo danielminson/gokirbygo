@@ -212,6 +212,7 @@ def Menu():
     help_rect = help_img.get_rect()
 
     intro = True
+    tela_help = False
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -221,13 +222,18 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
-                #if event.key == pygame.K_h:
-
-
-        screen.fill(BLACK)
-        screen.blit(menu_img,menu_rect)
-        pygame.display.flip()
-        clock.tick(15)
+                if event.key == pygame.K_h:
+                    tela_help = True
+        if not tela_help:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if tela_help:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            pygame.display.flip()
+            clock.tick(15)
 
 def gameover():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
@@ -280,6 +286,8 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
+
+
 pygame.mixer.music.play(loops=-1)
 while running:
 
