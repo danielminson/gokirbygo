@@ -230,6 +230,27 @@ def gameover():
     pygame.display.flip()
     clock.tick(15)
 
+def pause():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    paused = False
+        game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
+        game_paused_rect = game_paused_img.get_rect()
+        screen.fill(BLACK)
+        screen.blit(game_paused_img,game_paused_rect)
+        pygame.display.flip()
+        clock.tick(5)
+
+
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
@@ -283,20 +304,8 @@ while running:
             pygame.quit()
             quit()
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_b:
-                running = False
-                pause = True
-                while pause == True:
-                    game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
-                    game_paused_rect = game_paused_img.get_rect()
-                    screen.fill(BLACK)
-                    screen.blit(game_paused_img,game_paused_rect)
-                    pygame.display.flip()
-                    clock.tick(15)
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_p:
-                            pause = False
-                            running = True
+            if event.key == pygame.K_p:
+                pause()
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
