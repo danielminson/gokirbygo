@@ -178,7 +178,7 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.height = height
         self.vel = 10
 
-        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma.png")).convert()
+        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_tipo2.png")).convert()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
