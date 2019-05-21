@@ -178,6 +178,7 @@ def Menu():
     help_rect = help_img.get_rect()
 
     intro = True
+    pause = False
     while intro:
 
         for event in pygame.event.get():
@@ -205,11 +206,6 @@ def gameover():
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
-
-# Funçao que mostra o numero de pontos obtidos pelo jogador.
-#def score(score):
-#  text = smallfont.render("Pontos:" , BLACK)
-#  screen.blit(text, [0,0])
 
 
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
@@ -249,6 +245,22 @@ while running:
             running = False
             pygame.quit()
             quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_b:
+                running = False
+                pause = True
+                if pause == True:
+                    while pause == True:
+                        game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
+                        game_paused_rect = game_paused_img.get_rect()
+                        screen.fill(BLACK)
+                        screen.blit(game_paused_img,game_paused_rect)
+                        pygame.display.flip()
+                        clock.tick(15)
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_p:
+                                pause = False
+            running = True
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
