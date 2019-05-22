@@ -35,10 +35,10 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
-
+kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-gameover_sound = pygame.mixer.Sound(path.join(snr_dir, 'game_over.ogg'))
 
 #Vidas totais
 lives=3
@@ -60,22 +60,56 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
 
+
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
-
     # Construtor da classe.
     def __init__(self):
-
         # Construtor da classe pai (Sprite).
+
         pygame.sprite.Sprite.__init__(self)
-        # Carregando a imagem de fundo
-        player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
-        self.image = player_img
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (200, 200))
-        # Deixando transparente.
-        self.image.set_colorkey(YELLOW)
-        # Detalhes sobre o posicionamento.
+        k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
+        k0.set_colorkey(WHITE)
+        k0 = pygame.transform.scale(k0,(200,200))
+
+        k1 = pygame.image.load(path.join(kirby_dir, "1.png")).convert()
+        k1.set_colorkey(WHITE)
+        k1 = pygame.transform.scale(k1,(200,200))
+
+
+        k2 = pygame.image.load(path.join(kirby_dir, "2.png")).convert()
+        k2.set_colorkey(WHITE)
+        k2 = pygame.transform.scale(k2,(200,200))
+
+
+        k3 = pygame.image.load(path.join(kirby_dir, "3.png")).convert()
+        k3.set_colorkey(WHITE)
+        k3 = pygame.transform.scale(k3,(200,200))
+
+
+        k4 = pygame.image.load(path.join(kirby_dir, "4.png")).convert()
+        k4.set_colorkey(WHITE)
+        k4 = pygame.transform.scale(k4,(200,200))
+
+
+        k5 = pygame.image.load(path.join(kirby_dir, "5.png")).convert()
+        k5.set_colorkey(WHITE)
+        k5 = pygame.transform.scale(k5,(200,200))
+
+
+        k6 = pygame.image.load(path.join(kirby_dir, "6.png")).convert()
+        k6.set_colorkey(WHITE)
+        k6 = pygame.transform.scale(k6,(200,200))
+
+
+        k7 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
+        k7.set_colorkey(WHITE)
+        k7 = pygame.transform.scale(k7,(200,200))
+
+
+        self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
+        self.index = 0
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
 
         # Centraliza embaixo da tela.
@@ -84,10 +118,60 @@ class Player(pygame.sprite.Sprite):
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
+
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        self.vida = 3
+        """
+        if self.estado == JUMP:
+            ki0 =pygame.image.load(path.join(k_dir,"Kirbyvoando-0.png")).convert()
+            ki0.set_colorkey(WHITE)
+            ki0 = pygame.transform.scale(k0,(200,200))
+
+            ki1 =pygame.image.load(path.join(k_dir,"Kirbyvoando-1.png")).convert()
+            ki1.set_colorkey(WHITE)
+            ki1 = pygame.transform.scale(k1,(200,200))
+
+            ki2 =pygame.image.load(path.join(k_dir,"Kirbyvoando-2.png")).convert()
+            ki2.set_colorkey(WHITE)
+            ki2 = pygame.transform.scale(k2,(200,200))
+
+            ki3 =pygame.image.load(path.join(k_dir,"Kirbyvoando-3.png")).convert()
+            ki3.set_colorkey(WHITE)
+            ki3 = pygame.transform.scale(k3,(200,200))
+
+            ki4 =pygame.image.load(path.join(k_dir,"Kirbyvoando-4.png")).convert()
+            ki4.set_colorkey(WHITE)
+            ki4 = pygame.transform.scale(k4,(200,200))
+
+            ki5 =pygame.image.load(path.join(k_dir,"Kirbyvoando-5.png")).convert()
+            ki5.set_colorkey(WHITE)
+            ki5 = pygame.transform.scale(k5,(200,200))
+
+            ki6 =pygame.image.load(path.join(k_dir,"Kirbyvoando-6.png")).convert()
+            ki6.set_colorkey(WHITE)
+            ki6 = pygame.transform.scale(k6,(200,200))
+
+            ki7 =pygame.image.load(path.join(k_dir,"Kirbyvoando-7.png")).convert()
+            ki7.set_colorkey(WHITE)
+            ki7 = pygame.transform.scale(k7,(200,200))
+
+            ki8 =pygame.image.load(path.join(k_dir,"Kirbyvoando-8.png")).convert()
+            ki8.set_colorkey(WHITE)
+            ki8 = pygame.transform.scale(k8,(200,200))
+
+            ki9 =pygame.image.load(path.join(k_dir,"Kirbyvoando-9.png")).convert()
+            ki9.set_colorkey(WHITE)
+            ki9 = pygame.transform.scale(k9,(200,200))
+
+            ki10 =pygame.image.load(path.join(k_dir,"Kirbyvoando-10.png")).convert()
+            ki10.set_colorkey(WHITE)
+            ki10 = pygame.transform.scale(k10,(200,200))
+
+            ki11 =pygame.image.load(path.join(k_dir,"Kirbyvoando-11.png")).convert()
+            ki12.set_colorkey(WHITE)
+            ki13 = pygame.transform.scale(k0,(200,200))
+            """
 
     def process_event(self, event):
 
@@ -101,6 +185,17 @@ class Player(pygame.sprite.Sprite):
             self.speedy = 0
 
     def update(self):
+#when the update method is called, we will increment the index
+        self.index += 1
+
+        #if the index is larger than the total images
+        if self.index >= len(self.images):
+            #we will make the index to 0 again
+            self.index = 0
+
+        #finally we will update the image that will be displayed
+        self.image = self.images[self.index]
+
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
@@ -177,7 +272,6 @@ class Plataforma_voadora(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
 
         pygame.sprite.Sprite.__init__(self)
-
         self.x = x
         self.y = y
         self.width = width
@@ -214,6 +308,7 @@ def Menu():
 
     intro = True
     tela_help = False
+    back = False
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -225,7 +320,14 @@ def Menu():
                     intro = False
                 if event.key == pygame.K_h:
                     tela_help = True
+                if event.key == pygame.K_b:
+                    back = True
         if not tela_help:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if not back:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
             pygame.display.flip()
@@ -235,11 +337,15 @@ def Menu():
             screen.blit(help_img,help_rect)
             pygame.display.flip()
             clock.tick(15)
+        if back:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
 
 def gameover():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
     gameover_rect = gameover_img.get_rect()
-    gameover_sound.play()
     screen.fill(BLACK)
     screen.blit(gameover_img,gameover_rect)
     pygame.display.flip()
@@ -264,7 +370,6 @@ def pause():
         screen.blit(game_paused_img,game_paused_rect)
         pygame.display.flip()
         clock.tick(5)
-
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
@@ -319,9 +424,11 @@ while running:
             running = False
             pygame.quit()
             quit()
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 pause()
+
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
@@ -352,7 +459,6 @@ while running:
         lives-=1
         if lives == 0:
             running = False
-
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:

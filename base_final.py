@@ -124,12 +124,17 @@ def redesenhafundo():
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
-
+#Funcao que cria o Menu
 def Menu():
     #Converte a imagem de menu
-    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v1.png")).convert()
-    menu2 = menu_img.get_rect()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
+    menu_rect = menu_img.get_rect()
+    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
+    help_rect = help_img.get_rect()
+
     intro = True
+    tela_help = False
+    back = False
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -139,16 +144,26 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
+                if event.key == pygame.K_h:
+                    tela_help = True
+                if event.key == pygame.K_b:
+                    back = True
+        if not tela_help:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if tela_help:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if back:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
 
-        screen.fill(BLACK)
-        screen.blit(menu_img,menu2)
-        pygame.display.flip()
-        clock.tick(15)
-
-# Funçao que mostra o numero de pontos obtidos pelo jogador.
-#def score(score):
-#  text = smallfont.render("Pontos:" , black)
-#  screen.blit(text, [0,0])
 
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo.set_colorkey(black)

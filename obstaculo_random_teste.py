@@ -60,24 +60,57 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
 
+
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
 
     # Construtor da classe.
     def __init__(self):
-
         # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        # Carregando a imagem de fundo
-        player_img = pygame.image.load(path.join(img_dir, "kirby.jpg")).convert()
-        self.image = player_img
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (200, 200))
 
-        run = [pygame.image.load(path.join(kirby_dir, str(x) + '.jpg')) for x in range(0,7)]
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        # Detalhes sobre o posicionamento.
+        pygame.sprite.Sprite.__init__(self)
+        k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
+        k0.set_colorkey(WHITE)
+        k0 = pygame.transform.scale(k0,(200,200))
+
+        k1 = pygame.image.load(path.join(kirby_dir, "1.png")).convert()
+        k1.set_colorkey(WHITE)
+        k1 = pygame.transform.scale(k1,(200,200))
+
+
+        k2 = pygame.image.load(path.join(kirby_dir, "2.png")).convert()
+        k2.set_colorkey(WHITE)
+        k2 = pygame.transform.scale(k2,(200,200))
+
+
+        k3 = pygame.image.load(path.join(kirby_dir, "3.png")).convert()
+        k3.set_colorkey(WHITE)
+        k3 = pygame.transform.scale(k3,(200,200))
+
+
+        k4 = pygame.image.load(path.join(kirby_dir, "4.png")).convert()
+        k4.set_colorkey(WHITE)
+        k4 = pygame.transform.scale(k4,(200,200))
+
+
+        k5 = pygame.image.load(path.join(kirby_dir, "5.png")).convert()
+        k5.set_colorkey(WHITE)
+        k5 = pygame.transform.scale(k5,(200,200))
+
+
+        k6 = pygame.image.load(path.join(kirby_dir, "6.png")).convert()
+        k6.set_colorkey(WHITE)
+        k6 = pygame.transform.scale(k6,(200,200))
+
+
+        k7 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
+        k7.set_colorkey(WHITE)
+        k7 = pygame.transform.scale(k7,(200,200))
+
+
+        self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
+        self.index = 0
+        self.image = self.images[self.index]
         self.rect = self.image.get_rect()
 
         # Centraliza embaixo da tela.
@@ -86,6 +119,7 @@ class Player(pygame.sprite.Sprite):
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
+
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
@@ -103,6 +137,17 @@ class Player(pygame.sprite.Sprite):
             self.speedy = 0
 
     def update(self):
+#when the update method is called, we will increment the index
+        self.index += 1
+
+        #if the index is larger than the total images
+        if self.index >= len(self.images):
+            #we will make the index to 0 again
+            self.index = 0
+
+        #finally we will update the image that will be displayed
+        self.image = self.images[self.index]
+
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
@@ -179,7 +224,6 @@ class Plataforma_voadora(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
 
         pygame.sprite.Sprite.__init__(self)
-
         self.x = x
         self.y = y
         self.width = width
@@ -309,7 +353,6 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
-
 
 pygame.mixer.music.play(loops=-1)
 while running:
