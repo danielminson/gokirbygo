@@ -83,7 +83,7 @@ class Player(pygame.sprite.Sprite):
         run = [Kirby1,Kirby2,Kirby3,Kirby4,Kirby5,Kirby6]
 
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(YELLOW)
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
