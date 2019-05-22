@@ -35,6 +35,7 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
+kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
 
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
@@ -61,9 +62,15 @@ def draw_text(surface, text, font_size, x, y, color):
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
-
+        
     # Construtor da classe.
     def __init__(self):
+        Kirby1 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
+        Kirby2 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
+        Kirby3 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
+        Kirby4 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
+        Kirby5 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
+        Kirby6 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
 
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -72,6 +79,9 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
+
+        run = [Kirby1,Kirby2,Kirby3,Kirby4,Kirby5,Kirby6]
+
         # Deixando transparente.
         self.image.set_colorkey(YELLOW)
         # Detalhes sobre o posicionamento.
@@ -83,12 +93,26 @@ class Player(pygame.sprite.Sprite):
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
+
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        self.vida = 3
+
+        #Rotacionar as imagens do kirby, fazendo com q fique mais fluido o andamento
+        self.rotateCount = 0
+
+    #def andando(self,event): #para o kirby andar
+        #if self.rotateCount >= 8: 
+           # self.rotateCount = 0
+        #win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))  
+        #self.rotateCount += 1
 
     def process_event(self, event):
+        #Fazer o kirby andar
+        if self.rotateCount >= 8: 
+            self.rotateCount = 0
+            win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))  
+            self.rotateCount += 1
 
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
@@ -263,7 +287,6 @@ def pause():
         pygame.display.flip()
         clock.tick(5)
 
-
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.4)
@@ -317,9 +340,11 @@ while running:
             running = False
             pygame.quit()
             quit()
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 pause()
+
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
@@ -349,8 +374,7 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False
-
+            running = False 
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:
