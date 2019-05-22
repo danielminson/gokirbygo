@@ -61,24 +61,27 @@ def draw_text(surface, text, font_size, x, y, color):
     surface.blit(text_surface, text_rect)
 
 
+def Kirby_image():
+    Kirby1 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
+    Kirby2 = pygame.image.load(path.join(kirby_dir, "1.png")).convert()
+    Kirby3 = pygame.image.load(path.join(kirby_dir, "2.png")).convert()
+    Kirby4 = pygame.image.load(path.join(kirby_dir, "3.png")).convert()
+    Kirby5 = pygame.image.load(path.join(kirby_dir, "4.png")).convert()
+    Kirby6 = pygame.image.load(path.join(kirby_dir, "5.png")).convert()
+    Kirby7 = pygame.image.load(path.join(kirby_dir, "6.png")).convert()
+    Kirby8 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
 
+    player_img = [Kirby1,Kirby2,Kirby3,Kirby4,Kirby5,Kirby6,Kirby7,Kirby8]
+
+    return pygame.transform.scale(player_img[self.rotateCount], (200,200)), (self.x,self.y)
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
 
+
     # Construtor da classe.
     def __init__(self):
 
-        Kirby1 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
-        Kirby2 = pygame.image.load(path.join(kirby_dir, "1.png")).convert()
-        Kirby3 = pygame.image.load(path.join(kirby_dir, "2.png")).convert()
-        Kirby4 = pygame.image.load(path.join(kirby_dir, "3.png")).convert()
-        Kirby5 = pygame.image.load(path.join(kirby_dir, "4.png")).convert()
-        Kirby6 = pygame.image.load(path.join(kirby_dir, "5.png")).convert()
-        Kirby7 = pygame.image.load(path.join(kirby_dir, "6.png")).convert()
-        Kirby8 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
-
-        player_img = [Kirby1,Kirby2,Kirby3,Kirby4,Kirby5,Kirby6,Kirby7,Kirby8]
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         self.image = Kirby_image()
@@ -112,7 +115,6 @@ class Player(pygame.sprite.Sprite):
         if self.rotateCount >= 8:
             self.rotateCount = 0
             self.rotateCount += 1
-            win.blit(pygame.transform.scale(player_img[self.rotateCount], (200,200)), (self.x,self.y))
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
