@@ -36,7 +36,7 @@ obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
-k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando")
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") #
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
 
