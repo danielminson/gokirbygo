@@ -63,6 +63,7 @@ def draw_text(surface, text, font_size, x, y, color):
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
+
     # Construtor da classe.
     def __init__(self):
         # Construtor da classe pai (Sprite).
@@ -122,6 +123,7 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
+
 
     def process_event(self, event):
 
@@ -421,8 +423,8 @@ while running:
     #Velocidade dos fundos
     fundoX -= 8
     fundoX2 -= 8
-    cenario_plataformaX -= 10
-    cenario_plataformaX2 -= 10
+    cenario_plataformaX -= 20
+    cenario_plataformaX2 -= 20
 
     #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:

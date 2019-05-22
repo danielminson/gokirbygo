@@ -51,7 +51,6 @@ JUMP = 1
 #Score do jogo
 score = 0
 
-colisaojaaconteceu = False
 #Escreve o score na tela
 def draw_text(surface, text, font_size, x, y, color):
     font = pygame.font.Font(fontname, font_size)
@@ -111,7 +110,7 @@ class Player(pygame.sprite.Sprite):
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
         self.image = self.images[self.index]
-        self.rect = self.image.get_rect() 
+        self.rect = self.image.get_rect()
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
@@ -143,7 +142,7 @@ class Player(pygame.sprite.Sprite):
         if self.index >= 8:
             #we will make the index to 0 again
             self.index = 0
-        
+
         #finally we will update the image that will be displayed
         self.image = self.images[self.index]
 
@@ -263,6 +262,7 @@ def Menu():
 
     intro = True
     tela_help = False
+    back = False
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -274,7 +274,14 @@ def Menu():
                     intro = False
                 if event.key == pygame.K_h:
                     tela_help = True
+                if event.key == pygame.K_b:
+                    back = True
         if not tela_help:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if not back:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
             pygame.display.flip()
@@ -282,6 +289,11 @@ def Menu():
         if tela_help:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if back:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
             pygame.display.flip()
             clock.tick(15)
 
