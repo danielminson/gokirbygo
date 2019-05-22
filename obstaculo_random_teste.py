@@ -62,7 +62,7 @@ def draw_text(surface, text, font_size, x, y, color):
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
-
+    
     # Construtor da classe.
     def __init__(self):
 
@@ -89,7 +89,7 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        self.vida = 3
+        
 
     def process_event(self, event):
 
@@ -320,9 +320,11 @@ while running:
             running = False
             pygame.quit()
             quit()
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 pause()
+
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
@@ -352,8 +354,7 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False
-
+            running = False 
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:
