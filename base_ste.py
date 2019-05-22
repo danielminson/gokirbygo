@@ -67,6 +67,8 @@ class Player(pygame.sprite.Sprite):
         # Construtor da classe pai (Sprite).
 
         pygame.sprite.Sprite.__init__(self)
+# -------------------------------------------- Imagens do Kirby andando --------------------------------------------
+
         k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
         k0.set_colorkey(WHITE)
         k0 = pygame.transform.scale(k0,(200,200))
@@ -105,7 +107,6 @@ class Player(pygame.sprite.Sprite):
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
 
-
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
         self.image = self.images[self.index]
@@ -121,56 +122,7 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        """
-        if self.estado == JUMP:
-            ki0 =pygame.image.load(path.join(k_dir,"Kirbyvoando-0.png")).convert()
-            ki0.set_colorkey(WHITE)
-            ki0 = pygame.transform.scale(k0,(200,200))
 
-            ki1 =pygame.image.load(path.join(k_dir,"Kirbyvoando-1.png")).convert()
-            ki1.set_colorkey(WHITE)
-            ki1 = pygame.transform.scale(k1,(200,200))
-
-            ki2 =pygame.image.load(path.join(k_dir,"Kirbyvoando-2.png")).convert()
-            ki2.set_colorkey(WHITE)
-            ki2 = pygame.transform.scale(k2,(200,200))
-
-            ki3 =pygame.image.load(path.join(k_dir,"Kirbyvoando-3.png")).convert()
-            ki3.set_colorkey(WHITE)
-            ki3 = pygame.transform.scale(k3,(200,200))
-
-            ki4 =pygame.image.load(path.join(k_dir,"Kirbyvoando-4.png")).convert()
-            ki4.set_colorkey(WHITE)
-            ki4 = pygame.transform.scale(k4,(200,200))
-
-            ki5 =pygame.image.load(path.join(k_dir,"Kirbyvoando-5.png")).convert()
-            ki5.set_colorkey(WHITE)
-            ki5 = pygame.transform.scale(k5,(200,200))
-
-            ki6 =pygame.image.load(path.join(k_dir,"Kirbyvoando-6.png")).convert()
-            ki6.set_colorkey(WHITE)
-            ki6 = pygame.transform.scale(k6,(200,200))
-
-            ki7 =pygame.image.load(path.join(k_dir,"Kirbyvoando-7.png")).convert()
-            ki7.set_colorkey(WHITE)
-            ki7 = pygame.transform.scale(k7,(200,200))
-
-            ki8 =pygame.image.load(path.join(k_dir,"Kirbyvoando-8.png")).convert()
-            ki8.set_colorkey(WHITE)
-            ki8 = pygame.transform.scale(k8,(200,200))
-
-            ki9 =pygame.image.load(path.join(k_dir,"Kirbyvoando-9.png")).convert()
-            ki9.set_colorkey(WHITE)
-            ki9 = pygame.transform.scale(k9,(200,200))
-
-            ki10 =pygame.image.load(path.join(k_dir,"Kirbyvoando-10.png")).convert()
-            ki10.set_colorkey(WHITE)
-            ki10 = pygame.transform.scale(k10,(200,200))
-
-            ki11 =pygame.image.load(path.join(k_dir,"Kirbyvoando-11.png")).convert()
-            ki12.set_colorkey(WHITE)
-            ki13 = pygame.transform.scale(k0,(200,200))
-            """
 
     def process_event(self, event):
 
@@ -178,7 +130,7 @@ class Player(pygame.sprite.Sprite):
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
             self.speedy = -20
-            self.estado = JUMP
+            self.estado = JUMP  
 
         if self.estado == CHAO:
             self.speedy = 0
@@ -186,9 +138,8 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 #when the update method is called, we will increment the index
         self.index += 1
-
         #if the index is larger than the total images
-        if self.index >= len(self.images):
+        if self.index >= 8:
             #we will make the index to 0 again
             self.index = 0
 
@@ -200,7 +151,11 @@ class Player(pygame.sprite.Sprite):
 
         if self.estado == JUMP:
             self.speedy += 1
+            self.index = 8
 
+
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
