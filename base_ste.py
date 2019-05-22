@@ -51,7 +51,6 @@ JUMP = 1
 #Score do jogo
 score = 0
 
-colisaojaaconteceu = False
 #Escreve o score na tela
 def draw_text(surface, text, font_size, x, y, color):
     font = pygame.font.Font(fontname, font_size)
