@@ -36,7 +36,7 @@ obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
-
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando")
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
 
@@ -122,6 +122,10 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
+        if self.estado == JUMP:
+            ki0 =pygame.image.load(path.join(k_dir,Kirbyvoando-0.png)).convert()
+            ki0.set_colorkey(WHITE)
+            ki0 = pygame.transform.scale(k0,(200,200))
 
     def process_event(self, event):
 
