@@ -62,7 +62,7 @@ def draw_text(surface, text, font_size, x, y, color):
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
-        
+
     # Construtor da classe.
     def __init__(self):
         Kirby1 = pygame.image.load(path.join(kirby_dir, "arbusto_tipo2.png")).convert()
@@ -102,16 +102,16 @@ class Player(pygame.sprite.Sprite):
         self.rotateCount = 0
 
     #def andando(self,event): #para o kirby andar
-        #if self.rotateCount >= 8: 
+        #if self.rotateCount >= 8:
            # self.rotateCount = 0
-        #win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))  
+        #win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))
         #self.rotateCount += 1
 
     def process_event(self, event):
         #Fazer o kirby andar
-        if self.rotateCount >= 8: 
+        if self.rotateCount >= 8:
             self.rotateCount = 0
-            win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))  
+            win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))
             self.rotateCount += 1
 
         if event.type == pygame.KEYDOWN \
@@ -374,7 +374,7 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False 
+            running = False
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:
