@@ -125,7 +125,6 @@ class Player(pygame.sprite.Sprite):
 
     def process_event(self, event):
 
-
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
@@ -396,7 +395,7 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False 
+            running = False
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:
