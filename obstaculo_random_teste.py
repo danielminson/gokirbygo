@@ -74,9 +74,9 @@ class Player(pygame.sprite.Sprite):
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
 
-        run = [pygame.image.load(path.join(kirby_dir, str(x) + '.jpg')) for x in range(8,16)]
+        run = [pygame.image.load(path.join(kirby_dir, str(x) + '.jpg')) for x in range(0,7)]
         # Deixando transparente.
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(YELLOW)
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
