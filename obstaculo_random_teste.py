@@ -62,21 +62,21 @@ def draw_text(surface, text, font_size, x, y, color):
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
-    
+
     # Construtor da classe.
     def __init__(self):
 
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
         # Carregando a imagem de fundo
-        player_img = pygame.image.load(path.join(img_dir, "kirby.png")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "kirby.jpg")).convert()
         self.image = player_img
         # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (200, 200))
 
         run = [pygame.image.load(path.join(kirby_dir, str(x) + '.jpg')) for x in range(0,7)]
         # Deixando transparente.
-        self.image.set_colorkey(YELLOW)
+        self.image.set_colorkey(WHITE)
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
 
@@ -89,7 +89,7 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        
+
 
     def process_event(self, event):
 
@@ -354,7 +354,7 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False 
+            running = False
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:
@@ -380,8 +380,8 @@ while running:
     #Velocidade dos fundos
     fundoX -= 8
     fundoX2 -= 8
-    cenario_plataformaX -= 10
-    cenario_plataformaX2 -= 10
+    cenario_plataformaX -= 20
+    cenario_plataformaX2 -= 20
 
     #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:
