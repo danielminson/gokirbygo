@@ -35,8 +35,8 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
-kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
-k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") #
+kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
 
@@ -123,9 +123,53 @@ class Player(pygame.sprite.Sprite):
         self.radius = 0.5
         self.estado = CHAO
         if self.estado == JUMP:
-            ki0 =pygame.image.load(path.join(k_dir,Kirbyvoando-0.png)).convert()
+            ki0 =pygame.image.load(path.join(k_dir,"Kirbyvoando-0.png")).convert()
             ki0.set_colorkey(WHITE)
             ki0 = pygame.transform.scale(k0,(200,200))
+
+            ki1 =pygame.image.load(path.join(k_dir,"Kirbyvoando-1.png")).convert()
+            ki1.set_colorkey(WHITE)
+            ki1 = pygame.transform.scale(k1,(200,200))
+
+            ki2 =pygame.image.load(path.join(k_dir,"Kirbyvoando-2.png")).convert()
+            ki2.set_colorkey(WHITE)
+            ki2 = pygame.transform.scale(k2,(200,200))
+
+            ki3 =pygame.image.load(path.join(k_dir,"Kirbyvoando-3.png")).convert()
+            ki3.set_colorkey(WHITE)
+            ki3 = pygame.transform.scale(k3,(200,200))
+
+            ki4 =pygame.image.load(path.join(k_dir,"Kirbyvoando-4.png")).convert()
+            ki4.set_colorkey(WHITE)
+            ki4 = pygame.transform.scale(k4,(200,200))
+
+            ki5 =pygame.image.load(path.join(k_dir,"Kirbyvoando-5.png")).convert()
+            ki5.set_colorkey(WHITE)
+            ki5 = pygame.transform.scale(k5,(200,200))
+
+            ki6 =pygame.image.load(path.join(k_dir,"Kirbyvoando-6.png")).convert()
+            ki6.set_colorkey(WHITE)
+            ki6 = pygame.transform.scale(k6,(200,200))
+
+            ki7 =pygame.image.load(path.join(k_dir,"Kirbyvoando-7.png")).convert()
+            ki7.set_colorkey(WHITE)
+            ki7 = pygame.transform.scale(k7,(200,200))
+
+            ki8 =pygame.image.load(path.join(k_dir,"Kirbyvoando-8.png")).convert()
+            ki8.set_colorkey(WHITE)
+            ki8 = pygame.transform.scale(k8,(200,200))
+
+            ki9 =pygame.image.load(path.join(k_dir,"Kirbyvoando-9.png")).convert()
+            ki9.set_colorkey(WHITE)
+            ki9 = pygame.transform.scale(k9,(200,200))
+
+            ki10 =pygame.image.load(path.join(k_dir,"Kirbyvoando-10.png")).convert()
+            ki10.set_colorkey(WHITE)
+            ki10 = pygame.transform.scale(k10,(200,200))
+
+            ki11 =pygame.image.load(path.join(k_dir,"Kirbyvoando-11.png")).convert()
+            ki12.set_colorkey(WHITE)
+            ki13 = pygame.transform.scale(k0,(200,200))
 
     def process_event(self, event):
 
