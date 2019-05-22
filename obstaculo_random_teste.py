@@ -60,10 +60,7 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
 
-def Kirby_image():
-
-
-    return pygame.transform.scale(player_img[self.rotateCount], (200,200)), (self.x,self.y)  
+  
 
 
 # Classe Jogador (Kirby)
@@ -332,7 +329,6 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
-
 
 pygame.mixer.music.play(loops=-1)
 while running:
