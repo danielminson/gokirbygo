@@ -39,7 +39,7 @@ kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
 k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-
+hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -130,7 +130,7 @@ class Player(pygame.sprite.Sprite):
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
             self.speedy = -20
-            self.estado = JUMP  
+            self.estado = JUMP
 
         if self.estado == CHAO:
             self.speedy = 0
@@ -220,6 +220,31 @@ class Obstaculo(pygame.sprite.Sprite):
         if self.rect.x < -self.width:
             self.kill()
         if hits2:
+            self.kill()
+
+
+class aumentavida(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height):
+
+        pygame.sprite.Sprite.__init__(self)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = 10
+
+        imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
+        self.image = pygame.transform.scale(imagex,(100,100))
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLUE)
+        self.rect.x = x
+        self.rect.y = y
+        self.radius = int(self.rect.width * 1.2)
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
+        if hits4:
             self.kill()
 
 class Plataforma_voadora(pygame.sprite.Sprite):
@@ -316,7 +341,7 @@ def pause():
                 if event.key == pygame.K_p:
                     paused = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_b:
+                if event.key == pygame.K_r:
                     paused = False
         game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
         game_paused_rect = game_paused_img.get_rect()
@@ -362,6 +387,11 @@ obstacles = pygame.sprite.Group()
 #a cada 8 segundos ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 
+#Cria os cogulemos de vida
+maisvida = pygame.sprite.Group()
+#a cada 15 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+1, 15000)
+
 running = True
 FPS = 30
 lives = 3
@@ -395,6 +425,12 @@ while running:
                 p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
                 plataformas_voadoras.add(p_voadora)
                 all_sprites.add(p_voadora)
+        if event.type == USEREVENT+1:
+            r = random.randrange(0,2)
+            if r == 0 or r == 1:
+                new_obstacle2 = aumentavida(1270, HEIGHT-250, 100, 100)
+                maisvida.add(new_obstacle2)
+                all_sprites.add(new_obstacle2)
 
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
@@ -418,6 +454,11 @@ while running:
     if hits3:
         player.estado = CHAO
         player.speedy = 0
+    # Verifica se houve colisao entre player e um sprite que dá mais vida
+    hits4 = pygame.sprite.spritecollide(player, maisvida, False, pygame.sprite.collide_circle)
+    if hits4:
+        hit_sound2.play()
+        lives+=1
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
