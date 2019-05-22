@@ -39,7 +39,8 @@ kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
 
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-
+#som de game over
+gameover_sound = pygame.mixer.Sound(path.join(snr_dir, 'game_over.ogg'))
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -110,7 +111,7 @@ class Player(pygame.sprite.Sprite):
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
         self.image = self.images[self.index]
-        self.rect = self.image.get_rect() 
+        self.rect = self.image.get_rect()
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
@@ -142,7 +143,7 @@ class Player(pygame.sprite.Sprite):
         if self.index >= len(self.images):
             #we will make the index to 0 again
             self.index = 0
-        
+
         #finally we will update the image that will be displayed
         self.image = self.images[self.index]
 
@@ -283,10 +284,12 @@ def Menu():
 def gameover():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
     gameover_rect = gameover_img.get_rect()
+    gameover_sound.play()
     screen.fill(BLACK)
     screen.blit(gameover_img,gameover_rect)
     pygame.display.flip()
     clock.tick(15)
+
 
 def pause():
     paused = True
