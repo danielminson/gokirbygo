@@ -38,6 +38,7 @@ fnt_dir = path.join(path.dirname(__file__), 'font')
 
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
+gameover_sound = pygame.mixer.Sound(path.join(snr_dir, 'game_over.ogg'))
 
 #Vidas totais
 lives=3
@@ -238,6 +239,7 @@ def Menu():
 def gameover():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
     gameover_rect = gameover_img.get_rect()
+    gameover_sound.play()
     screen.fill(BLACK)
     screen.blit(gameover_img,gameover_rect)
     pygame.display.flip()
