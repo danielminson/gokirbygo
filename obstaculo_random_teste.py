@@ -308,7 +308,6 @@ lives = 3
 #Roda o Menu antes do jogo
 Menu()
 
-
 pygame.mixer.music.play(loops=-1)
 while running:
 

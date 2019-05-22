@@ -34,6 +34,7 @@ img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
+fnt_dir = path.join(path.dirname(__file__), 'font')
 
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
@@ -162,6 +163,8 @@ class Obstaculo(pygame.sprite.Sprite):
         self.image.set_colorkey(BLUE)
         self.rect.x = x
         self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
     def update(self):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
@@ -184,6 +187,8 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
 
     def update(self):
         self.rect.x -= self.vel
@@ -207,6 +212,7 @@ def Menu():
     help_rect = help_img.get_rect()
 
     intro = True
+    tela_help = False
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -216,11 +222,18 @@ def Menu():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     intro = False
-
-        screen.fill(BLACK)
-        screen.blit(menu_img,menu_rect)
-        pygame.display.flip()
-        clock.tick(15)
+                if event.key == pygame.K_h:
+                    tela_help = True
+        if not tela_help:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            pygame.display.flip()
+            clock.tick(15)
+        if tela_help:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            pygame.display.flip()
+            clock.tick(15)
 
 def gameover():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
@@ -294,6 +307,7 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
+
 pygame.mixer.music.play(loops=-1)
 while running:
 
@@ -309,13 +323,13 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                new_obstacle = Obstaculo(810, HEIGHT-300, 20, 20)
+                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(1000,1200),random.randrange(350, 400),200,70)
+                p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
                 plataformas_voadoras.add(p_voadora)
                 all_sprites.add(p_voadora)
 
