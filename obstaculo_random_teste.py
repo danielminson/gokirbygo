@@ -60,35 +60,57 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
 
-  
-def Kirby_image():
-    Kirby1 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
-    Kirby2 = pygame.image.load(path.join(kirby_dir, "1.png")).convert()
-    Kirby3 = pygame.image.load(path.join(kirby_dir, "2.png")).convert()
-    Kirby4 = pygame.image.load(path.join(kirby_dir, "3.png")).convert()
-    Kirby5 = pygame.image.load(path.join(kirby_dir, "4.png")).convert()
-    Kirby6 = pygame.image.load(path.join(kirby_dir, "5.png")).convert()
-    Kirby7 = pygame.image.load(path.join(kirby_dir, "6.png")).convert()
-    Kirby8 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
-    
-    player_img = [Kirby1,Kirby2,Kirby3,Kirby4,Kirby5,Kirby6,Kirby7,Kirby8]
-
-    return pygame.transform.scale(player_img[self.rotateCount], (200,200)), (self.x,self.y)
 
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
-
-
     # Construtor da classe.
     def __init__(self):
-
         # Construtor da classe pai (Sprite).
+
         pygame.sprite.Sprite.__init__(self)
-        self.image = Kirby_image()
-        # Deixando transparente.
-        self.image.set_colorkey(WHITE)
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
+        k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
+        k0.set_colorkey(WHITE)
+        k0 = pygame.transform.scale(k0,(200,200))
+
+        k1 = pygame.image.load(path.join(kirby_dir, "1.png")).convert()
+        k1.set_colorkey(WHITE)
+        k1 = pygame.transform.scale(k1,(200,200))
+
+
+        k2 = pygame.image.load(path.join(kirby_dir, "2.png")).convert()
+        k2.set_colorkey(WHITE)
+        k2 = pygame.transform.scale(k2,(200,200))
+
+
+        k3 = pygame.image.load(path.join(kirby_dir, "3.png")).convert()
+        k3.set_colorkey(WHITE)
+        k3 = pygame.transform.scale(k3,(200,200))
+
+
+        k4 = pygame.image.load(path.join(kirby_dir, "4.png")).convert()
+        k4.set_colorkey(WHITE)
+        k4 = pygame.transform.scale(k4,(200,200))
+
+
+        k5 = pygame.image.load(path.join(kirby_dir, "5.png")).convert()
+        k5.set_colorkey(WHITE)
+        k5 = pygame.transform.scale(k5,(200,200))
+
+
+        k6 = pygame.image.load(path.join(kirby_dir, "6.png")).convert()
+        k6.set_colorkey(WHITE)
+        k6 = pygame.transform.scale(k6,(200,200))
+
+
+        k7 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
+        k7.set_colorkey(WHITE)
+        k7 = pygame.transform.scale(k7,(200,200))
+
+
+        self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
+        self.index = 0
+        self.image = self.images[self.index]
+        self.rect = self.image.get_rect() 
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
@@ -101,20 +123,9 @@ class Player(pygame.sprite.Sprite):
         self.radius = 0.5
         self.estado = CHAO
 
-        #Rotacionar as imagens do kirby, fazendo com q fique mais fluido o andamento
-        self.rotateCount = 0
-
-    #def andando(self,event): #para o kirby andar
-        #if self.rotateCount >= 8: 
-           # self.rotateCount = 0
-        #win.blit(self.run[self.rotateCount],(self.speedx,self.speedy))  
-        #self.rotateCount += 1
-
     def process_event(self, event):
-        #Fazer o kirby andar
-        if self.rotateCount >= 8: 
-            self.rotateCount = 0
-            self.rotateCount += 1
+
+
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
             and self.estado == CHAO:
@@ -125,6 +136,17 @@ class Player(pygame.sprite.Sprite):
             self.speedy = 0
 
     def update(self):
+#when the update method is called, we will increment the index
+        self.index += 1
+
+        #if the index is larger than the total images
+        if self.index >= len(self.images):
+            #we will make the index to 0 again
+            self.index = 0
+        
+        #finally we will update the image that will be displayed
+        self.image = self.images[self.index]
+
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
@@ -201,7 +223,6 @@ class Plataforma_voadora(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
 
         pygame.sprite.Sprite.__init__(self)
-
         self.x = x
         self.y = y
         self.width = width
