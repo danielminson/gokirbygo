@@ -17,7 +17,8 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
 # Fonte da letra usada no score e timer.
-fontname = pygame.font.match_font("arial")
+fontname = pygame.font.match_font("COOPER BLACK")
+fontname2 = pygame.font.match_font("arial")
 font_size = 50
 
 #Cores
@@ -54,6 +55,12 @@ score = 0
 #Escreve o score na tela
 def draw_text(surface, text, font_size, x, y, color):
     font = pygame.font.Font(fontname, font_size)
+    text_surface = font.render(text, True, color)
+    text_rect=text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
+def draw_lives(surface, text, font_size, x, y, color):
+    font = pygame.font.Font(fontname2, font_size)
     text_surface = font.render(text, True, color)
     text_rect=text_surface.get_rect()
     text_rect.midtop = (x, y)
@@ -347,7 +354,7 @@ def gameover():
         with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
             f.write(str(highscore))
     else:
-        draw_text(screen, "Highscore: "+str(highscore)+ "points", font_size, WIDTH/2, 70, BLUE)
+        draw_text(screen, "Highscore: "+str(highscore)+ "points", font_size, WIDTH/2, 70, BLACK)
         draw_text(screen, "Score: "+str(score)+ "points", font_size, WIDTH/2, 10, WHITE)
 
     pygame.display.flip()
@@ -492,7 +499,7 @@ while running:
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
     #mostra a vida na tela
-    draw_text(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10))
+    draw_lives(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10) )
 
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
