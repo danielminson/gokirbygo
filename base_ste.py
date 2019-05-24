@@ -105,6 +105,7 @@ class Player(pygame.sprite.Sprite):
         k7 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
+#------------------------------------- acabou as imagens ---------------------------------------
 
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
@@ -404,7 +405,7 @@ while running:
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
                 all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
         if event.type == USEREVENT+1:
