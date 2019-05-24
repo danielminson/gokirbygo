@@ -39,7 +39,7 @@ kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
 k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-
+hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -51,7 +51,6 @@ JUMP = 1
 #Score do jogo
 score = 0
 
-colisaojaaconteceu = False
 #Escreve o score na tela
 def draw_text(surface, text, font_size, x, y, color):
     font = pygame.font.Font(fontname, font_size)
@@ -68,6 +67,8 @@ class Player(pygame.sprite.Sprite):
         # Construtor da classe pai (Sprite).
 
         pygame.sprite.Sprite.__init__(self)
+# -------------------------------------------- Imagens do Kirby andando --------------------------------------------
+
         k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
         k0.set_colorkey(WHITE)
         k0 = pygame.transform.scale(k0,(200,200))
@@ -106,7 +107,6 @@ class Player(pygame.sprite.Sprite):
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
 
-
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
         self.image = self.images[self.index]
@@ -122,56 +122,7 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        """
-        if self.estado == JUMP:
-            ki0 =pygame.image.load(path.join(k_dir,"Kirbyvoando-0.png")).convert()
-            ki0.set_colorkey(WHITE)
-            ki0 = pygame.transform.scale(k0,(200,200))
 
-            ki1 =pygame.image.load(path.join(k_dir,"Kirbyvoando-1.png")).convert()
-            ki1.set_colorkey(WHITE)
-            ki1 = pygame.transform.scale(k1,(200,200))
-
-            ki2 =pygame.image.load(path.join(k_dir,"Kirbyvoando-2.png")).convert()
-            ki2.set_colorkey(WHITE)
-            ki2 = pygame.transform.scale(k2,(200,200))
-
-            ki3 =pygame.image.load(path.join(k_dir,"Kirbyvoando-3.png")).convert()
-            ki3.set_colorkey(WHITE)
-            ki3 = pygame.transform.scale(k3,(200,200))
-
-            ki4 =pygame.image.load(path.join(k_dir,"Kirbyvoando-4.png")).convert()
-            ki4.set_colorkey(WHITE)
-            ki4 = pygame.transform.scale(k4,(200,200))
-
-            ki5 =pygame.image.load(path.join(k_dir,"Kirbyvoando-5.png")).convert()
-            ki5.set_colorkey(WHITE)
-            ki5 = pygame.transform.scale(k5,(200,200))
-
-            ki6 =pygame.image.load(path.join(k_dir,"Kirbyvoando-6.png")).convert()
-            ki6.set_colorkey(WHITE)
-            ki6 = pygame.transform.scale(k6,(200,200))
-
-            ki7 =pygame.image.load(path.join(k_dir,"Kirbyvoando-7.png")).convert()
-            ki7.set_colorkey(WHITE)
-            ki7 = pygame.transform.scale(k7,(200,200))
-
-            ki8 =pygame.image.load(path.join(k_dir,"Kirbyvoando-8.png")).convert()
-            ki8.set_colorkey(WHITE)
-            ki8 = pygame.transform.scale(k8,(200,200))
-
-            ki9 =pygame.image.load(path.join(k_dir,"Kirbyvoando-9.png")).convert()
-            ki9.set_colorkey(WHITE)
-            ki9 = pygame.transform.scale(k9,(200,200))
-
-            ki10 =pygame.image.load(path.join(k_dir,"Kirbyvoando-10.png")).convert()
-            ki10.set_colorkey(WHITE)
-            ki10 = pygame.transform.scale(k10,(200,200))
-
-            ki11 =pygame.image.load(path.join(k_dir,"Kirbyvoando-11.png")).convert()
-            ki12.set_colorkey(WHITE)
-            ki13 = pygame.transform.scale(k0,(200,200))
-            """
 
     def process_event(self, event):
 
@@ -187,9 +138,8 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 #when the update method is called, we will increment the index
         self.index += 1
-
         #if the index is larger than the total images
-        if self.index >= len(self.images):
+        if self.index >= 8:
             #we will make the index to 0 again
             self.index = 0
 
@@ -201,7 +151,11 @@ class Player(pygame.sprite.Sprite):
 
         if self.estado == JUMP:
             self.speedy += 1
+            self.index = 8
 
+
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
@@ -266,6 +220,31 @@ class Obstaculo(pygame.sprite.Sprite):
         if self.rect.x < -self.width:
             self.kill()
         if hits2:
+            self.kill()
+
+
+class aumentavida(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height):
+
+        pygame.sprite.Sprite.__init__(self)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = 10
+
+        imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
+        self.image = pygame.transform.scale(imagex,(100,100))
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLUE)
+        self.rect.x = x
+        self.rect.y = y
+        self.radius = int(self.rect.width * 1.2)
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
+        if hits4:
             self.kill()
 
 class Plataforma_voadora(pygame.sprite.Sprite):
@@ -362,7 +341,7 @@ def pause():
                 if event.key == pygame.K_p:
                     paused = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_b:
+                if event.key == pygame.K_r:
                     paused = False
         game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
         game_paused_rect = game_paused_img.get_rect()
@@ -408,6 +387,11 @@ obstacles = pygame.sprite.Group()
 #a cada 8 segundos ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 
+#Cria os cogulemos de vida
+maisvida = pygame.sprite.Group()
+#a cada 15 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+1, 15000)
+
 running = True
 FPS = 30
 lives = 3
@@ -440,6 +424,12 @@ while running:
                 p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
                 plataformas_voadoras.add(p_voadora)
                 all_sprites.add(p_voadora)
+        if event.type == USEREVENT+1:
+            r = random.randrange(0,2)
+            if r == 0 or r == 1:
+                new_obstacle2 = aumentavida(1270, HEIGHT-250, 100, 100)
+                maisvida.add(new_obstacle2)
+                all_sprites.add(new_obstacle2)
 
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
@@ -463,6 +453,11 @@ while running:
     if hits3:
         player.estado = CHAO
         player.speedy = 0
+    # Verifica se houve colisao entre player e um sprite que dá mais vida
+    hits4 = pygame.sprite.spritecollide(player, maisvida, False, pygame.sprite.collide_circle)
+    if hits4:
+        hit_sound2.play()
+        lives+=1
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
