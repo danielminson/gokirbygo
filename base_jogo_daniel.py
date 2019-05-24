@@ -24,7 +24,6 @@ font_size = 50
 #Cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
@@ -204,7 +203,7 @@ def imagem_aleatoria():
 
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
 
-    return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
+    return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
 #Classe obstaculos
 class Obstaculo(pygame.sprite.Sprite):
@@ -243,10 +242,10 @@ class aumentavida(pygame.sprite.Sprite):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = 8
 
         imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
-        self.image = pygame.transform.scale(imagex,(100,100))
+        self.image = pygame.transform.scale(imagex,(160,120))
         self.rect = self.image.get_rect()
         self.image.set_colorkey(BLUE)
         self.rect.x = x
@@ -380,7 +379,7 @@ def pause():
 
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
-pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.set_volume(0.5)
 
 #Carrega as Imagens de Fundo e da plataforma de chao
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
@@ -456,7 +455,7 @@ while running:
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                new_obstacle2 = aumentavida(1270, HEIGHT-250, 100, 100)
+                new_obstacle2 = aumentavida(1270, HEIGHT-250, 50, 50)
                 maisvida.add(new_obstacle2)
                 all_sprites.add(new_obstacle2)
 
