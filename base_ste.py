@@ -124,18 +124,15 @@ class Player(pygame.sprite.Sprite):
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN \
-            and event.key == pygame.K_SPACE:
+            and event.key == pygame.K_SPACE \
+            and self.speedy == 0:
             self.speedy = -20
 
     def update(self):
-#when the update method is called, we will increment the index
         self.index += 1
-        #if the index is larger than the total images
         if self.index >= 8:
-            #we will make the index to 0 again
             self.index = 0
 
-        #finally we will update the image that will be displayed
         self.image = self.images[self.index]
 
         self.rect.x += self.speedx
@@ -145,11 +142,11 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
+
         # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.top < 0:
+            self.rect.top = 0
+
 
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
@@ -210,7 +207,6 @@ class Obstaculo(pygame.sprite.Sprite):
             self.kill()
         if hits2:
             self.kill()
-
 
 class aumentavida(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
