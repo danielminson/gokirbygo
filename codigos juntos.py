@@ -5,8 +5,8 @@ import math
 from os import path
 import random
 import time
-HIGHSCORE = "highscore.txt"
-from os import path
+
+
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -17,8 +17,7 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
 # Fonte da letra usada no score e timer.
-fontname = pygame.font.match_font("COOPER BLACK")
-fontname2 = pygame.font.match_font("arial")
+fontname = pygame.font.match_font("arial")
 font_size = 50
 
 #Cores
@@ -29,51 +28,24 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-#Diretorios de imagens
+#------------------- DIRETORIOS DE IMAGENS -------------------------------
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
-k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
-#som de colisao
-hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
-#Vidas totais
-lives=3
-clock = pygame.time.Clock()
+#-------------------------------------------------------------------------
 
 #Estados
 CHAO = 0
 JUMP = 1
 
-#Score do jogo
-score = 0
+#FPS do jogo
+FPS = 30
 
-#Escreve o score na tela
-def draw_text(surface, text, font_size, x, y, color):
-    font = pygame.font.Font(fontname, font_size)
-    text_surface = font.render(text, True, color)
-    text_rect=text_surface.get_rect()
-    text_rect.midtop = (x, y)
-    surface.blit(text_surface, text_rect)
+#------------------- CLASSES -------------------------
 
-def draw_lives(surface, text, font_size, x, y, color):
-    font = pygame.font.Font(fontname2, font_size)
-    text_surface = font.render(text, True, color)
-    text_rect=text_surface.get_rect()
-    text_rect.midtop = (x, y)
-    surface.blit(text_surface, text_rect)
-
-def load_data():
-    HS_FILE = "highscore.txt"
-    with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
-        try:
-            highscore = int(f.read())
-        except:
-            highscore = 0
-        return highscore
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
     # Construtor da classe.
@@ -145,14 +117,10 @@ class Player(pygame.sprite.Sprite):
             self.speedy = -20
 
     def update(self):
-#when the update method is called, we will increment the index
         self.index += 1
-        #if the index is larger than the total images
         if self.index >= 8:
-            #we will make the index to 0 again
             self.index = 0
 
-        #finally we will update the image that will be displayed
         self.image = self.images[self.index]
 
         self.rect.x += self.speedx
@@ -162,6 +130,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
+
         # Mantem dentro da tela
         if self.rect.top < 0:
             self.rect.top = 0
@@ -178,24 +147,6 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-#Funcao que carrega as imagens de obstaculos
-def imagem_aleatoria():
-    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
-
-    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
-
-    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
-
-    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
-
-    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
-
-    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
-
-    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
-
-    return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
 #Classe obstaculos
 class Obstaculo(pygame.sprite.Sprite):
@@ -226,7 +177,8 @@ class Obstaculo(pygame.sprite.Sprite):
         if hits2:
             self.kill()
 
-class aumentavida(pygame.sprite.Sprite):
+#Classe dos cogumelos
+class Cogumelo(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
 
         pygame.sprite.Sprite.__init__(self)
@@ -234,10 +186,10 @@ class aumentavida(pygame.sprite.Sprite):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 8
+        self.vel = 10
 
         imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
-        self.image = pygame.transform.scale(imagex,(160,120))
+        self.image = pygame.transform.scale(imagex,(100,100))
         self.rect = self.image.get_rect()
         self.image.set_colorkey(BLUE)
         self.rect.x = x
@@ -250,6 +202,7 @@ class aumentavida(pygame.sprite.Sprite):
         if hits4:
             self.kill()
 
+#Classe que cria as plataformas voadoras
 class Plataforma_voadora(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
 
@@ -272,6 +225,26 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         if self.rect.x < -self.width:
             self.kill()
 
+#--------------------- FUNÇÕES ------------------------
+
+#Funcao que carrega as imagens de obstaculos
+def imagem_aleatoria():
+    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
+
+    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
+
+    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
+
+    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
+
+    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
+
+    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
+
+    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
+
+    return pygame.transform.scale(rotate[random.randint(0, 5)], (200,200))
+
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo():
     screen.blit(fundo, (fundoX, 0))
@@ -280,10 +253,25 @@ def redesenhafundo():
     screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
     pygame.display.update()
 
+#Escreve o score na tela
+def draw_text(surface, text, font_size, x, y, color):
+    font = pygame.font.Font(fontname, font_size)
+    text_surface = font.render(text, True, color)
+    text_rect=text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
+
+#Funcao que cria as vidas
+def draw_lives(surface, text, font_size, x, y, color):
+    font = pygame.font.Font(fontname2, font_size)
+    text_surface = font.render(text, True, color)
+    text_rect=text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
+
 #Funcao que cria o Menu
 def Menu():
     #Converte a imagem de menu
-    load_data()
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
     menu_rect = menu_img.get_rect()
     help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
@@ -292,8 +280,6 @@ def Menu():
     intro = True
     tela_help = False
     back = False
-    highscore = load_data()
-
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -310,46 +296,25 @@ def Menu():
         if not tela_help:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if not back:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if tela_help:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if back:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
 
-def gameover():
-    highscore = load_data()
-    gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
-    gameover_rect = gameover_img.get_rect()
-    screen.fill(BLACK)
-    screen.blit(gameover_img,gameover_rect)
-    if score>highscore:
-        highscore = score
-        draw_text(screen, "New highscore! You got: "+str(highscore)+ "points", font_size, WIDTH/2, 10, BLUE)
-        HS_FILE = "highscore.txt"
-        with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
-            f.write(str(highscore))
-    else:
-        draw_text(screen, "Highscore: "+str(highscore)+ "points", font_size, WIDTH/2, 70, BLACK)
-        draw_text(screen, "Score: "+str(score)+ "points", font_size, WIDTH/2, 10, WHITE)
-
-    pygame.display.flip()
-    clock.tick(15)
+#Funcao que da pause
 def pause():
     paused = True
     while paused:
@@ -361,7 +326,8 @@ def pause():
                 if event.key == pygame.K_p:
                     paused = True
             if event.type == pygame.KEYDOWN:
-                paused = False
+                if event.key == pygame.K_r:
+                    paused = False
         game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
         game_paused_rect = game_paused_img.get_rect()
         screen.fill(BLACK)
@@ -369,9 +335,34 @@ def pause():
         pygame.display.flip()
         clock.tick(5)
 
+#Funcao que aparece game over
+def gameover():
+    gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
+    gameover_rect = gameover_img.get_rect()
+    screen.fill(BLACK)
+    screen.blit(gameover_img,gameover_rect)
+    pygame.display.flip()
+    clock.tick(15)
+
+#Funcao que le os scores
+def load_data():
+    HS_FILE = "highscore.txt"
+    with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
+        try:
+            highscore = int(f.read())
+        except:
+            highscore = 0
+        return highscore
+
+#----------------- SONS E IMAGENS ------------------------------
+
 # Carrega os sons do jogo
 pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(0.4)
+
+#Sons de colisao
+hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
+hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
 
 #Carrega as Imagens de Fundo e da plataforma de chao
 fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
@@ -383,6 +374,8 @@ cenario_plataforma.set_colorkey(BLACK)
 cenario_plataformaX = 0
 cenario_plataformaX2 = cenario_plataforma.get_width()
 
+#--------------- CRIAÇÃO DOS ELEMENTOS DO JOGO -------------------
+
 #Cria o Kirby
 player = Player()
 
@@ -392,70 +385,77 @@ all_sprites.add(player)
 
 # Cria as plataformas.
 all_platforms = pygame.sprite.Group()
-#Plataforma principal de chao
-chao = Plataforma(0, HEIGHT - 150, 1280, 140)
+chao = Plataforma(0, HEIGHT - 150, 1280, 140) #Plataforma principal de chao
 all_platforms.add(chao)
-
-#a cada 10 segundos aparece uma plataforma voadora
-pygame.time.set_timer(USEREVENT+3, 10000)
+pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 10 segundos aparece uma plataforma voadora
 
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
-#a cada 8 segundos ira aparecer obstaculos
-pygame.time.set_timer(USEREVENT+2, 8000)
+pygame.time.set_timer(USEREVENT+2, 8000) #a cada 8 segundos ira aparecer obstaculos
 
 #Cria os cogulemos de vida
-maisvida = pygame.sprite.Group()
-#a cada 15 segundos ira aparecer obstaculos
-pygame.time.set_timer(USEREVENT+1, 15000)
+all_cogumelos = pygame.sprite.Group()
+pygame.time.set_timer(USEREVENT+3, random.randrange(15000,20000)) #a cada 15 segundos ira aparecer obstaculos
 
-running = True
-FPS = 30
+#------------------------------------------------------------------
+
+clock = pygame.time.Clock()
+
+#Score do jogo
+score = 0
 lives = 3
 
-#Roda o Menu antes do jogo
-Menu()
-
 pygame.mixer.music.play(loops=-1)
+
+#------------------- LOOP PRINCIPAL ------------------------------
+Menu() #Roda o Menu antes do jogo
+running = True
 while running:
 
     for event in pygame.event.get():
+        #processar eventos do kirby (funcao dentro da classe player)
         player.process_event(event)
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             quit()
 
+        #Evento de pause no meio do jogo
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 pause()
 
+        #Eventos das plataformas
+        if event.type == USEREVENT+1:
+            r = random.randrange(0,2)
+            if r == 0 or r == 1:
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
+                all_platforms.add(p_voadora)
+                all_sprites.add(p_voadora)
+
+        #Eventos dos obstaculos
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
                 new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
+
+        #Eventos dos cogumelos
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
-                all_platforms.add(p_voadora)
-                all_sprites.add(p_voadora)
-        if event.type == USEREVENT+1:
-            r = random.randrange(0,2)
-            if r == 0 or r == 1:
-                new_obstacle2 = aumentavida(1270, HEIGHT-250, 50, 50)
-                maisvida.add(new_obstacle2)
-                all_sprites.add(new_obstacle2)
+                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
+                all_cogumelos.add(c_vida)
+                all_sprites.add(c_vida)
 
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
 
-    # Verifica se houve colisão entre player e chao
-    hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
-    if hits:
+    #--------------- COLISÕES ------------------
+    hits_plataformas = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
+    if hits_plataformas:
         max_top = hits[0].rect.top
         for p in hits:
             top = p.rect.top
@@ -466,18 +466,19 @@ while running:
         player.rect.bottom = max_top
 
     # Verifica se houve colisao entre player e obstaculo
-    hits2 = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
-    if hits2:
+    hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
+    if hits_obstaculos:
         hit_sound.play()
         lives-=1
         if lives == 0:
             running = False
 
     # Verifica se houve colisao entre player e um sprite que dá mais vida
-    hits4 = pygame.sprite.spritecollide(player, maisvida, False, pygame.sprite.collide_circle)
-    if hits4:
+    hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
+    if hits_cogumelo:
         hit_sound2.play()
         lives+=1
+    #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
@@ -490,11 +491,12 @@ while running:
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
     #mostra a vida na tela
-    draw_lives(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10) )
+    draw_text(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10))
 
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
 
+    #-------------- PARAMETROS DOS FUNDOS ---------------------
     #Velocidade dos fundos
     fundoX -= 8
     fundoX2 -= 8
@@ -513,7 +515,8 @@ while running:
 
     if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
         cenario_plataformaX2 = cenario_plataforma.get_width()
+    #------------------------------------------------------------
 
     clock.tick(FPS)
-gameover()
-time.sleep(5)
+if running == False:
+    gameover()
