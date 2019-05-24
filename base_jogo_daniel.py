@@ -37,9 +37,10 @@ snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
 k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
+snd_dir = path.join(path.dirname(__file__), "Som")
 #som de colisao
-hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
+hit_sound = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound.ogg'))
+hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -237,7 +238,7 @@ class aumentavida(pygame.sprite.Sprite):
         self.vel = 8
 
         imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
-        self.image = pygame.transform.scale(imagex,(160,120))
+        self.image = pygame.transform.scale(imagex,(126,100))
         self.rect = self.image.get_rect()
         self.image.set_colorkey(BLUE)
         self.rect.x = x
@@ -349,7 +350,12 @@ def gameover():
         draw_text(screen, "Score: "+str(score)+ "points", font_size, WIDTH/2, 10, WHITE)
 
     pygame.display.flip()
-    clock.tick(15)
+    agora = pygame.time.get_ticks()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        if (pygame.time.get_ticks()-agora)>5000:
+            waiting = False
 def pause():
     paused = True
     while paused:
@@ -370,7 +376,7 @@ def pause():
         clock.tick(5)
 
 # Carrega os sons do jogo
-pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
+pygame.mixer.music.load(path.join(snd_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.5)
 
 #Carrega as Imagens de Fundo e da plataforma de chao
@@ -516,4 +522,3 @@ while running:
 
     clock.tick(FPS)
 gameover()
-time.sleep(5)
