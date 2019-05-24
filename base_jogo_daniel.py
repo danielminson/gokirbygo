@@ -37,9 +37,10 @@ snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
 k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
+snd_dir = path.join(path.dirname(__file__), "Som")
 #som de colisao
-hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
+hit_sound = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound.ogg'))
+hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 #Vidas totais
 lives=3
 clock = pygame.time.Clock()
@@ -58,6 +59,7 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect=text_surface.get_rect()
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
+
 def draw_lives(surface, text, font_size, x, y, color):
     font = pygame.font.Font(fontname2, font_size)
     text_surface = font.render(text, True, color)
@@ -78,6 +80,7 @@ class Player(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self):
         # Construtor da classe pai (Sprite).
+
         pygame.sprite.Sprite.__init__(self)
 # -------------------------------------------- Imagens do Kirby andando --------------------------------------------
 
@@ -118,6 +121,7 @@ class Player(pygame.sprite.Sprite):
         k7 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
+#------------------------------------- acabou as imagens ---------------------------------------
 
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
@@ -133,19 +137,13 @@ class Player(pygame.sprite.Sprite):
 
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
-        self.estado = CHAO
-
 
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN \
             and event.key == pygame.K_SPACE \
-            and self.estado == CHAO:
+            and self.speedy == 0:
             self.speedy = -20
-            self.estado = JUMP
-
-        if self.estado == CHAO:
-            self.speedy = 0
 
     def update(self):
 #when the update method is called, we will increment the index
@@ -161,18 +159,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
-        if self.estado == JUMP:
-            self.speedy += 1
-            self.index = 8
-
+        self.speedy += 1
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.top < 0:
+            self.rect.top = 0
 
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
@@ -245,7 +238,7 @@ class aumentavida(pygame.sprite.Sprite):
         self.vel = 8
 
         imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
-        self.image = pygame.transform.scale(imagex,(160,120))
+        self.image = pygame.transform.scale(imagex,(126,100))
         self.rect = self.image.get_rect()
         self.image.set_colorkey(BLUE)
         self.rect.x = x
@@ -357,7 +350,12 @@ def gameover():
         draw_text(screen, "Score: "+str(score)+ "points", font_size, WIDTH/2, 10, WHITE)
 
     pygame.display.flip()
-    clock.tick(15)
+    agora = pygame.time.get_ticks()
+    waiting = True
+    while waiting:
+        clock.tick(FPS)
+        if (pygame.time.get_ticks()-agora)>5000:
+            waiting = False
 def pause():
     paused = True
     while paused:
@@ -378,7 +376,7 @@ def pause():
         clock.tick(5)
 
 # Carrega os sons do jogo
-pygame.mixer.music.load(path.join(snr_dir, 'kirby_star_ride.ogg'))
+pygame.mixer.music.load(path.join(snd_dir, 'kirby_star_ride.ogg'))
 pygame.mixer.music.set_volume(0.5)
 
 #Carrega as Imagens de Fundo e da plataforma de chao
@@ -404,8 +402,6 @@ all_platforms = pygame.sprite.Group()
 chao = Plataforma(0, HEIGHT - 150, 1280, 140)
 all_platforms.add(chao)
 
-#Plataformas voadoras
-plataformas_voadoras = pygame.sprite.Group()
 #a cada 10 segundos aparece uma plataforma voadora
 pygame.time.set_timer(USEREVENT+3, 10000)
 
@@ -449,8 +445,8 @@ while running:
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
-                plataformas_voadoras.add(p_voadora)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
+                all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
@@ -466,8 +462,14 @@ while running:
     # Verifica se houve colisão entre player e chao
     hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
     if hits:
-        player.estado = CHAO
+        max_top = hits[0].rect.top
+        for p in hits:
+            top = p.rect.top
+            if top > max_top:
+                max_top = top
+
         player.speedy = 0
+        player.rect.bottom = max_top
 
     # Verifica se houve colisao entre player e obstaculo
     hits2 = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
@@ -476,11 +478,7 @@ while running:
         lives-=1
         if lives == 0:
             running = False
-    # Verifica se houve colisao entre player e plataforma voadora
-    hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
-    if hits3:
-        player.estado = CHAO
-        player.speedy = 0
+
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits4 = pygame.sprite.spritecollide(player, maisvida, False, pygame.sprite.collide_circle)
     if hits4:
@@ -524,4 +522,3 @@ while running:
 
     clock.tick(FPS)
 gameover()
-time.sleep(5)

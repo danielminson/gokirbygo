@@ -148,7 +148,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.top < 0:
             self.rect.top = 0
 
-
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
 
