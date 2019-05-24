@@ -414,7 +414,6 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
-
 pygame.mixer.music.play(loops=-1)
 while running:
 
@@ -460,7 +459,7 @@ while running:
         if lives == 0:
             running = False
     # Verifica se houve colisao entre player e plataforma voadora
-    hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
+    hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_rect)
     if hits3:
         player.estado = CHAO
         player.speedy = 0
