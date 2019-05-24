@@ -23,7 +23,6 @@ font_size = 50
 #Cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
@@ -106,6 +105,7 @@ class Player(pygame.sprite.Sprite):
         k7 = pygame.image.load(path.join(kirby_dir, "7.png")).convert()
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
+#------------------------------------- acabou as imagens ---------------------------------------
 
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
@@ -121,19 +121,12 @@ class Player(pygame.sprite.Sprite):
 
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
-        self.estado = CHAO
-
 
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN \
-            and event.key == pygame.K_SPACE \
-            and self.estado == CHAO:
+            and event.key == pygame.K_SPACE:
             self.speedy = -20
-            self.estado = JUMP
-
-        if self.estado == CHAO:
-            self.speedy = 0
 
     def update(self):
 #when the update method is called, we will increment the index
@@ -149,10 +142,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
-        if self.estado == JUMP:
-            self.speedy += 1
-            self.index = 8
-
+        self.speedy += 1
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
@@ -377,8 +367,6 @@ all_platforms = pygame.sprite.Group()
 chao = Plataforma(0, HEIGHT - 150, 1280, 140)
 all_platforms.add(chao)
 
-#Plataformas voadoras
-plataformas_voadoras = pygame.sprite.Group()
 #a cada 10 segundos aparece uma plataforma voadora
 pygame.time.set_timer(USEREVENT+3, 10000)
 
@@ -398,7 +386,6 @@ lives = 3
 
 #Roda o Menu antes do jogo
 Menu()
-
 pygame.mixer.music.play(loops=-1)
 while running:
 
@@ -422,8 +409,8 @@ while running:
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(900,1200),random.randrange(300, 400),200,70)
-                plataformas_voadoras.add(p_voadora)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
+                all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
@@ -439,8 +426,14 @@ while running:
     # Verifica se houve colisão entre player e chao
     hits = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
     if hits:
-        player.estado = CHAO
+        max_top = hits[0].rect.top
+        for p in hits:
+            top = p.rect.top
+            if top > max_top:
+                max_top = top
+
         player.speedy = 0
+        player.rect.bottom = max_top
 
     # Verifica se houve colisao entre player e obstaculo
     hits2 = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
@@ -449,11 +442,7 @@ while running:
         lives-=1
         if lives == 0:
             running = False
-    # Verifica se houve colisao entre player e plataforma voadora
-    hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
-    if hits3:
-        player.estado = CHAO
-        player.speedy = 0
+
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits4 = pygame.sprite.spritecollide(player, maisvida, False, pygame.sprite.collide_circle)
     if hits4:
