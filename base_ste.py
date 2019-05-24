@@ -416,6 +416,8 @@ while running:
     # Verifica se houve colisao entre player e plataforma voadora
     hits3 = pygame.sprite.spritecollide(player, plataformas_voadoras , False, pygame.sprite.collide_circle)
     if hits3:
+        start_time = pygame.time.get_ticks()
+        print(start_time)       
         player.estado = CHAO
         player.speedy = 0
 
