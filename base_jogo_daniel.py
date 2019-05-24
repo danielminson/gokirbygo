@@ -5,8 +5,8 @@ import math
 from os import path
 import random
 import time
-
-
+HIGHSCORE = "highscore.txt"
+from os import path
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -17,7 +17,8 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Go Kirby Go')
 
 # Fonte da letra usada no score e timer.
-fontname = pygame.font.match_font("arial")
+fontname = pygame.font.match_font("COOPER BLACK")
+fontname2 = pygame.font.match_font("arial")
 font_size = 50
 
 #Cores
@@ -35,11 +36,10 @@ cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'cenario')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
 snr_dir = path.join(path.dirname(__file__))
 fnt_dir = path.join(path.dirname(__file__), 'font')
-kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby')
-k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") #
+kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 #som de colisao
 hit_sound = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound.ogg'))
-
 hit_sound2 = pygame.mixer.Sound(path.join(snr_dir, 'hit_sound2.ogg'))
 #Vidas totais
 lives=3
@@ -59,15 +59,29 @@ def draw_text(surface, text, font_size, x, y, color):
     text_rect=text_surface.get_rect()
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
+def draw_lives(surface, text, font_size, x, y, color):
+    font = pygame.font.Font(fontname2, font_size)
+    text_surface = font.render(text, True, color)
+    text_rect=text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
 
-
+def load_data():
+    HS_FILE = "highscore.txt"
+    with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
+        try:
+            highscore = int(f.read())
+        except:
+            highscore = 0
+        return highscore
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
     # Construtor da classe.
     def __init__(self):
         # Construtor da classe pai (Sprite).
-
         pygame.sprite.Sprite.__init__(self)
+# -------------------------------------------- Imagens do Kirby andando --------------------------------------------
+
         k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
         k0.set_colorkey(WHITE)
         k0 = pygame.transform.scale(k0,(200,200))
@@ -106,7 +120,6 @@ class Player(pygame.sprite.Sprite):
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
 
-
         self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
         self.index = 0
         self.image = self.images[self.index]
@@ -122,12 +135,8 @@ class Player(pygame.sprite.Sprite):
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.5
         self.estado = CHAO
-        """
-        if self.estado == JUMP:
-            ki0 =pygame.image.load(path.join(k_dir,Kirbyvoando-0.png)).convert()
-            ki0.set_colorkey(WHITE)
-            ki0 = pygame.transform.scale(k0,(200,200))
-        """
+
+
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN \
@@ -142,9 +151,8 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 #when the update method is called, we will increment the index
         self.index += 1
-
         #if the index is larger than the total images
-        if self.index >= len(self.images):
+        if self.index >= 8:
             #we will make the index to 0 again
             self.index = 0
 
@@ -156,7 +164,11 @@ class Player(pygame.sprite.Sprite):
 
         if self.estado == JUMP:
             self.speedy += 1
+            self.index = 8
 
+
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
@@ -246,6 +258,7 @@ class aumentavida(pygame.sprite.Sprite):
             self.kill()
         if hits4:
             self.kill()
+
 class Plataforma_voadora(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
 
@@ -279,6 +292,7 @@ def redesenhafundo():
 #Funcao que cria o Menu
 def Menu():
     #Converte a imagem de menu
+    load_data()
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
     menu_rect = menu_img.get_rect()
     help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
@@ -286,6 +300,9 @@ def Menu():
 
     intro = True
     tela_help = False
+    back = False
+    highscore = load_data()
+
     while intro:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -297,25 +314,51 @@ def Menu():
                     intro = False
                 if event.key == pygame.K_h:
                     tela_help = True
+                if event.key == pygame.K_b:
+                    back = True
         if not tela_help:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
+            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+        if not back:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if tela_help:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
+            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+        if back:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
 
 def gameover():
+    highscore = load_data()
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
     gameover_rect = gameover_img.get_rect()
     screen.fill(BLACK)
     screen.blit(gameover_img,gameover_rect)
+    if score>highscore:
+        highscore = score
+        draw_text(screen, "New highscore! You got: "+str(highscore)+ "points", font_size, WIDTH/2, 10, BLUE)
+        HS_FILE = "highscore.txt"
+        with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
+            f.write(str(highscore))
+    else:
+        draw_text(screen, "Highscore: "+str(highscore)+ "points", font_size, WIDTH/2, 70, BLACK)
+        draw_text(screen, "Score: "+str(score)+ "points", font_size, WIDTH/2, 10, WHITE)
+
     pygame.display.flip()
     clock.tick(15)
-
 def pause():
     paused = True
     while paused:
@@ -327,8 +370,7 @@ def pause():
                 if event.key == pygame.K_p:
                     paused = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_b:
-                    paused = False
+                paused = False
         game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
         game_paused_rect = game_paused_img.get_rect()
         screen.fill(BLACK)
@@ -373,7 +415,7 @@ obstacles = pygame.sprite.Group()
 #a cada 8 segundos ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+2, 8000)
 
-#Cria os obstaculos
+#Cria os cogulemos de vida
 maisvida = pygame.sprite.Group()
 #a cada 15 segundos ira aparecer obstaculos
 pygame.time.set_timer(USEREVENT+1, 15000)
@@ -457,7 +499,7 @@ while running:
     draw_text(screen, str(score), font_size, WIDTH/2, 10, BLACK)
 
     #mostra a vida na tela
-    draw_text(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10))
+    draw_lives(screen, chr(9829)*lives, 100, 200, 0, (255,0,0,10) )
 
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
