@@ -430,7 +430,7 @@ clock = pygame.time.Clock()
 
 #Score do jogo
 score = 0
-lives = 1
+lives = 3
 
 pygame.mixer.music.play(loops=-1)
 
@@ -487,6 +487,7 @@ while running:
         max_top = hits_plataformas[0].rect.top
         for p in hits_plataformas:
             top = p.rect.top
+            bottom = p.rect.bottom
             if top > max_top:
                 max_top = top
 
