@@ -286,31 +286,35 @@ def Menu():
                     tela_help = True
                 if event.key == pygame.K_b:
                     back = True
-        if not tela_help:
+                    tela_help = False
+        if tela_help == False:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
             draw_text(screen, fontname , "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
-        if not back:
-            screen.fill(BLACK)
-            screen.blit(menu_img,menu_rect)
-            draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
-            pygame.display.flip()
-            clock.tick(15)
-        if tela_help:
+            print("1")
+        if tela_help == True:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
-        if back:
+            print("3")
+        if back == False and tela_help == True:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+            print("2")
+        if back == True and tela_help == False:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
-            tela_help = True
             pygame.display.flip()
             clock.tick(15)
+            print("4")
 
 #Funcao que da pause
 def pause():

@@ -307,28 +307,28 @@ def Menu():
                     tela_help = True
                 if event.key == pygame.K_b:
                     back = True
-        if not tela_help:
+        if tela_help == False:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if not back:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if tela_help:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
         if back:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
-            draw_text(screen, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), font_size, WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
 
