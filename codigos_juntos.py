@@ -323,8 +323,7 @@ def pause():
                 if event.key == pygame.K_p:
                     paused = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    paused = False
+                paused = False
         game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
         game_paused_rect = game_paused_img.get_rect()
         screen.fill(BLACK)
