@@ -343,7 +343,7 @@ def gameover(screen):
     highscore = load_data()
     if score > highscore:
         highscore = score
-        draw_text(screen, "New highscore! You got: "+str(highscore)+ "points", WIDTH/2, 10, BLUE)
+        draw_text(screen, fontname, "New highscore! You got: "+str(highscore)+ "points", WIDTH/2, 10, BLUE)
         HS_FILE = "highscore.txt"
         with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
             f.write(str(highscore))
@@ -430,7 +430,7 @@ clock = pygame.time.Clock()
 
 #Score do jogo
 score = 0
-lives = 1
+lives = 3
 
 pygame.mixer.music.play(loops=-1)
 
@@ -487,6 +487,7 @@ while running:
         max_top = hits_plataformas[0].rect.top
         for p in hits_plataformas:
             top = p.rect.top
+            bottom = p.rect.bottom
             if top > max_top:
                 max_top = top
 
