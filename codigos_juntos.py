@@ -308,6 +308,7 @@ def Menu():
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
+            tela_help = True
             pygame.display.flip()
             clock.tick(15)
 
@@ -342,7 +343,7 @@ def gameover(screen):
     highscore = load_data()
     if score > highscore:
         highscore = score
-        draw_text(screen, "New highscore! You got: "+str(highscore)+ "points", WIDTH/2, 10, BLUE)
+        draw_text(screen, fontname, "New highscore! You got: "+str(highscore)+ "points", WIDTH/2, 10, BLUE)
         HS_FILE = "highscore.txt"
         with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
             f.write(str(highscore))
