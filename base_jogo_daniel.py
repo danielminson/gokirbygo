@@ -267,7 +267,6 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.rect.y = y
         self.radius = int(self.rect.width * .85 / 2)
 
-
     def update(self):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
@@ -416,7 +415,7 @@ maisvida = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+1, 15000)
 
 running = True
-FPS = 30
+FPS = 60
 lives = 3
 
 #Roda o Menu antes do jogo
