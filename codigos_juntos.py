@@ -13,7 +13,7 @@ pygame.mixer.init()
 
 #atributos da tela
 WIDTH, HEIGHT = 1280, 720
-screen = pygame.display.set_mode((WIDTH,HEIGHT))
+screen = pygame.display.set_mode((WIDTH,HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption('Go Kirby Go')
 
 #Cores
@@ -451,6 +451,12 @@ while running:
             running = False
             pygame.quit()
             quit()
+        #Sair do jogo com ESC
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+                pygame.quit()
+                quit()
 
         #Evento de pause no meio do jogo
         if event.type == pygame.KEYDOWN:
