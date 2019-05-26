@@ -315,7 +315,6 @@ def Menu():
             pygame.display.flip()
             clock.tick(15)
 
-
 #Funcao que da pause
 def pause():
     paused = True
@@ -440,6 +439,7 @@ pygame.mixer.music.play(loops=-1)
 
 #------------------- LOOP PRINCIPAL ------------------------------
 Menu() #Roda o Menu antes do jogo
+game_over = False
 running = True
 while running:
     clock.tick(FPS)
@@ -511,6 +511,7 @@ while running:
         lives-=1
         if lives == 0:
             running = False
+            game_over = True
 
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
@@ -565,6 +566,18 @@ while running:
         cenario_plataformaX -= 26
         cenario_plataformaX2 -= 26
 
+    elif score <= 2000:
+        fundoX -= 32
+        fundoX2 -= 32
+        cenario_plataformaX -= 30
+        cenario_plataformaX2 -= 30
+
+    elif score <= 2500:
+        fundoX -= 36
+        fundoX2 -= 36
+        cenario_plataformaX -= 34
+        cenario_plataformaX2 -= 34
+
 
     #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:
@@ -580,4 +593,4 @@ while running:
         cenario_plataformaX2 = cenario_plataforma.get_width()
     #------------------------------------------------------------
 
-gameover(screen)
+    gameover(screen)
