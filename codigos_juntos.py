@@ -293,28 +293,28 @@ def Menu():
             draw_text(screen, fontname , "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
-            print("1")
+
         if tela_help == True:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
-            print("3")
+
         if back == False and tela_help == True:
             screen.fill(BLACK)
             screen.blit(help_img,help_rect)
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
-            print("2")
+
         if back == True and tela_help == False:
             screen.fill(BLACK)
             screen.blit(menu_img,menu_rect)
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
-            print("4")
+
 
 #Funcao que da pause
 def pause():
@@ -418,15 +418,15 @@ all_sprites.add(player)
 all_platforms = pygame.sprite.Group()
 chao = Plataforma(0, HEIGHT - 150, 1280, 140) #Plataforma principal de chao
 all_platforms.add(chao)
-pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 10 segundos aparece uma plataforma voadora
+pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 20 segundos aparece uma plataforma voadora
 
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+2, random.randrange(1000,8000)) #a cada 8 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+2, random.randrange(1000,8000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
 
 #Cria os cogulemos de vida
 all_cogumelos = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+3, random.randrange(15000,20000)) #a cada 15 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer obstaculos
 
 #------------------------------------------------------------------
 
@@ -535,10 +535,36 @@ while running:
 
     #-------------- PARAMETROS DOS FUNDOS ---------------------
     #Velocidade dos fundos
-    fundoX -= 12
-    fundoX2 -= 12
-    cenario_plataformaX -= 10
-    cenario_plataformaX2 -= 10
+    if score <= 500:
+        fundoX -= 12
+        fundoX2 -= 12
+        cenario_plataformaX -= 10
+        cenario_plataformaX2 -= 10
+
+    elif score <= 1000:
+        fundoX -= 16
+        fundoX2 -= 16
+        cenario_plataformaX -= 14
+        cenario_plataformaX2 -= 14
+
+    elif score <= 1500:
+        fundoX -= 20
+        fundoX2 -= 20
+        cenario_plataformaX -= 18
+        cenario_plataformaX2 -= 18
+
+    elif score <= 2000:
+        fundoX -= 24
+        fundoX2 -= 24
+        cenario_plataformaX -= 22
+        cenario_plataformaX2 -= 22
+
+    elif score <= 1500:
+        fundoX -= 28
+        fundoX2 -= 28
+        cenario_plataformaX -= 26
+        cenario_plataformaX2 -= 26
+
 
     #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:
