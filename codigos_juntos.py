@@ -365,8 +365,11 @@ def gameover(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 waiting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    waiting = False
 
-        if (pygame.time.get_ticks() - agora) > 5000:
+        if (pygame.time.get_ticks() - agora) > 10000:
             waiting = False
 
 #Funcao que le os scores
@@ -439,7 +442,6 @@ pygame.mixer.music.play(loops=-1)
 
 #------------------- LOOP PRINCIPAL ------------------------------
 Menu() #Roda o Menu antes do jogo
-game_over = False
 running = True
 while running:
     clock.tick(FPS)
@@ -536,48 +538,71 @@ while running:
 
     #-------------- PARAMETROS DOS FUNDOS ---------------------
     #Velocidade dos fundos
-    if score <= 500:
+    if score <= 250:
         fundoX -= 12
         fundoX2 -= 12
-        cenario_plataformaX -= 10
-        cenario_plataformaX2 -= 10
+        cenario_plataformaX -= 9
+        cenario_plataformaX2 -= 9
 
-    elif score <= 1000:
-        fundoX -= 16
-        fundoX2 -= 16
-        cenario_plataformaX -= 14
-        cenario_plataformaX2 -= 14
+    elif score <= 500:
+        fundoX -= 15
+        fundoX2 -= 15
+        cenario_plataformaX -= 12
+        cenario_plataformaX2 -= 12
+
+    elif score <= 1250:
+        fundoX -= 17
+        fundoX2 -= 17
+        cenario_plataformaX -= 15
+        cenario_plataformaX2 -= 15
 
     elif score <= 1500:
         fundoX -= 20
         fundoX2 -= 20
-        cenario_plataformaX -= 18
-        cenario_plataformaX2 -= 18
+        cenario_plataformaX -= 17
+        cenario_plataformaX2 -= 17
+
+    elif score <= 1750:
+        fundoX -= 23
+        fundoX2 -= 23
+        cenario_plataformaX -= 20
+        cenario_plataformaX2 -= 20
 
     elif score <= 2000:
-        fundoX -= 24
-        fundoX2 -= 24
-        cenario_plataformaX -= 22
-        cenario_plataformaX2 -= 22
+        fundoX -= 26
+        fundoX2 -= 26
+        cenario_plataformaX -= 23
+        cenario_plataformaX2 -= 23
 
-    elif score <= 1500:
-        fundoX -= 28
-        fundoX2 -= 28
+    elif score <= 2250:
+        fundoX -= 29
+        fundoX2 -= 29
         cenario_plataformaX -= 26
         cenario_plataformaX2 -= 26
 
-    elif score <= 2000:
+    elif score <= 2500:
         fundoX -= 32
         fundoX2 -= 32
-        cenario_plataformaX -= 30
-        cenario_plataformaX2 -= 30
+        cenario_plataformaX -= 29
+        cenario_plataformaX2 -= 29
 
-    elif score <= 2500:
-        fundoX -= 36
-        fundoX2 -= 36
-        cenario_plataformaX -= 34
-        cenario_plataformaX2 -= 34
+    elif score <= 2750:
+        fundoX -= 35
+        fundoX2 -= 35
+        cenario_plataformaX -= 32
+        cenario_plataformaX2 -= 32
 
+    elif score <= 3000:
+        fundoX -= 38
+        fundoX2 -= 38
+        cenario_plataformaX -= 35
+        cenario_plataformaX2 -= 35
+
+    elif score <= 3250:
+        fundoX -= 41
+        fundoX2 -= 41
+        cenario_plataformaX -= 38
+        cenario_plataformaX2 -= 38
 
     #atualiza a localizacao dos fundos
     if fundoX < fundo.get_width() *-1:
@@ -593,4 +618,4 @@ while running:
         cenario_plataformaX2 = cenario_plataforma.get_width()
     #------------------------------------------------------------
 
-    gameover(screen)
+gameover(screen)
