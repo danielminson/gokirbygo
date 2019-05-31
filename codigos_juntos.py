@@ -211,7 +211,7 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.height = height
         self.vel = 10
 
-        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_tipo2.png")).convert()
+        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_voadora.png")).convert()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -244,11 +244,11 @@ def imagem_aleatoria():
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
 #Funcao que atualiza os fundos e desenha na tela
-def redesenhafundo(fundo,fundoX,fundoX2,cenario_plataforma,cenario_plataformaX,cenario_plataformaX2):
+def redesenhafundo(fundo,fundoX,fundoX2,chao,chaoX,chaoX2):
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
-    screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
-    screen.blit(cenario_plataforma, (cenario_plataformaX2, 0))
+    screen.blit(chao, (chaoX, 0))
+    screen.blit(chao, (chaoX2, 0))
     pygame.display.update()
 
 #Escreve o score na tela
@@ -263,9 +263,9 @@ def draw_text(surface, fontname, text, x, y, color):
 def Menu():
     #Converte a imagem de menu
     load_data()
-    menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "menu_entrada.png")).convert()
     menu_rect = menu_img.get_rect()
-    help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
+    help_img = pygame.image.load(path.join(cenarios_dir, "menu_help.png")).convert()
     help_rect = help_img.get_rect()
 
     intro = True
@@ -413,20 +413,20 @@ fundo_score3.set_colorkey(BLACK)
 fundoX_score3 = 0
 fundoX2_score3 = fundo_score3.get_width()
 
-cenario_plataforma_grama = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
-cenario_plataforma_grama.set_colorkey(BLACK)
-cenario_plataforma_gramaX = 0
-cenario_plataforma_gramaX2 = cenario_plataforma_grama.get_width()
+chao_grama = pygame.image.load(path.join(cenarios_dir,'chao.png')).convert()
+chao_grama.set_colorkey(BLACK)
+chao_gramaX = 0
+chao_gramaX2 = chao_grama.get_width()
 
-cenario_plataforma_nuvem = pygame.image.load(path.join(cenarios_dir,'cenário_atual_2.png')).convert()
-cenario_plataforma_nuvem.set_colorkey(BLACK)
-cenario_plataforma_nuvemX = 0
-cenario_plataforma_nuvemX2 = cenario_plataforma_nuvem.get_width()
+chao_nuvem = pygame.image.load(path.join(cenarios_dir,'chao2.png')).convert()
+chao_nuvem.set_colorkey(BLACK)
+chao_nuvemX = 0
+chao_nuvemX2 = chao_nuvem.get_width()
 
-cenario_plataforma_arcoiris = pygame.image.load(path.join(cenarios_dir,'cenário_atual_3.png')).convert()
-cenario_plataforma_arcoiris.set_colorkey(BLACK)
-cenario_plataforma_arcoirisX = 0
-cenario_plataforma_arcoirisX2 = cenario_plataforma_arcoiris.get_width()
+chao_arcoiris = pygame.image.load(path.join(cenarios_dir,'chao3.png')).convert()
+chao_arcoiris.set_colorkey(BLACK)
+chao_arcoirisX = 0
+chao_arcoirisX2 = chao_arcoiris.get_width()
 
 #--------------- CRIAÇÃO DOS ELEMENTOS DO JOGO -------------------
 
@@ -549,15 +549,15 @@ while running:
 
     if score <= 1000:
         redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1,
-        cenario_plataforma_grama,cenario_plataforma_gramaX,cenario_plataforma_gramaX2)
+        chao_grama,chao_gramaX,chao_gramaX2)
 
     if 1000 < score <= 2000:
         redesenhafundo(fundo_score2,fundoX_score2,fundoX2_score2,
-        cenario_plataforma_nuvem,cenario_plataforma_nuvemX,cenario_plataforma_nuvemX2)
+        chao_nuvem,chao_nuvemX,chao_nuvemX2)
 
     if 2000 < score:
         redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3,
-        cenario_plataforma_arcoiris,cenario_plataforma_arcoirisX,cenario_plataforma_arcoirisX2)
+        chao_arcoiris,chao_arcoirisX,chao_arcoirisX2)
 
     all_sprites.draw(screen)
 
@@ -581,12 +581,12 @@ while running:
         fundoX_score3 -= 12
         fundoX2_score3 -= 12
 
-        cenario_plataforma_gramaX -= 9
-        cenario_plataforma_gramaX2 -= 9
-        cenario_plataforma_nuvemX -= 9
-        cenario_plataforma_nuvemX2 -= 9
-        cenario_plataforma_arcoirisX -= 9
-        cenario_plataforma_arcoirisX2 -= 9
+        chao_gramaX -= 9
+        chao_gramaX2 -= 9
+        chao_nuvemX -= 9
+        chao_nuvemX2 -= 9
+        chao_arcoirisX -= 9
+        chao_arcoirisX2 -= 9
 
     elif score <= 500:
 
@@ -597,12 +597,12 @@ while running:
         fundoX_score3 -= 15
         fundoX2_score3 -= 15
 
-        cenario_plataforma_gramaX -= 12
-        cenario_plataforma_gramaX2 -= 12
-        cenario_plataforma_nuvemX -= 12
-        cenario_plataforma_nuvemX2 -= 12
-        cenario_plataforma_arcoirisX -= 12
-        cenario_plataforma_arcoirisX2 -= 12
+        chao_gramaX -= 12
+        chao_gramaX2 -= 12
+        chao_nuvemX -= 12
+        chao_nuvemX2 -= 12
+        chao_arcoirisX -= 12
+        chao_arcoirisX2 -= 12
 
 
     elif score <= 1000:
@@ -613,12 +613,12 @@ while running:
         fundoX_score3 -= 17
         fundoX2_score3 -= 17
 
-        cenario_plataforma_gramaX -= 15
-        cenario_plataforma_gramaX2 -= 15
-        cenario_plataforma_nuvemX -= 15
-        cenario_plataforma_nuvemX2 -= 15
-        cenario_plataforma_arcoirisX -= 15
-        cenario_plataforma_arcoirisX2 -= 15
+        chao_gramaX -= 15
+        chao_gramaX2 -= 15
+        chao_nuvemX -= 15
+        chao_nuvemX2 -= 15
+        chao_arcoirisX -= 15
+        chao_arcoirisX2 -= 15
 
     elif score <= 1250:
 
@@ -629,12 +629,12 @@ while running:
         fundoX_score3 -= 20
         fundoX2_score3 -= 20
 
-        cenario_plataforma_gramaX -= 18
-        cenario_plataforma_gramaX2 -= 18
-        cenario_plataforma_nuvemX -= 18
-        cenario_plataforma_nuvemX2 -= 18
-        cenario_plataforma_arcoirisX -= 18
-        cenario_plataforma_arcoirisX2 -= 18
+        chao_gramaX -= 18
+        chao_gramaX2 -= 18
+        chao_nuvemX -= 18
+        chao_nuvemX2 -= 18
+        chao_arcoirisX -= 18
+        chao_arcoirisX2 -= 18
 
     elif score <= 1500:
 
@@ -645,12 +645,12 @@ while running:
         fundoX_score3 -= 23
         fundoX2_score3 -= 23
 
-        cenario_plataforma_gramaX -= 21
-        cenario_plataforma_gramaX2 -= 21
-        cenario_plataforma_nuvemX -= 21
-        cenario_plataforma_nuvemX2 -= 21
-        cenario_plataforma_arcoirisX -= 21
-        cenario_plataforma_arcoirisX2 -= 21
+        chao_gramaX -= 21
+        chao_gramaX2 -= 21
+        chao_nuvemX -= 21
+        chao_nuvemX2 -= 21
+        chao_arcoirisX -= 21
+        chao_arcoirisX2 -= 21
 
     elif score <= 1750:
 
@@ -661,12 +661,12 @@ while running:
         fundoX_score3 -= 26
         fundoX2_score3 -= 26
 
-        cenario_plataforma_gramaX -= 24
-        cenario_plataforma_gramaX2 -= 24
-        cenario_plataforma_nuvemX -= 24
-        cenario_plataforma_nuvemX2 -= 24
-        cenario_plataforma_arcoirisX -= 24
-        cenario_plataforma_arcoirisX2 -= 24
+        chao_gramaX -= 24
+        chao_gramaX2 -= 24
+        chao_nuvemX -= 24
+        chao_nuvemX2 -= 24
+        chao_arcoirisX -= 24
+        chao_arcoirisX2 -= 24
 
     elif score <= 2000:
 
@@ -677,12 +677,12 @@ while running:
         fundoX_score3 -= 29
         fundoX2_score3 -= 29
 
-        cenario_plataforma_gramaX -= 27
-        cenario_plataforma_gramaX2 -= 27
-        cenario_plataforma_nuvemX -= 27
-        cenario_plataforma_nuvemX2 -= 27
-        cenario_plataforma_arcoirisX -= 27
-        cenario_plataforma_arcoirisX2 -= 27
+        chao_gramaX -= 27
+        chao_gramaX2 -= 27
+        chao_nuvemX -= 27
+        chao_nuvemX2 -= 27
+        chao_arcoirisX -= 27
+        chao_arcoirisX2 -= 27
 
     elif score <= 2250:
 
@@ -693,12 +693,12 @@ while running:
         fundoX_score3 -= 32
         fundoX2_score3 -= 32
 
-        cenario_plataforma_gramaX -= 30
-        cenario_plataforma_gramaX2 -= 30
-        cenario_plataforma_nuvemX -= 30
-        cenario_plataforma_nuvemX2 -= 30
-        cenario_plataforma_arcoirisX -= 30
-        cenario_plataforma_arcoirisX2 -= 30
+        chao_gramaX -= 30
+        chao_gramaX2 -= 30
+        chao_nuvemX -= 30
+        chao_nuvemX2 -= 30
+        chao_arcoirisX -= 30
+        chao_arcoirisX2 -= 30
 
     elif score <= 2500:
 
@@ -709,12 +709,12 @@ while running:
         fundoX_score3 -= 35
         fundoX2_score3 -= 35
 
-        cenario_plataforma_gramaX -= 33
-        cenario_plataforma_gramaX2 -= 33
-        cenario_plataforma_nuvemX -= 33
-        cenario_plataforma_nuvemX2 -= 33
-        cenario_plataforma_arcoirisX -= 33
-        cenario_plataforma_arcoirisX2 -= 33
+        chao_gramaX -= 33
+        chao_gramaX2 -= 33
+        chao_nuvemX -= 33
+        chao_nuvemX2 -= 33
+        chao_arcoirisX -= 33
+        chao_arcoirisX2 -= 33
 
     elif score <= 2750:
 
@@ -725,12 +725,12 @@ while running:
         fundoX_score3 -= 38
         fundoX2_score3 -= 38
 
-        cenario_plataforma_gramaX -= 36
-        cenario_plataforma_gramaX2 -= 36
-        cenario_plataforma_nuvemX -= 36
-        cenario_plataforma_nuvemX2 -= 36
-        cenario_plataforma_arcoirisX -= 36
-        cenario_plataforma_arcoirisX2 -= 36
+        chao_gramaX -= 36
+        chao_gramaX2 -= 36
+        chao_nuvemX -= 36
+        chao_nuvemX2 -= 36
+        chao_arcoirisX -= 36
+        chao_arcoirisX2 -= 36
 
     elif score <= 100000:
 
@@ -741,12 +741,12 @@ while running:
         fundoX_score3 -= 41
         fundoX2_score3 -= 41
 
-        cenario_plataforma_gramaX -= 39
-        cenario_plataforma_gramaX2 -= 39
-        cenario_plataforma_nuvemX -= 39
-        cenario_plataforma_nuvemX2 -= 39
-        cenario_plataforma_arcoirisX -= 39
-        cenario_plataforma_arcoirisX2 -= 39
+        chao_gramaX -= 39
+        chao_gramaX2 -= 39
+        chao_nuvemX -= 39
+        chao_nuvemX2 -= 39
+        chao_arcoirisX -= 39
+        chao_arcoirisX2 -= 39
 
     #Atualiza a localizacao dos fundos
 
@@ -757,11 +757,11 @@ while running:
     if fundoX2_score1 < fundo_score1.get_width() *-1:
         fundoX2_score1 = fundo_score1.get_width()
 
-    if cenario_plataforma_gramaX < cenario_plataforma_grama.get_width() *-1:
-        cenario_plataforma_gramaX = cenario_plataforma_grama.get_width()
+    if chao_gramaX < chao_grama.get_width() *-1:
+        chao_gramaX = chao_grama.get_width()
 
-    if cenario_plataforma_gramaX2 < cenario_plataforma_grama.get_width() *-1:
-        cenario_plataforma_gramaX2 = cenario_plataforma_grama.get_width()
+    if chao_gramaX2 < chao_grama.get_width() *-1:
+        chao_gramaX2 = chao_grama.get_width()
 
     #Cenário 2 -------------------------------------------------------------------
     if fundoX_score2 < fundo_score2.get_width() *-1:
@@ -770,11 +770,11 @@ while running:
     if fundoX2_score2 < fundo_score2.get_width() *-1:
         fundoX2_score2 = fundo_score2.get_width()
 
-    if cenario_plataforma_nuvemX < cenario_plataforma_nuvem.get_width() *-1:
-        cenario_plataforma_nuvemX = cenario_plataforma_nuvem.get_width()
+    if chao_nuvemX < chao_nuvem.get_width() *-1:
+        chao_nuvemX = chao_nuvem.get_width()
 
-    if cenario_plataforma_nuvemX2 < cenario_plataforma_nuvem.get_width() *-1:
-        cenario_plataforma_nuvemX2 = cenario_plataforma_nuvem.get_width()
+    if chao_nuvemX2 < chao_nuvem.get_width() *-1:
+        chao_nuvemX2 = chao_nuvem.get_width()
 
     #Cenário 3 -------------------------------------------------------------------
     if fundoX_score3 < fundo_score3.get_width() *-1:
@@ -783,11 +783,11 @@ while running:
     if fundoX2_score3 < fundo_score3.get_width() *-1:
         fundoX2_score3 = fundo_score3.get_width()
 
-    if cenario_plataforma_arcoirisX < cenario_plataforma_arcoiris.get_width() *-1:
-        cenario_plataforma_arcoirisX = cenario_plataforma_arcoiris.get_width()
+    if chao_arcoirisX < chao_arcoiris.get_width() *-1:
+        chao_arcoirisX = chao_arcoiris.get_width()
 
-    if cenario_plataforma_arcoirisX2 < cenario_plataforma_arcoiris.get_width() *-1:
-        cenario_plataforma_arcoirisX2 = cenario_plataforma_arcoiris.get_width()
+    if chao_arcoirisX2 < chao_arcoiris.get_width() *-1:
+        chao_arcoirisX2 = chao_arcoiris.get_width()
 
 #------------------------------------------------------------
 
