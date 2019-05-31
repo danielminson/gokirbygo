@@ -27,7 +27,7 @@ YELLOW = (255, 255, 0)
 #------------------- DIRETORIOS DE IMAGENS -------------------------------
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'Imagens_Fundo')
-obs_dir = path.join(path.dirname(__file__), 'Imagens', 'obstaculo')
+obs_dir = path.join(path.dirname(__file__), 'Imagens', 'Obstaculos')
 snr_dir = path.join(path.dirname(__file__))
 snd_dir = path.join(path.dirname(__file__), "Som")
 fnt_dir = path.join(path.dirname(__file__), 'Fontes')
