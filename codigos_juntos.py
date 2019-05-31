@@ -262,7 +262,6 @@ def draw_text(surface, fontname, text, x, y, color):
 #Funcao que cria o Menu
 def Menu():
     #Converte a imagem de menu
-    load_data()
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
     menu_rect = menu_img.get_rect()
     help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
@@ -359,7 +358,8 @@ def gameover(screen):
     agora = pygame.time.get_ticks()
 
     waiting = True
-    while waiting:
+    vaicontinuar = False
+    while waiting and vaicontinuar==False:
         clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -368,19 +368,25 @@ def gameover(screen):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     waiting = False
+                    vaicontinuar = True
 
         if (pygame.time.get_ticks() - agora) > 10000:
-            waiting = False
+        #    waiting = False
+            return False
+    if vaicontinuar:
+        return True
 
 #Funcao que le os scores
 def load_data():
     HS_FILE = "highscore.txt"
-    with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
-        try:
+    try:
+        with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
             highscore = int(f.read())
-        except:
+    except:
+        with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
             highscore = 0
-        return highscore
+            f.write(str(highscore))
+    return highscore
 
 #----------------- SONS/IMAGENS/FONTES ------------------------------
 
@@ -403,15 +409,15 @@ fundo_score1.set_colorkey(BLACK)
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
 
-fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.jpg')).convert()
+fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
 fundo_score2.set_colorkey(BLACK)
 fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
-# fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-# fundo.set_colorkey(BLACK)
-# fundoX_score3 = 0
-# fundoX2_score3 = fundo.get_width()
+fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo3.png')).convert()
+fundo_score3.set_colorkey(BLACK)
+fundoX_score3 = 0
+fundoX2_score3 = fundo_score3.get_width()
 
 cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
 cenario_plataforma.set_colorkey(BLACK)
@@ -523,8 +529,13 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            running = False
-            game_over = True
+            print("passou")
+            running = gameover(screen)
+            lives=3
+            score=0
+            if running== False:
+                pygame.quit()
+                quit()
 
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
@@ -667,4 +678,4 @@ while running:
         cenario_plataformaX2 = cenario_plataforma.get_width()
 #------------------------------------------------------------
 
-gameover(screen)
+#gameover(screen)
