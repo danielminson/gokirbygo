@@ -244,7 +244,7 @@ def imagem_aleatoria():
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
 #Funcao que atualiza os fundos e desenha na tela
-def redesenhafundo():
+def redesenhafundo(fundo,fundoX,fundoX2):
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
     screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
@@ -365,8 +365,11 @@ def gameover(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 waiting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    waiting = False
 
-        if (pygame.time.get_ticks() - agora) > 5000:
+        if (pygame.time.get_ticks() - agora) > 10000:
             waiting = False
 
 #Funcao que le os scores
@@ -395,10 +398,21 @@ hit_sound = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound.ogg'))
 hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 
 #Carrega as Imagens de Fundo e da plataforma de chao
-fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-fundo.set_colorkey(BLACK)
-fundoX = 0
-fundoX2 = fundo.get_width()
+fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+fundo_score1.set_colorkey(BLACK)
+fundoX_score1 = 0
+fundoX2_score1 = fundo_score1.get_width()
+
+fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.jpg')).convert()
+fundo_score2.set_colorkey(BLACK)
+fundoX_score2 = 0
+fundoX2_score2 = fundo_score2.get_width()
+
+# fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+# fundo.set_colorkey(BLACK)
+# fundoX_score3 = 0
+# fundoX2_score3 = fundo.get_width()
+
 cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
 cenario_plataforma.set_colorkey(BLACK)
 cenario_plataformaX = 0
@@ -439,7 +453,6 @@ pygame.mixer.music.play(loops=-1)
 
 #------------------- LOOP PRINCIPAL ------------------------------
 Menu() #Roda o Menu antes do jogo
-game_over = False
 running = True
 while running:
     clock.tick(FPS)
@@ -516,13 +529,23 @@ while running:
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
     if hits_cogumelo:
-        hit_sound2.play()
-        lives+=1
+        if lives < 3:
+            hit_sound2.play()
+            lives+=1
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
     screen.fill(WHITE)
-    redesenhafundo()
+
+    if score <= 1000:
+        redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1)
+
+    if 1000 < score <= 2000:
+        redesenhafundo(fundo_score2,fundoX_score2,fundoX2_score2)
+
+    # if score <= 3000:
+    #     redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3)
+
     all_sprites.draw(screen)
 
     score+=1
@@ -536,61 +559,112 @@ while running:
 
     #-------------- PARAMETROS DOS FUNDOS ---------------------
     #Velocidade dos fundos
-    if score <= 500:
-        fundoX -= 12
-        fundoX2 -= 12
-        cenario_plataformaX -= 10
-        cenario_plataformaX2 -= 10
+    if score <= 250:
+        fundoX_score1 -= 12
+        fundoX2_score1 -= 12
+        fundoX_score2 -= 12
+        fundoX2_score2 -= 12
+        cenario_plataformaX -= 9
+        cenario_plataformaX2 -= 9
+
+    elif score <= 500:
+        fundoX_score1 -= 15
+        fundoX2_score1 -= 15
+        fundoX_score2 -= 15
+        fundoX2_score2 -= 15
+        cenario_plataformaX -= 12
+        cenario_plataformaX2 -= 12
 
     elif score <= 1000:
-        fundoX -= 16
-        fundoX2 -= 16
-        cenario_plataformaX -= 14
-        cenario_plataformaX2 -= 14
+        fundoX_score1 -= 17
+        fundoX2_score1 -= 17
+        fundoX_score2 -= 17
+        fundoX2_score2 -= 17
+        cenario_plataformaX -= 15
+        cenario_plataformaX2 -= 15
+
+    elif score <= 1250:
+        fundoX_score1 -= 20
+        fundoX2_score1 -= 20
+        fundoX_score2 -= 20
+        fundoX2_score2 -= 20
+        cenario_plataformaX -= 17
+        cenario_plataformaX2 -= 17
 
     elif score <= 1500:
-        fundoX -= 20
-        fundoX2 -= 20
-        cenario_plataformaX -= 18
-        cenario_plataformaX2 -= 18
+        fundoX_score1 -= 23
+        fundoX2_score1 -= 23
+        fundoX_score2 -= 23
+        fundoX2_score2 -= 23
+        cenario_plataformaX -= 20
+        cenario_plataformaX2 -= 20
+
+    elif score <= 1750:
+        fundoX_score1 -= 26
+        fundoX2_score1 -= 26
+        fundoX_score2 -= 26
+        fundoX2_score2 -= 26
+        cenario_plataformaX -= 23
+        cenario_plataformaX2 -= 23
 
     elif score <= 2000:
-        fundoX -= 24
-        fundoX2 -= 24
-        cenario_plataformaX -= 22
-        cenario_plataformaX2 -= 22
-
-    elif score <= 1500:
-        fundoX -= 28
-        fundoX2 -= 28
+        fundoX_score1 -= 29
+        fundoX2_score1 -= 29
+        fundoX_score2 -= 29
+        fundoX2_score2 -= 29
         cenario_plataformaX -= 26
         cenario_plataformaX2 -= 26
 
-    elif score <= 2000:
-        fundoX -= 32
-        fundoX2 -= 32
-        cenario_plataformaX -= 30
-        cenario_plataformaX2 -= 30
+    elif score <= 2250:
+        fundoX_score1 -= 32
+        fundoX2_score1 -= 32
+        fundoX_score2 -= 32
+        fundoX2_score2 -= 32
+        cenario_plataformaX -= 29
+        cenario_plataformaX2 -= 29
 
     elif score <= 2500:
-        fundoX -= 36
-        fundoX2 -= 36
-        cenario_plataformaX -= 34
-        cenario_plataformaX2 -= 34
+        fundoX_score1 -= 35
+        fundoX2_score1 -= 35
+        fundoX_score2 -= 35
+        fundoX2_score2 -= 35
+        cenario_plataformaX -= 32
+        cenario_plataformaX2 -= 32
 
+    elif score <= 2750:
+        fundoX_score1 -= 38
+        fundoX2_score1 -= 38
+        fundoX_score2 -= 38
+        fundoX2_score2 -= 38
+        cenario_plataformaX -= 35
+        cenario_plataformaX2 -= 35
+
+    elif score <= 100000:
+        fundoX_score1 -= 41
+        fundoX2_score1 -= 41
+        fundoX_score2 -= 41
+        fundoX2_score2 -= 41
+        cenario_plataformaX -= 38
+        cenario_plataformaX2 -= 38
 
     #atualiza a localizacao dos fundos
-    if fundoX < fundo.get_width() *-1:
-        fundoX = fundo.get_width()
+    if fundoX_score1 < fundo_score1.get_width() *-1:
+        fundoX_score1 = fundo_score1.get_width()
 
-    if fundoX2 < fundo.get_width() *-1:
-        fundoX2 = fundo.get_width()
+    if fundoX2_score1 < fundo_score1.get_width() *-1:
+        fundoX2_score1 = fundo_score1.get_width()
+
+    if fundoX_score2 < fundo_score2.get_width() *-1:
+        fundoX_score2 = fundo_score2.get_width()
+
+    if fundoX2_score2 < fundo_score2.get_width() *-1:
+        fundoX2_score2 = fundo_score2.get_width()
 
     if cenario_plataformaX < cenario_plataforma.get_width() *-1:
         cenario_plataformaX = cenario_plataforma.get_width()
 
     if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
         cenario_plataformaX2 = cenario_plataforma.get_width()
-    #------------------------------------------------------------
+#------------------------------------------------------------
 
-    gameover(screen)
+gameover(screen)
