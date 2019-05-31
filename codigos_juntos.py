@@ -403,20 +403,30 @@ fundo_score1.set_colorkey(BLACK)
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
 
-fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.jpg')).convert()
+fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
 fundo_score2.set_colorkey(BLACK)
 fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
-# fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-# fundo.set_colorkey(BLACK)
-# fundoX_score3 = 0
-# fundoX2_score3 = fundo.get_width()
+fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+fundo.set_colorkey(BLACK)
+fundoX_score3 = 0
+fundoX2_score3 = fundo.get_width()
 
-cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
-cenario_plataforma.set_colorkey(BLACK)
-cenario_plataformaX = 0
-cenario_plataformaX2 = cenario_plataforma.get_width()
+cenario_plataforma_grama = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma_grama.set_colorkey(BLACK)
+cenario_plataforma_gramaX = 0
+cenario_plataforma_gramaX2 = cenario_plataforma_grama.get_width()
+
+cenario_plataforma_nuvem = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma_nuvem.set_colorkey(BLACK)
+cenario_plataforma_nuvemX = 0
+cenario_plataforma_nuvemX2 = cenario_plataforma_nuvem.get_width()
+
+cenario_plataforma_arcoiris = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma_arcoiris.set_colorkey(BLACK)
+cenario_plataforma_arcoirisX = 0
+cenario_plataforma_arcoirisX2 = cenario_plataforma_arcoiris.get_width()
 
 #--------------- CRIAÇÃO DOS ELEMENTOS DO JOGO -------------------
 
@@ -435,7 +445,7 @@ pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 2
 
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+2, random.randrange(1000,8000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
 
 #Cria os cogulemos de vida
 all_cogumelos = pygame.sprite.Group()
@@ -560,90 +570,141 @@ while running:
     #-------------- PARAMETROS DOS FUNDOS ---------------------
     #Velocidade dos fundos
     if score <= 250:
+
         fundoX_score1 -= 12
         fundoX2_score1 -= 12
         fundoX_score2 -= 12
         fundoX2_score2 -= 12
+
         cenario_plataformaX -= 9
         cenario_plataformaX2 -= 9
+        cenario_plataforma_nuvemX -= 9
+        cenario_plataforma_nuvemX2 -= 9
+        cenario_plataforma_arcoirisX -= 9
+        cenario_plataforma_arcoirisX2 -= 9
 
     elif score <= 500:
+
         fundoX_score1 -= 15
         fundoX2_score1 -= 15
         fundoX_score2 -= 15
         fundoX2_score2 -= 15
+
+
         cenario_plataformaX -= 12
         cenario_plataformaX2 -= 12
+        cenario_plataforma_nuvemX -= 12
+        cenario_plataforma_nuvemX2 -= 12
+        cenario_plataforma_arcoirisX -= 12
+        cenario_plataforma_arcoirisX2 -= 12
+
 
     elif score <= 1000:
         fundoX_score1 -= 17
         fundoX2_score1 -= 17
         fundoX_score2 -= 17
         fundoX2_score2 -= 17
+
         cenario_plataformaX -= 15
         cenario_plataformaX2 -= 15
+        cenario_plataforma_nuvemX -= 15
+        cenario_plataforma_nuvemX2 -= 15
+        cenario_plataforma_arcoirisX -= 15
+        cenario_plataforma_arcoirisX2 -= 15
 
     elif score <= 1250:
+
         fundoX_score1 -= 20
         fundoX2_score1 -= 20
         fundoX_score2 -= 20
         fundoX2_score2 -= 20
-        cenario_plataformaX -= 17
-        cenario_plataformaX2 -= 17
+
+        cenario_plataformaX -= 18
+        cenario_plataformaX2 -= 18
+        cenario_plataforma_nuvemX -= 18
+        cenario_plataforma_nuvemX2 -= 18
+        cenario_plataforma_arcoirisX -= 18
+        cenario_plataforma_arcoirisX2 -= 18
 
     elif score <= 1500:
+
         fundoX_score1 -= 23
         fundoX2_score1 -= 23
         fundoX_score2 -= 23
         fundoX2_score2 -= 23
-        cenario_plataformaX -= 20
-        cenario_plataformaX2 -= 20
+
+        cenario_plataformaX -= 21
+        cenario_plataformaX2 -= 21
+        cenario_plataforma_nuvemX -= 21
+        cenario_plataforma_nuvemX2 -= 21
+        cenario_plataforma_arcoirisX -= 21
+        cenario_plataforma_arcoirisX2 -= 21
 
     elif score <= 1750:
+
         fundoX_score1 -= 26
         fundoX2_score1 -= 26
         fundoX_score2 -= 26
         fundoX2_score2 -= 26
-        cenario_plataformaX -= 23
-        cenario_plataformaX2 -= 23
+
+        cenario_plataformaX -= 24
+        cenario_plataformaX2 -= 24
+        cenario_plataforma_nuvemX -= 24
+        cenario_plataforma_nuvemX2 -= 24
+        cenario_plataforma_arcoirisX -= 24
+        cenario_plataforma_arcoirisX2 -= 24
 
     elif score <= 2000:
+
         fundoX_score1 -= 29
         fundoX2_score1 -= 29
         fundoX_score2 -= 29
         fundoX2_score2 -= 29
-        cenario_plataformaX -= 26
-        cenario_plataformaX2 -= 26
+
+        cenario_plataformaX -= 27
+        cenario_plataformaX2 -= 27
+        cenario_plataforma_nuvemX -= 27
+        cenario_plataforma_nuvemX2 -= 27
+        cenario_plataforma_arcoirisX -= 27
+        cenario_plataforma_arcoirisX2 -= 27
 
     elif score <= 2250:
+
         fundoX_score1 -= 32
         fundoX2_score1 -= 32
         fundoX_score2 -= 32
         fundoX2_score2 -= 32
+
         cenario_plataformaX -= 29
         cenario_plataformaX2 -= 29
 
     elif score <= 2500:
+
         fundoX_score1 -= 35
         fundoX2_score1 -= 35
         fundoX_score2 -= 35
         fundoX2_score2 -= 35
+
         cenario_plataformaX -= 32
         cenario_plataformaX2 -= 32
 
     elif score <= 2750:
+
         fundoX_score1 -= 38
         fundoX2_score1 -= 38
         fundoX_score2 -= 38
         fundoX2_score2 -= 38
+
         cenario_plataformaX -= 35
         cenario_plataformaX2 -= 35
 
     elif score <= 100000:
+
         fundoX_score1 -= 41
         fundoX2_score1 -= 41
         fundoX_score2 -= 41
         fundoX2_score2 -= 41
+
         cenario_plataformaX -= 38
         cenario_plataformaX2 -= 38
 
