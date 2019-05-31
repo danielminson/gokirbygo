@@ -244,7 +244,7 @@ def imagem_aleatoria():
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
 #Funcao que atualiza os fundos e desenha na tela
-def redesenhafundo(fundo,fundoX,fundoX2):
+def redesenhafundo(fundo,fundoX,fundoX2,cenario_plataforma,cenario_plataformaX,cenario_plataformaX2):
     screen.blit(fundo, (fundoX, 0))
     screen.blit(fundo, (fundoX2, 0))
     screen.blit(cenario_plataforma, (cenario_plataformaX, 0))
@@ -408,22 +408,22 @@ fundo_score2.set_colorkey(BLACK)
 fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
-fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
-fundo.set_colorkey(BLACK)
+fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo3.png')).convert()
+fundo_score3.set_colorkey(BLACK)
 fundoX_score3 = 0
-fundoX2_score3 = fundo.get_width()
+fundoX2_score3 = fundo_score3.get_width()
 
 cenario_plataforma_grama = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
 cenario_plataforma_grama.set_colorkey(BLACK)
 cenario_plataforma_gramaX = 0
 cenario_plataforma_gramaX2 = cenario_plataforma_grama.get_width()
 
-cenario_plataforma_nuvem = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma_nuvem = pygame.image.load(path.join(cenarios_dir,'cenário_atual_2.png')).convert()
 cenario_plataforma_nuvem.set_colorkey(BLACK)
 cenario_plataforma_nuvemX = 0
 cenario_plataforma_nuvemX2 = cenario_plataforma_nuvem.get_width()
 
-cenario_plataforma_arcoiris = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma_arcoiris = pygame.image.load(path.join(cenarios_dir,'cenário_atual_3.png')).convert()
 cenario_plataforma_arcoiris.set_colorkey(BLACK)
 cenario_plataforma_arcoirisX = 0
 cenario_plataforma_arcoirisX2 = cenario_plataforma_arcoiris.get_width()
@@ -548,13 +548,16 @@ while running:
     screen.fill(WHITE)
 
     if score <= 1000:
-        redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1)
+        redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1,
+        cenario_plataforma_grama,cenario_plataforma_gramaX,cenario_plataforma_gramaX2)
 
     if 1000 < score <= 2000:
-        redesenhafundo(fundo_score2,fundoX_score2,fundoX2_score2)
+        redesenhafundo(fundo_score2,fundoX_score2,fundoX2_score2,
+        cenario_plataforma_nuvem,cenario_plataforma_nuvemX,cenario_plataforma_nuvemX2)
 
-    # if score <= 3000:
-    #     redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3)
+    if 2000 < score:
+        redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3,
+        cenario_plataforma_arcoiris,cenario_plataforma_arcoirisX,cenario_plataforma_arcoirisX2)
 
     all_sprites.draw(screen)
 
@@ -575,9 +578,11 @@ while running:
         fundoX2_score1 -= 12
         fundoX_score2 -= 12
         fundoX2_score2 -= 12
+        fundoX_score3 -= 12
+        fundoX2_score3 -= 12
 
-        cenario_plataformaX -= 9
-        cenario_plataformaX2 -= 9
+        cenario_plataforma_gramaX -= 9
+        cenario_plataforma_gramaX2 -= 9
         cenario_plataforma_nuvemX -= 9
         cenario_plataforma_nuvemX2 -= 9
         cenario_plataforma_arcoirisX -= 9
@@ -589,10 +594,11 @@ while running:
         fundoX2_score1 -= 15
         fundoX_score2 -= 15
         fundoX2_score2 -= 15
+        fundoX_score3 -= 15
+        fundoX2_score3 -= 15
 
-
-        cenario_plataformaX -= 12
-        cenario_plataformaX2 -= 12
+        cenario_plataforma_gramaX -= 12
+        cenario_plataforma_gramaX2 -= 12
         cenario_plataforma_nuvemX -= 12
         cenario_plataforma_nuvemX2 -= 12
         cenario_plataforma_arcoirisX -= 12
@@ -604,9 +610,11 @@ while running:
         fundoX2_score1 -= 17
         fundoX_score2 -= 17
         fundoX2_score2 -= 17
+        fundoX_score3 -= 17
+        fundoX2_score3 -= 17
 
-        cenario_plataformaX -= 15
-        cenario_plataformaX2 -= 15
+        cenario_plataforma_gramaX -= 15
+        cenario_plataforma_gramaX2 -= 15
         cenario_plataforma_nuvemX -= 15
         cenario_plataforma_nuvemX2 -= 15
         cenario_plataforma_arcoirisX -= 15
@@ -618,9 +626,11 @@ while running:
         fundoX2_score1 -= 20
         fundoX_score2 -= 20
         fundoX2_score2 -= 20
+        fundoX_score3 -= 20
+        fundoX2_score3 -= 20
 
-        cenario_plataformaX -= 18
-        cenario_plataformaX2 -= 18
+        cenario_plataforma_gramaX -= 18
+        cenario_plataforma_gramaX2 -= 18
         cenario_plataforma_nuvemX -= 18
         cenario_plataforma_nuvemX2 -= 18
         cenario_plataforma_arcoirisX -= 18
@@ -632,9 +642,11 @@ while running:
         fundoX2_score1 -= 23
         fundoX_score2 -= 23
         fundoX2_score2 -= 23
+        fundoX_score3 -= 23
+        fundoX2_score3 -= 23
 
-        cenario_plataformaX -= 21
-        cenario_plataformaX2 -= 21
+        cenario_plataforma_gramaX -= 21
+        cenario_plataforma_gramaX2 -= 21
         cenario_plataforma_nuvemX -= 21
         cenario_plataforma_nuvemX2 -= 21
         cenario_plataforma_arcoirisX -= 21
@@ -646,9 +658,11 @@ while running:
         fundoX2_score1 -= 26
         fundoX_score2 -= 26
         fundoX2_score2 -= 26
+        fundoX_score3 -= 26
+        fundoX2_score3 -= 26
 
-        cenario_plataformaX -= 24
-        cenario_plataformaX2 -= 24
+        cenario_plataforma_gramaX -= 24
+        cenario_plataforma_gramaX2 -= 24
         cenario_plataforma_nuvemX -= 24
         cenario_plataforma_nuvemX2 -= 24
         cenario_plataforma_arcoirisX -= 24
@@ -660,9 +674,11 @@ while running:
         fundoX2_score1 -= 29
         fundoX_score2 -= 29
         fundoX2_score2 -= 29
+        fundoX_score3 -= 29
+        fundoX2_score3 -= 29
 
-        cenario_plataformaX -= 27
-        cenario_plataformaX2 -= 27
+        cenario_plataforma_gramaX -= 27
+        cenario_plataforma_gramaX2 -= 27
         cenario_plataforma_nuvemX -= 27
         cenario_plataforma_nuvemX2 -= 27
         cenario_plataforma_arcoirisX -= 27
@@ -674,9 +690,15 @@ while running:
         fundoX2_score1 -= 32
         fundoX_score2 -= 32
         fundoX2_score2 -= 32
+        fundoX_score3 -= 32
+        fundoX2_score3 -= 32
 
-        cenario_plataformaX -= 29
-        cenario_plataformaX2 -= 29
+        cenario_plataforma_gramaX -= 30
+        cenario_plataforma_gramaX2 -= 30
+        cenario_plataforma_nuvemX -= 30
+        cenario_plataforma_nuvemX2 -= 30
+        cenario_plataforma_arcoirisX -= 30
+        cenario_plataforma_arcoirisX2 -= 30
 
     elif score <= 2500:
 
@@ -684,9 +706,15 @@ while running:
         fundoX2_score1 -= 35
         fundoX_score2 -= 35
         fundoX2_score2 -= 35
+        fundoX_score3 -= 35
+        fundoX2_score3 -= 35
 
-        cenario_plataformaX -= 32
-        cenario_plataformaX2 -= 32
+        cenario_plataforma_gramaX -= 33
+        cenario_plataforma_gramaX2 -= 33
+        cenario_plataforma_nuvemX -= 33
+        cenario_plataforma_nuvemX2 -= 33
+        cenario_plataforma_arcoirisX -= 33
+        cenario_plataforma_arcoirisX2 -= 33
 
     elif score <= 2750:
 
@@ -694,9 +722,15 @@ while running:
         fundoX2_score1 -= 38
         fundoX_score2 -= 38
         fundoX2_score2 -= 38
+        fundoX_score3 -= 38
+        fundoX2_score3 -= 38
 
-        cenario_plataformaX -= 35
-        cenario_plataformaX2 -= 35
+        cenario_plataforma_gramaX -= 36
+        cenario_plataforma_gramaX2 -= 36
+        cenario_plataforma_nuvemX -= 36
+        cenario_plataforma_nuvemX2 -= 36
+        cenario_plataforma_arcoirisX -= 36
+        cenario_plataforma_arcoirisX2 -= 36
 
     elif score <= 100000:
 
@@ -704,28 +738,57 @@ while running:
         fundoX2_score1 -= 41
         fundoX_score2 -= 41
         fundoX2_score2 -= 41
+        fundoX_score3 -= 41
+        fundoX2_score3 -= 41
 
-        cenario_plataformaX -= 38
-        cenario_plataformaX2 -= 38
+        cenario_plataforma_gramaX -= 39
+        cenario_plataforma_gramaX2 -= 39
+        cenario_plataforma_nuvemX -= 39
+        cenario_plataforma_nuvemX2 -= 39
+        cenario_plataforma_arcoirisX -= 39
+        cenario_plataforma_arcoirisX2 -= 39
 
-    #atualiza a localizacao dos fundos
+    #Atualiza a localizacao dos fundos
+
+    #Cenário 1--------------------------------------------------------------------
     if fundoX_score1 < fundo_score1.get_width() *-1:
         fundoX_score1 = fundo_score1.get_width()
 
     if fundoX2_score1 < fundo_score1.get_width() *-1:
         fundoX2_score1 = fundo_score1.get_width()
 
+    if cenario_plataforma_gramaX < cenario_plataforma_grama.get_width() *-1:
+        cenario_plataforma_gramaX = cenario_plataforma_grama.get_width()
+
+    if cenario_plataforma_gramaX2 < cenario_plataforma_grama.get_width() *-1:
+        cenario_plataforma_gramaX2 = cenario_plataforma_grama.get_width()
+
+    #Cenário 2 -------------------------------------------------------------------
     if fundoX_score2 < fundo_score2.get_width() *-1:
         fundoX_score2 = fundo_score2.get_width()
 
     if fundoX2_score2 < fundo_score2.get_width() *-1:
         fundoX2_score2 = fundo_score2.get_width()
 
-    if cenario_plataformaX < cenario_plataforma.get_width() *-1:
-        cenario_plataformaX = cenario_plataforma.get_width()
+    if cenario_plataforma_nuvemX < cenario_plataforma_nuvem.get_width() *-1:
+        cenario_plataforma_nuvemX = cenario_plataforma_nuvem.get_width()
 
-    if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
-        cenario_plataformaX2 = cenario_plataforma.get_width()
+    if cenario_plataforma_nuvemX2 < cenario_plataforma_nuvem.get_width() *-1:
+        cenario_plataforma_nuvemX2 = cenario_plataforma_nuvem.get_width()
+
+    #Cenário 3 -------------------------------------------------------------------
+    if fundoX_score3 < fundo_score3.get_width() *-1:
+        fundoX_score3 = fundo_score3.get_width()
+
+    if fundoX2_score3 < fundo_score3.get_width() *-1:
+        fundoX2_score3 = fundo_score3.get_width()
+
+    if cenario_plataforma_arcoirisX < cenario_plataforma_arcoiris.get_width() *-1:
+        cenario_plataforma_arcoirisX = cenario_plataforma_arcoiris.get_width()
+
+    if cenario_plataforma_arcoirisX2 < cenario_plataforma_arcoiris.get_width() *-1:
+        cenario_plataforma_arcoirisX2 = cenario_plataforma_arcoiris.get_width()
+
 #------------------------------------------------------------
 
 gameover(screen)
