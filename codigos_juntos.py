@@ -398,30 +398,34 @@ hit_sound = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound.ogg'))
 hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 
 #Carrega as Imagens de Fundo e da plataforma de chao
+
+#Cenário 1 -----------------------------------------------------------------------------
 fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundo_score1.set_colorkey(BLACK)
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
-
-fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
-fundo_score2.set_colorkey(BLACK)
-fundoX_score2 = 0
-fundoX2_score2 = fundo_score2.get_width()
-
-fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo3.png')).convert()
-fundo_score3.set_colorkey(BLACK)
-fundoX_score3 = 0
-fundoX2_score3 = fundo_score3.get_width()
 
 chao_grama = pygame.image.load(path.join(cenarios_dir,'chao.png')).convert()
 chao_grama.set_colorkey(BLACK)
 chao_gramaX = 0
 chao_gramaX2 = chao_grama.get_width()
 
+#Cenário 2 ------------------------------------------------------------------------------
+fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
+fundo_score2.set_colorkey(BLACK)
+fundoX_score2 = 0
+fundoX2_score2 = fundo_score2.get_width()
+
 chao_nuvem = pygame.image.load(path.join(cenarios_dir,'chao2.png')).convert()
 chao_nuvem.set_colorkey(BLACK)
 chao_nuvemX = 0
 chao_nuvemX2 = chao_nuvem.get_width()
+
+#Cenário 3 ------------------------------------------------------------------------------
+fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo3.png')).convert()
+fundo_score3.set_colorkey(BLACK)
+fundoX_score3 = 0
+fundoX2_score3 = fundo_score3.get_width()
 
 chao_arcoiris = pygame.image.load(path.join(cenarios_dir,'chao3.png')).convert()
 chao_arcoiris.set_colorkey(BLACK)
@@ -571,7 +575,7 @@ while running:
     pygame.display.flip()
 
     #-------------- PARAMETROS DOS FUNDOS ---------------------
-    #Velocidade dos fundos
+    #Velocidade dos fundos a cada score
     if score <= 250:
 
         fundoX_score1 -= 12
@@ -606,6 +610,7 @@ while running:
 
 
     elif score <= 1000:
+
         fundoX_score1 -= 17
         fundoX2_score1 -= 17
         fundoX_score2 -= 17
