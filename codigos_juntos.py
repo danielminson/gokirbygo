@@ -396,11 +396,11 @@ hit_sound = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound.ogg'))
 hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 
 #Carrega as Imagens de Fundo e da plataforma de chao
-fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+fundo = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo_tipo2.png')).convert()
 fundo.set_colorkey(BLACK)
 fundoX = 0
 fundoX2 = fundo.get_width()
-cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual.png')).convert()
+cenario_plataforma = pygame.image.load(path.join(cenarios_dir,'cenário_atual_tipo2.png')).convert()
 cenario_plataforma.set_colorkey(BLACK)
 cenario_plataformaX = 0
 cenario_plataformaX2 = cenario_plataforma.get_width()
