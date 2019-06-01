@@ -428,7 +428,8 @@ def imagem_aleatoria():
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
-
+    
+#------------------------------------ Funções -------------------------------------
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo(fundo,fundoX,fundoX2,chao,chaoX,chaoX2):
     screen.blit(fundo, (fundoX, 0))
