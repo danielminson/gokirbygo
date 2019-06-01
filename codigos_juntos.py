@@ -32,11 +32,16 @@ snr_dir = path.join(path.dirname(__file__))
 snd_dir = path.join(path.dirname(__file__), "Som")
 fnt_dir = path.join(path.dirname(__file__), 'Fontes')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
+kirby_for_battle = path.join(path.dirname(__file__),"Imagens","KirbySword")#Kirby para batalha
+PikaChu = path.join(path.dirname(__file__),"Imagens","PikachuMonstro")#Imagem do Monstro
 #-------------------------------------------------------------------------
 
 #Estados
 CHAO = 0
-JUMP = 1
+PULANDO = 1
+ANDANDO = 2
+BATALHANDO = 3
 
 #FPS do jogo
 FPS = 30
@@ -91,22 +96,134 @@ class Player(pygame.sprite.Sprite):
         k7.set_colorkey(WHITE)
         k7 = pygame.transform.scale(k7,(200,200))
 
+# -------------------------------------------- Imagens do Kirby PULANDO --------------------------------------------
+        ki0 =pygame.image.load(path.join(k_dir,"Kirbyvoando-0.png")).convert()
+        ki0.set_colorkey(WHITE)
+        ki0 = pygame.transform.scale(ki0,(200,200))
+
+        ki1 =pygame.image.load(path.join(k_dir,"Kirbyvoando-1.png")).convert()
+        ki1.set_colorkey(WHITE)
+        ki1 = pygame.transform.scale(ki1,(200,200))
+
+        ki2 =pygame.image.load(path.join(k_dir,"Kirbyvoando-2.png")).convert()
+        ki2.set_colorkey(WHITE)
+        ki2 = pygame.transform.scale(ki2,(200,200))
+
+        ki3 =pygame.image.load(path.join(k_dir,"Kirbyvoando-3.png")).convert()
+        ki3.set_colorkey(WHITE)
+        ki3 = pygame.transform.scale(ki3,(200,200))
+
+        ki4 =pygame.image.load(path.join(k_dir,"Kirbyvoando-4.png")).convert()
+        ki4.set_colorkey(WHITE)
+        ki4 = pygame.transform.scale(ki4,(200,200))
+
+        ki5 =pygame.image.load(path.join(k_dir,"Kirbyvoando-5.png")).convert()
+        ki5.set_colorkey(WHITE)
+        ki5 = pygame.transform.scale(ki5,(200,200))
+
+        ki6 =pygame.image.load(path.join(k_dir,"Kirbyvoando-6.png")).convert()
+        ki6.set_colorkey(WHITE)
+        ki6 = pygame.transform.scale(ki6,(200,200))
+
+        ki7 =pygame.image.load(path.join(k_dir,"Kirbyvoando-7.png")).convert()
+        ki7.set_colorkey(WHITE)
+        ki7 = pygame.transform.scale(ki7,(200,200))
+
+        ki8 =pygame.image.load(path.join(k_dir,"Kirbyvoando-8.png")).convert()
+        ki8.set_colorkey(WHITE)
+        ki8 = pygame.transform.scale(ki8,(200,200))
+
+        ki9 =pygame.image.load(path.join(k_dir,"Kirbyvoando-9.png")).convert()
+        ki9.set_colorkey(WHITE)
+        ki9 = pygame.transform.scale(ki9,(200,200))
+
+        ki10 =pygame.image.load(path.join(k_dir,"Kirbyvoando-10.png")).convert()
+        ki10.set_colorkey(WHITE)
+        ki10 = pygame.transform.scale(ki10,(200,200))
+
+        ki11 =pygame.image.load(path.join(k_dir,"Kirbyvoando-11.png")).convert()
+        ki11.set_colorkey(WHITE)
+        ki11 = pygame.transform.scale(ki11,(200,200))
+
+        ki12 =pygame.image.load(path.join(k_dir,"Kirbyvoando-12.png")).convert()
+        ki12.set_colorkey(WHITE)
+        ki12 = pygame.transform.scale(ki12,(200,200))
+
+        ki13 =pygame.image.load(path.join(k_dir,"Kirbyvoando-13.png")).convert()
+        ki13.set_colorkey(WHITE)
+        ki13 = pygame.transform.scale(ki13,(200,200))
+
+        ki14 =pygame.image.load(path.join(k_dir,"Kirbyvoando-14.png")).convert()
+        ki14.set_colorkey(WHITE)
+        ki14 = pygame.transform.scale(ki14,(200,200))
+
+        ki15 =pygame.image.load(path.join(k_dir,"Kirbyvoando-15.png")).convert()
+        ki15.set_colorkey(WHITE)
+        ki15 = pygame.transform.scale(ki15,(200,200))
+
+        ki16 =pygame.image.load(path.join(k_dir,"Kirbyvoando-16.png")).convert()
+        ki16.set_colorkey(WHITE)
+        ki16 = pygame.transform.scale(ki16,(200,200))
+
+        ki17 =pygame.image.load(path.join(k_dir,"Kirbyvoando-17.png")).convert()
+        ki17.set_colorkey(WHITE)
+        ki17 = pygame.transform.scale(ki17,(200,200))
+
+        ki18 =pygame.image.load(path.join(k_dir,"Kirbyvoando-18.png")).convert()
+        ki18.set_colorkey(WHITE)
+        ki18 = pygame.transform.scale(ki18,(200,200))
+
+        ki19 =pygame.image.load(path.join(k_dir,"Kirbyvoando-19.png")).convert()
+        ki19.set_colorkey(WHITE)
+        ki19 = pygame.transform.scale(ki19,(200,200))
+
+        ki20 =pygame.image.load(path.join(k_dir,"Kirbyvoando-20.png")).convert()
+        ki20.set_colorkey(WHITE)
+        ki20 = pygame.transform.scale(ki20,(200,200))
+
+        ki21 =pygame.image.load(path.join(k_dir,"Kirbyvoando-21.png")).convert()
+        ki21.set_colorkey(WHITE)
+        ki21 = pygame.transform.scale(ki21,(200,200)) 
+
+        ki22 =pygame.image.load(path.join(k_dir,"Kirbyvoando-22.png")).convert()
+        ki22.set_colorkey(WHITE)
+        ki22 = pygame.transform.scale(ki22,(200,200))
+
+        ki23 =pygame.image.load(path.join(k_dir,"Kirbyvoando-20.png")).convert()
+        ki23.set_colorkey(WHITE)
+        ki23 = pygame.transform.scale(ki23,(200,200))
+
+        ki24 =pygame.image.load(path.join(k_dir,"Kirbyvoando-24.png")).convert()
+        ki24.set_colorkey(WHITE)
+        ki24 = pygame.transform.scale(ki24,(200,200))
+
+        ki25 =pygame.image.load(path.join(k_dir,"Kirbyvoando-25.png")).convert()
+        ki25.set_colorkey(WHITE)
+        ki25 = pygame.transform.scale(ki25,(200,200))
+# - ------------------------------ ACABA AS IAMGENS PULANDO---------------------------------
+
+# --------------------------------- Imagens do Kirby BATALHADO------------------------------
+        kirby_batalhando_8 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha8.png")).convert()
+        kirby_batalhando_8.set_colorkey(WHITE)
+        kirby_batalhando_8 = pygame.transform.scale(kirby_batalhando_8,(400,400))
+
+        kirby_batalhando_9 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha9.png")).convert()
+        kirby_batalhando_9.set_colorkey(WHITE)
+        kirby_batalhando_9 = pygame.transform.scale(kirby_batalhando_9,(400,400))
+
+        kirby_batalhando_10 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha10.png")).convert()
+        kirby_batalhando_10.set_colorkey(WHITE)
+        kirby_batalhando_10 = pygame.transform.scale(kirby_batalhando_10,(400,400))   
+
+        kirby_batalhando_11 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha11.png")).convert()
+        kirby_batalhando_11.set_colorkey(WHITE)
+        kirby_batalhando_11 = pygame.transform.scale(kirby_batalhando_11,(400,400))     
 # ----------------------------------------- Acabou as imagens do Kirby com a espada se movendo-----------------------------------------------------
-        self.images = [k0,k1,k2,k3,k4,k5,k6,k7]
-        self.index = 0
-        self.image = self.images[self.index]
-        self.rect = self.image.get_rect()
-
-        # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT -140
-        # Velocidade do kirby
-        self.speedx = 0
-        self.speedy = 0
-
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.2
         self.andando = [k0,k1,k2,k3,k4,k5,k6,k7]
+        self.pulando = [ki0,ki1,ki2,ki3,ki4,ki5,ki6,ki7,ki8,ki9,ki10,ki11,ki12,ki13,ki14,ki15,ki16,ki17,ki18,ki19,ki20,ki21,ki22,ki23,ki24,ki25]
+        self.batalhando = [kirby_batalhando_8,kirby_batalhando_9,kirby_batalhando_10,kirby_batalhando_11]
         self.index = 0
         self.image = self.andando[self.index]
         self.rect = self.image.get_rect()
@@ -133,6 +250,13 @@ class Player(pygame.sprite.Sprite):
             and event.key == pygame.K_q:
             self.estado = BATALHANDO
 
+        if event.type == pygame.KEYDOWN:
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.K_LEFT:
+                    player.speedx = -10
+                if event.key == pygame.K_RIGHT:
+                    player.speedx = 10
+
     def update(self):
 
         #when the update method is called, we will increment the index
@@ -155,17 +279,62 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-
         self.speedy += 1
 
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
         # Mantem dentro da tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+class Monstro(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
 
+        #Construtor da classe
+        pygame.sprite.Sprite.__init__(self)
+
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = 8
+    # -------------------------------------------fotos do monstro--------------------------------------
+        pikachu1 = pygame.image.load(path.join(PikaChu, "Pikachu-0.png")).convert()
+        pikachu1.set_colorkey(WHITE)
+        pikachu1 = pygame.transform.scale(pikachu1,(200,200))
+
+        pikachu2 = pygame.image.load(path.join(PikaChu, "Pikachu-1.png")).convert()
+        pikachu2.set_colorkey(WHITE)
+        pikachu2 = pygame.transform.scale(pikachu2,(200,200))
+
+        pikachu3 = pygame.image.load(path.join(PikaChu, "Pikachu-2.png")).convert()
+        pikachu3.set_colorkey(WHITE)
+        pikachu3 = pygame.transform.scale(pikachu3,(200,200))
+
+        pikachu4 = pygame.image.load(path.join(PikaChu, "Pikachu-3.png")).convert()
+        pikachu4.set_colorkey(WHITE)
+        pikachu4 = pygame.transform.scale(pikachu4,(200,200))
+    # ------------------------------------------- acaba aqui fotos do monstro--------------------------------------
+
+        # Criando a animação do monstro
+        self.andando = [pikachu1,pikachu2,pikachu3,pikachu4]
+        self.estado = ANDANDO
+        self.index = 0
+        self.image = self.andando[self.index]
+        self.rect = self.image.get_rect()
+        self.radius = int(self.rect.width * 1.2)
+
+    def update(self):
+        self.rect.x -= self.vel
+        self.index += 1
+        if self.estado == ANDANDO:
+            if self.index >= len(self.andando):
+                self.index = 0
+            self.image = self.andando[self.index]
+
+        if self.rect.x < -self.width:
+            self.kill()
+        if hits_pchu:
+            self.kill()    
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
 
@@ -256,7 +425,7 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         if self.rect.x < -self.width:
             self.kill()
 
-#--------------------- FUNÇÕES ------------------------
+# --------------------- FUNÇÕES ------------------------
 
 #Funcao que carrega as imagens de obstaculos
 def imagem_aleatoria():
@@ -496,6 +665,9 @@ pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 
 all_cogumelos = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer obstaculos
 
+#Cria o PIKACHU
+all_pikachu = pygame.sprite.Group()
+pygame.time.set_timer(USEREVENT+4,10000)#A cada 10 segundos ira aparecer um monstro
 #------------------------------------------------------------------
 
 clock = pygame.time.Clock()
@@ -554,7 +726,13 @@ while running:
                 c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
                 all_cogumelos.add(c_vida)
                 all_sprites.add(c_vida)
-
+        #Eventos para o pikachu
+        if event.type == USEREVENT+4:
+            r = random.randrange(0,2)
+            if r == 0 or r ==1:
+                pchu = Monstro(1270, HEIGHT-270, 100, 100)
+                all_pikachu.add(pchu)
+                all_sprites.add(pchu)
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -592,6 +770,12 @@ while running:
         if lives < 3:
             hit_sound2.play()
             lives+=1
+    hits_pchu = pygame.sprite.spritecollide(player,all_pikachu, False, pygame.sprite.collide_circle)
+    if hits_pchu:
+        hit_sound.play()
+        lives-=1
+        if lives == 0:
+            running = False
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
