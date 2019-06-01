@@ -627,7 +627,7 @@ fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
 chao_nuvem = pygame.image.load(path.join(cenarios_dir,'chao2.png')).convert()
-chao_nuvem.set_colorkey(BLACK)
+chao_nuvem.set_colorkey(GREEN)
 chao_nuvemX = 0
 chao_nuvemX2 = chao_nuvem.get_width()
 
@@ -663,7 +663,7 @@ pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 
 
 #Cria os cogulemos de vida
 all_cogumelos = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer cogumelos
 
 #Cria o PIKACHU
 all_pikachu = pygame.sprite.Group()
@@ -730,7 +730,7 @@ while running:
         if event.type == USEREVENT+4:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                pchu = Monstro(1270, HEIGHT-270, 100, 100)
+                pchu = Monstro(1270, HEIGHT-500, 100, 100)
                 all_pikachu.add(pchu)
                 all_sprites.add(pchu)
     # Depois de processar os eventos.
@@ -779,7 +779,7 @@ while running:
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
-    screen.fill(WHITE)
+    #screen.fill(WHITE)
 
     if score <= 1000:
         redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1,
