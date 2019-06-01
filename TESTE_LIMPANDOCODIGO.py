@@ -204,34 +204,6 @@ class Player(pygame.sprite.Sprite):
 # - ------------------------------ ACABA AS IAMGENS PULANDO---------------------------------
 
 # --------------------------------- Imagens do Kirby BATALHADO------------------------------
-        kirby_batalhando_1 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha1.png")).convert()
-        kirby_batalhando_1.set_colorkey(WHITE)
-        kirby_batalhando_1 = pygame.transform.scale(kirby_batalhando_1,(400,400))
-
-        kirby_batalhando_2 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha2.png")).convert()
-        kirby_batalhando_2.set_colorkey(WHITE)
-        kirby_batalhando_2 = pygame.transform.scale(kirby_batalhando_2,(400,400))
-
-        kirby_batalhando_3 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha3.png")).convert()
-        kirby_batalhando_3.set_colorkey(WHITE)
-        kirby_batalhando_3 = pygame.transform.scale(kirby_batalhando_3,(400,400))
-
-        kirby_batalhando_4 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha4.png")).convert()
-        kirby_batalhando_4.set_colorkey(WHITE)
-        kirby_batalhando_4 = pygame.transform.scale(kirby_batalhando_4,(400,400))
-
-        kirby_batalhando_5 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha5.png")).convert()
-        kirby_batalhando_5.set_colorkey(WHITE)
-        kirby_batalhando_5 = pygame.transform.scale(kirby_batalhando_5,(400,400))
-
-        kirby_batalhando_6 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha6.png")).convert()
-        kirby_batalhando_6.set_colorkey(WHITE)
-        kirby_batalhando_6 = pygame.transform.scale(kirby_batalhando_6,(400,400))
-
-        kirby_batalhando_7 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha7.png")).convert()
-        kirby_batalhando_7.set_colorkey(WHITE)
-        kirby_batalhando_7 = pygame.transform.scale(kirby_batalhando_7,(400,400))
-
         kirby_batalhando_8 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha8.png")).convert()
         kirby_batalhando_8.set_colorkey(WHITE)
         kirby_batalhando_8 = pygame.transform.scale(kirby_batalhando_8,(400,400))
