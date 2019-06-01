@@ -183,7 +183,7 @@ class Player(pygame.sprite.Sprite):
 
         ki21 =pygame.image.load(path.join(k_dir,"Kirbyvoando-21.png")).convert()
         ki21.set_colorkey(WHITE)
-        ki21 = pygame.transform.scale(ki21,(200,200)) 
+        ki21 = pygame.transform.scale(ki21,(200,200))
 
         ki22 =pygame.image.load(path.join(k_dir,"Kirbyvoando-22.png")).convert()
         ki22.set_colorkey(WHITE)
@@ -213,11 +213,11 @@ class Player(pygame.sprite.Sprite):
 
         kirby_batalhando_10 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha10.png")).convert()
         kirby_batalhando_10.set_colorkey(WHITE)
-        kirby_batalhando_10 = pygame.transform.scale(kirby_batalhando_10,(400,400))   
+        kirby_batalhando_10 = pygame.transform.scale(kirby_batalhando_10,(400,400))
 
         kirby_batalhando_11 = pygame.image.load(path.join(kirby_for_battle,"Kbatalha11.png")).convert()
         kirby_batalhando_11.set_colorkey(WHITE)
-        kirby_batalhando_11 = pygame.transform.scale(kirby_batalhando_11,(400,400))     
+        kirby_batalhando_11 = pygame.transform.scale(kirby_batalhando_11,(400,400))
 # ----------------------------------------- Acabou as imagens do Kirby com a espada se movendo-----------------------------------------------------
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.2
@@ -334,7 +334,7 @@ class Monstro(pygame.sprite.Sprite):
         if self.rect.x < -self.width:
             self.kill()
         if hits_pchu:
-            self.kill()    
+            self.kill()
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
 
