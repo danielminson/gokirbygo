@@ -549,7 +549,6 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            print("passou")
             running = gameover(screen)
             lives=3
             score=0
@@ -593,215 +592,184 @@ while running:
     pygame.display.flip()
 
     #-------------- PARAMETROS DOS FUNDOS ---------------------
+
     #Velocidade dos fundos a cada score
-    fundoX_score1 -= 12
-    fundoX2_score1 -= 12
-    fundoX_score2 -= 12
-    fundoX2_score2 -= 12
-    fundoX_score3 -= 12
-    fundoX2_score3 -= 12
+    if score <= 250:
 
-    chao_gramaX -= 9
-    chao_gramaX2 -= 9
-    chao_nuvemX -= 9
-    chao_nuvemX2 -= 9
-    chao_arcoirisX -= 9
-    chao_arcoirisX2 -= 9
+        fundoX_score1 -= 12
+        fundoX2_score1 -= 12
+        fundoX_score2 -= 12
+        fundoX2_score2 -= 12
+        fundoX_score3 -= 12
+        fundoX2_score3 -= 12
 
-    if score % 250 == 0:
+        chao_gramaX -= 9
+        chao_gramaX2 -= 9
+        chao_nuvemX -= 9
+        chao_nuvemX2 -= 9
+        chao_arcoirisX -= 9
+        chao_arcoirisX2 -= 9
 
-        fundoX_score1 -= 3
-        fundoX2_score1 -= 3
-        fundoX_score2 -= 3
-        fundoX2_score2 -= 3
-        fundoX_score3 -= 3
-        fundoX2_score3 -= 3
+    elif score <= 500:
 
-        chao_gramaX -= 3
-        chao_gramaX2 -= 3
-        chao_nuvemX -= 3
-        chao_nuvemX2 -= 3
-        chao_arcoirisX -= 3
-        chao_arcoirisX2 -= 3
+        fundoX_score1 -= 15
+        fundoX2_score1 -= 15
+        fundoX_score2 -= 15
+        fundoX2_score2 -= 15
+        fundoX_score3 -= 15
+        fundoX2_score3 -= 15
+
+        chao_gramaX -= 12
+        chao_gramaX2 -= 12
+        chao_nuvemX -= 12
+        chao_nuvemX2 -= 12
+        chao_arcoirisX -= 12
+        chao_arcoirisX2 -= 12
 
 
+    elif score <= 1000:
 
-    # if score <= 250:
-    #
-    #     fundoX_score1 -= 12
-    #     fundoX2_score1 -= 12
-    #     fundoX_score2 -= 12
-    #     fundoX2_score2 -= 12
-    #     fundoX_score3 -= 12
-    #     fundoX2_score3 -= 12
-    #
-    #     chao_gramaX -= 9
-    #     chao_gramaX2 -= 9
-    #     chao_nuvemX -= 9
-    #     chao_nuvemX2 -= 9
-    #     chao_arcoirisX -= 9
-    #     chao_arcoirisX2 -= 9
-    #
-    # elif score <= 500:
-    #
-    #     fundoX_score1 -= 15
-    #     fundoX2_score1 -= 15
-    #     fundoX_score2 -= 15
-    #     fundoX2_score2 -= 15
-    #     fundoX_score3 -= 15
-    #     fundoX2_score3 -= 15
-    #
-    #     chao_gramaX -= 12
-    #     chao_gramaX2 -= 12
-    #     chao_nuvemX -= 12
-    #     chao_nuvemX2 -= 12
-    #     chao_arcoirisX -= 12
-    #     chao_arcoirisX2 -= 12
-    #
-    #
-    # elif score <= 1000:
-    #
-    #     fundoX_score1 -= 17
-    #     fundoX2_score1 -= 17
-    #     fundoX_score2 -= 17
-    #     fundoX2_score2 -= 17
-    #     fundoX_score3 -= 17
-    #     fundoX2_score3 -= 17
-    #
-    #     chao_gramaX -= 15
-    #     chao_gramaX2 -= 15
-    #     chao_nuvemX -= 15
-    #     chao_nuvemX2 -= 15
-    #     chao_arcoirisX -= 15
-    #     chao_arcoirisX2 -= 15
-    #
-    # elif score <= 1250:
-    #
-    #     fundoX_score1 -= 20
-    #     fundoX2_score1 -= 20
-    #     fundoX_score2 -= 20
-    #     fundoX2_score2 -= 20
-    #     fundoX_score3 -= 20
-    #     fundoX2_score3 -= 20
-    #
-    #     chao_gramaX -= 18
-    #     chao_gramaX2 -= 18
-    #     chao_nuvemX -= 18
-    #     chao_nuvemX2 -= 18
-    #     chao_arcoirisX -= 18
-    #     chao_arcoirisX2 -= 18
-    #
-    # elif score <= 1500:
-    #
-    #     fundoX_score1 -= 23
-    #     fundoX2_score1 -= 23
-    #     fundoX_score2 -= 23
-    #     fundoX2_score2 -= 23
-    #     fundoX_score3 -= 23
-    #     fundoX2_score3 -= 23
-    #
-    #     chao_gramaX -= 21
-    #     chao_gramaX2 -= 21
-    #     chao_nuvemX -= 21
-    #     chao_nuvemX2 -= 21
-    #     chao_arcoirisX -= 21
-    #     chao_arcoirisX2 -= 21
-    #
-    # elif score <= 1750:
-    #
-    #     fundoX_score1 -= 26
-    #     fundoX2_score1 -= 26
-    #     fundoX_score2 -= 26
-    #     fundoX2_score2 -= 26
-    #     fundoX_score3 -= 26
-    #     fundoX2_score3 -= 26
-    #
-    #     chao_gramaX -= 24
-    #     chao_gramaX2 -= 24
-    #     chao_nuvemX -= 24
-    #     chao_nuvemX2 -= 24
-    #     chao_arcoirisX -= 24
-    #     chao_arcoirisX2 -= 24
-    #
-    # elif score <= 2000:
-    #
-    #     fundoX_score1 -= 29
-    #     fundoX2_score1 -= 29
-    #     fundoX_score2 -= 29
-    #     fundoX2_score2 -= 29
-    #     fundoX_score3 -= 29
-    #     fundoX2_score3 -= 29
-    #
-    #     chao_gramaX -= 27
-    #     chao_gramaX2 -= 27
-    #     chao_nuvemX -= 27
-    #     chao_nuvemX2 -= 27
-    #     chao_arcoirisX -= 27
-    #     chao_arcoirisX2 -= 27
-    #
-    # elif score <= 2250:
-    #
-    #     fundoX_score1 -= 32
-    #     fundoX2_score1 -= 32
-    #     fundoX_score2 -= 32
-    #     fundoX2_score2 -= 32
-    #     fundoX_score3 -= 32
-    #     fundoX2_score3 -= 32
-    #
-    #     chao_gramaX -= 30
-    #     chao_gramaX2 -= 30
-    #     chao_nuvemX -= 30
-    #     chao_nuvemX2 -= 30
-    #     chao_arcoirisX -= 30
-    #     chao_arcoirisX2 -= 30
-    #
-    # elif score <= 2500:
-    #
-    #     fundoX_score1 -= 35
-    #     fundoX2_score1 -= 35
-    #     fundoX_score2 -= 35
-    #     fundoX2_score2 -= 35
-    #     fundoX_score3 -= 35
-    #     fundoX2_score3 -= 35
-    #
-    #     chao_gramaX -= 33
-    #     chao_gramaX2 -= 33
-    #     chao_nuvemX -= 33
-    #     chao_nuvemX2 -= 33
-    #     chao_arcoirisX -= 33
-    #     chao_arcoirisX2 -= 33
-    #
-    # elif score <= 2750:
-    #
-    #     fundoX_score1 -= 38
-    #     fundoX2_score1 -= 38
-    #     fundoX_score2 -= 38
-    #     fundoX2_score2 -= 38
-    #     fundoX_score3 -= 38
-    #     fundoX2_score3 -= 38
-    #
-    #     chao_gramaX -= 36
-    #     chao_gramaX2 -= 36
-    #     chao_nuvemX -= 36
-    #     chao_nuvemX2 -= 36
-    #     chao_arcoirisX -= 36
-    #     chao_arcoirisX2 -= 36
-    #
-    # elif score <= 100000:
-    #
-    #     fundoX_score1 -= 41
-    #     fundoX2_score1 -= 41
-    #     fundoX_score2 -= 41
-    #     fundoX2_score2 -= 41
-    #     fundoX_score3 -= 41
-    #     fundoX2_score3 -= 41
-    #
-    #     chao_gramaX -= 39
-    #     chao_gramaX2 -= 39
-    #     chao_nuvemX -= 39
-    #     chao_nuvemX2 -= 39
-    #     chao_arcoirisX -= 39
-    #     chao_arcoirisX2 -= 39
+        fundoX_score1 -= 17
+        fundoX2_score1 -= 17
+        fundoX_score2 -= 17
+        fundoX2_score2 -= 17
+        fundoX_score3 -= 17
+        fundoX2_score3 -= 17
+
+        chao_gramaX -= 15
+        chao_gramaX2 -= 15
+        chao_nuvemX -= 15
+        chao_nuvemX2 -= 15
+        chao_arcoirisX -= 15
+        chao_arcoirisX2 -= 15
+
+    elif score <= 1250:
+
+        fundoX_score1 -= 20
+        fundoX2_score1 -= 20
+        fundoX_score2 -= 20
+        fundoX2_score2 -= 20
+        fundoX_score3 -= 20
+        fundoX2_score3 -= 20
+
+        chao_gramaX -= 18
+        chao_gramaX2 -= 18
+        chao_nuvemX -= 18
+        chao_nuvemX2 -= 18
+        chao_arcoirisX -= 18
+        chao_arcoirisX2 -= 18
+
+    elif score <= 1500:
+
+        fundoX_score1 -= 23
+        fundoX2_score1 -= 23
+        fundoX_score2 -= 23
+        fundoX2_score2 -= 23
+        fundoX_score3 -= 23
+        fundoX2_score3 -= 23
+
+        chao_gramaX -= 21
+        chao_gramaX2 -= 21
+        chao_nuvemX -= 21
+        chao_nuvemX2 -= 21
+        chao_arcoirisX -= 21
+        chao_arcoirisX2 -= 21
+
+    elif score <= 1750:
+
+        fundoX_score1 -= 26
+        fundoX2_score1 -= 26
+        fundoX_score2 -= 26
+        fundoX2_score2 -= 26
+        fundoX_score3 -= 26
+        fundoX2_score3 -= 26
+
+        chao_gramaX -= 24
+        chao_gramaX2 -= 24
+        chao_nuvemX -= 24
+        chao_nuvemX2 -= 24
+        chao_arcoirisX -= 24
+        chao_arcoirisX2 -= 24
+
+    elif score <= 2000:
+
+        fundoX_score1 -= 29
+        fundoX2_score1 -= 29
+        fundoX_score2 -= 29
+        fundoX2_score2 -= 29
+        fundoX_score3 -= 29
+        fundoX2_score3 -= 29
+
+        chao_gramaX -= 27
+        chao_gramaX2 -= 27
+        chao_nuvemX -= 27
+        chao_nuvemX2 -= 27
+        chao_arcoirisX -= 27
+        chao_arcoirisX2 -= 27
+
+    elif score <= 2250:
+
+        fundoX_score1 -= 32
+        fundoX2_score1 -= 32
+        fundoX_score2 -= 32
+        fundoX2_score2 -= 32
+        fundoX_score3 -= 32
+        fundoX2_score3 -= 32
+
+        chao_gramaX -= 30
+        chao_gramaX2 -= 30
+        chao_nuvemX -= 30
+        chao_nuvemX2 -= 30
+        chao_arcoirisX -= 30
+        chao_arcoirisX2 -= 30
+
+    elif score <= 2500:
+
+        fundoX_score1 -= 35
+        fundoX2_score1 -= 35
+        fundoX_score2 -= 35
+        fundoX2_score2 -= 35
+        fundoX_score3 -= 35
+        fundoX2_score3 -= 35
+
+        chao_gramaX -= 33
+        chao_gramaX2 -= 33
+        chao_nuvemX -= 33
+        chao_nuvemX2 -= 33
+        chao_arcoirisX -= 33
+        chao_arcoirisX2 -= 33
+
+    elif score <= 2750:
+
+        fundoX_score1 -= 38
+        fundoX2_score1 -= 38
+        fundoX_score2 -= 38
+        fundoX2_score2 -= 38
+        fundoX_score3 -= 38
+        fundoX2_score3 -= 38
+
+        chao_gramaX -= 36
+        chao_gramaX2 -= 36
+        chao_nuvemX -= 36
+        chao_nuvemX2 -= 36
+        chao_arcoirisX -= 36
+        chao_arcoirisX2 -= 36
+
+    elif score <= 100000:
+
+        fundoX_score1 -= 41
+        fundoX2_score1 -= 41
+        fundoX_score2 -= 41
+        fundoX2_score2 -= 41
+        fundoX_score3 -= 41
+        fundoX2_score3 -= 41
+
+        chao_gramaX -= 39
+        chao_gramaX2 -= 39
+        chao_nuvemX -= 39
+        chao_nuvemX2 -= 39
+        chao_arcoirisX -= 39
+        chao_arcoirisX2 -= 39
 
     #Atualiza a localizacao dos fundos
 

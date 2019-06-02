@@ -262,6 +262,7 @@ def draw_text(surface, fontname, text, x, y, color):
 #Funcao que cria o Menu
 def Menu():
     #Converte a imagem de menu
+    load_data()
     menu_img = pygame.image.load(path.join(cenarios_dir, "entrada_v2.png")).convert()
     menu_rect = menu_img.get_rect()
     help_img = pygame.image.load(path.join(cenarios_dir, "help_v1.png")).convert()
@@ -334,8 +335,27 @@ def pause():
         pygame.display.flip()
         clock.tick(5)
 
+def continuajogo(screen):
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_p:
+            paused = True
+
 #Funcao que aparece game over
 def gameover(screen):
+    esperando = True
+    while esperando:
+        clock.tick(FPS)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                waiting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    running = True
+
+        if (pygame.time.get_ticks() - agora) > 10000:
+            waiting = False
+    for event in pygame.event.get():
     gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
     gameover_rect = gameover_img.get_rect()
 
@@ -358,8 +378,7 @@ def gameover(screen):
     agora = pygame.time.get_ticks()
 
     waiting = True
-    vaicontinuar = False
-    while waiting and vaicontinuar==False:
+    while waiting:
         clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -368,25 +387,19 @@ def gameover(screen):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     waiting = False
-                    vaicontinuar = True
 
         if (pygame.time.get_ticks() - agora) > 10000:
-        #    waiting = False
-            return False
-    if vaicontinuar:
-        return True
+            waiting = False
 
 #Funcao que le os scores
 def load_data():
     HS_FILE = "highscore.txt"
-    try:
-        with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
+    with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
+        try:
             highscore = int(f.read())
-    except:
-        with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
+        except:
             highscore = 0
-            f.write(str(highscore))
-    return highscore
+        return highscore
 
 #----------------- SONS/IMAGENS/FONTES ------------------------------
 
@@ -529,13 +542,8 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            print("passou")
-            running = gameover(screen)
-            lives=3
-            score=0
-            if running== False:
-                pygame.quit()
-                quit()
+            running = False
+            game_over = True
 
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
@@ -676,6 +684,8 @@ while running:
 
     if cenario_plataformaX2 < cenario_plataforma.get_width() *-1:
         cenario_plataformaX2 = cenario_plataforma.get_width()
+
+#    continuajogo(screen)
 #------------------------------------------------------------
 
-#gameover(screen)
+gameover(screen)
