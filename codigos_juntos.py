@@ -32,6 +32,7 @@ snr_dir = path.join(path.dirname(__file__))
 snd_dir = path.join(path.dirname(__file__), "Som")
 fnt_dir = path.join(path.dirname(__file__), 'font')
 kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
+k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 #-------------------------------------------------------------------------
 
 #Estados
