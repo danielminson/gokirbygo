@@ -24,7 +24,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-#------------------- DIRETORIOS DE IMAGENS -------------------------------
+# ------------------- DIRETORIOS DE IMAGENS -------------------------------
 img_dir = path.join(path.dirname(__file__), 'Imagens')
 cenarios_dir = path.join(path.dirname(__file__), 'Imagens', 'Imagens_Fundo')
 obs_dir = path.join(path.dirname(__file__), 'Imagens', 'Obstaculos')
@@ -35,13 +35,14 @@ kirby_dir = path.join(path.dirname(__file__), 'Imagens', 'Kirby') #kirby andando
 k_dir = path.join(path.dirname(__file__),"Imagens","Kirby_voando") # kirby voando
 kirby_for_battle = path.join(path.dirname(__file__),"Imagens","KirbySword")#Kirby para batalha
 PikaChu = path.join(path.dirname(__file__),"Imagens","PikachuMonstro")#Imagem do Monstro
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
-#Estados
+#Estados --------------------------------
 CHAO = 0
 PULANDO = 1
 ANDANDO = 2
 BATALHANDO = 3
+# ----------------------------------------
 
 #FPS do jogo
 FPS = 30
@@ -55,9 +56,7 @@ class Player(pygame.sprite.Sprite):
         # Construtor da classe pai (Sprite).
 
         pygame.sprite.Sprite.__init__(self)
-
 # -------------------------------------------- Imagens do Kirby andando --------------------------------------------
-
         k0 = pygame.image.load(path.join(kirby_dir, "0.png")).convert()
         k0.set_colorkey(WHITE)
         k0 = pygame.transform.scale(k0,(200,200))
@@ -219,6 +218,7 @@ class Player(pygame.sprite.Sprite):
         kirby_batalhando_11.set_colorkey(WHITE)
         kirby_batalhando_11 = pygame.transform.scale(kirby_batalhando_11,(400,400))     
 # ----------------------------------------- Acabou as imagens do Kirby com a espada se movendo-----------------------------------------------------
+        
         # Melhora a colisão estabelecendo um raio de um circulo
         self.radius = 0.2
         self.andando = [k0,k1,k2,k3,k4,k5,k6,k7]
@@ -227,6 +227,7 @@ class Player(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.andando[self.index]
         self.rect = self.image.get_rect()
+
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
@@ -261,7 +262,6 @@ class Player(pygame.sprite.Sprite):
 
         #when the update method is called, we will increment the index
         self.index += 1
-        #if self.estado == BATALHADO
         if self.estado == ANDANDO:
             if self.index >= len(self.andando):
                 self.index = 0
@@ -286,6 +286,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+
 class Monstro(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
 
@@ -333,8 +334,8 @@ class Monstro(pygame.sprite.Sprite):
 
         if self.rect.x < -self.width:
             self.kill()
-        if hits_pchu:
-            self.kill()    
+        #if hits_pchu or hits_Sword_Pikach:
+            #self.kill()    
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
 
@@ -667,7 +668,7 @@ pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate
 
 #Cria o PIKACHU
 all_pikachu = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+4,10000)#A cada 10 segundos ira aparecer um monstro
+pygame.time.set_timer(USEREVENT+4, random.randrange(1000,10000)) #A cada 1 ate 10 segundos ira aparecer um monstro
 #------------------------------------------------------------------
 
 clock = pygame.time.Clock()
@@ -770,12 +771,21 @@ while running:
         if lives < 3:
             hit_sound2.play()
             lives+=1
+
     hits_pchu = pygame.sprite.spritecollide(player,all_pikachu, False, pygame.sprite.collide_circle)
     if hits_pchu:
         hit_sound.play()
         lives-=1
         if lives == 0:
             running = False
+
+    #hits_Sword_Pikach = pygame.groupcollide(player, all_pikachu,True, True)
+    #if player.estado == BATALHANDO:
+        #for hit_sp in hits_Sword_Pikach:
+            #print("Colidiu")
+    #if hits_Sword_Pikach == False:
+        #running = False
+
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
