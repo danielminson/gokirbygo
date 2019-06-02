@@ -409,18 +409,16 @@ hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 
 #Cenário 1 -----------------------------------------------------------------------------
 fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundoe.png')).convert()
-fundo_score1.set_colorkey(BLACK)
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
 
-chao_grama = pygame.image.load(path.join(cenarios_dir,'chao.png')).convert()
+chao_grama = pygame.image.load(path.join(cenarios_dir,'chaoe.png')).convert()
 chao_grama.set_colorkey(BLACK)
 chao_gramaX = 0
 chao_gramaX2 = chao_grama.get_width()
 
 #Cenário 2 ------------------------------------------------------------------------------
 fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
-fundo_score2.set_colorkey(BLACK)
 fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
@@ -431,7 +429,6 @@ chao_nuvemX2 = chao_nuvem.get_width()
 
 #Cenário 3 ------------------------------------------------------------------------------
 fundo_score3 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo3.png')).convert()
-fundo_score3.set_colorkey(BLACK)
 fundoX_score3 = 0
 fundoX2_score3 = fundo_score3.get_width()
 
@@ -486,6 +483,7 @@ while running:
             running = False
             pygame.quit()
             quit()
+
         #Sair do jogo com ESC
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -525,7 +523,7 @@ while running:
 
     if score % 250 == 0:
         for x in obstacles:
-            x.vel += 2
+            x.vel += 5
 
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
@@ -551,9 +549,9 @@ while running:
         lives-=1
         if lives == 0:
             running = gameover(screen)
-            lives=3
-            score=0
-            if running== False:
+            lives = 3
+            score = 0
+            if running == False:
                 pygame.quit()
                 quit()
 
@@ -562,7 +560,7 @@ while running:
     if hits_cogumelo:
         if lives < 3:
             hit_sound2.play()
-            lives+=1
+            lives += 1
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
@@ -582,12 +580,12 @@ while running:
         redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3,
         chao_arcoiris,chao_arcoirisX,chao_arcoirisX2)
 
-    all_sprites.draw(screen)
-
     #escreve o score na tela
     draw_text(screen, fontname, str(score), WIDTH/2, 10, BLACK)
     #mostra a vida na tela
     draw_text(screen, coracao, chr(9829)*lives, 200, 10, (255,0,0,10))
+
+    all_sprites.draw(screen)
 
     # Depois de desenhar tudo, inverte o display.
     pygame.display.flip()
