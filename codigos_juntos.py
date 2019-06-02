@@ -412,7 +412,7 @@ fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundoe.png'))
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
 
-chao_grama = pygame.image.load(path.join(cenarios_dir,'chaoe.png')).convert()
+chao_grama = pygame.image.load(path.join(cenarios_dir,'chaoa.png')).convert()
 chao_grama.set_colorkey(BLACK)
 chao_gramaX = 0
 chao_gramaX2 = chao_grama.get_width()
