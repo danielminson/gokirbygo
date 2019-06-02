@@ -408,7 +408,7 @@ hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 #Carrega as Imagens de Fundo e da plataforma de chao
 
 #Cenário 1 -----------------------------------------------------------------------------
-fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundoe.png')).convert()
+fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
 
@@ -418,7 +418,7 @@ chao_gramaX = 0
 chao_gramaX2 = chao_grama.get_width()
 
 #Cenário 2 ------------------------------------------------------------------------------
-fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2e.png')).convert()
+fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
 fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
@@ -519,22 +519,12 @@ while running:
                 c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
                 all_cogumelos.add(c_vida)
                 all_sprites.add(c_vida)
-<<<<<<< HEAD
-        #Eventos para o pikachu
-        if event.type == USEREVENT+4:
-            r = random.randrange(0,2)
-            if r == 0 or r ==1:
-                pchu = Monstro(1270, HEIGHT-500, 100, 100)
-                all_pikachu.add(pchu)
-                all_sprites.add(pchu)
-=======
 
 
     if score % 250 == 0:
         for x in obstacles:
             x.vel += 5
 
->>>>>>> bfd0781ed9ef8e1075b5dc8d24454b097d42b3bd
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
