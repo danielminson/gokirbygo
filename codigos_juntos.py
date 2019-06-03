@@ -23,6 +23,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+PINK = (165,77,232)
 
 #------------------- DIRETORIOS DE IMAGENS -------------------------------
 img_dir = path.join(path.dirname(__file__), 'Imagens')
@@ -408,7 +409,7 @@ hit_sound2 = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
 #Carrega as Imagens de Fundo e da plataforma de chao
 
 #Cenário 1 -----------------------------------------------------------------------------
-fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundoe.png')).convert()
+fundo_score1 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
 fundoX_score1 = 0
 fundoX2_score1 = fundo_score1.get_width()
 
@@ -418,7 +419,7 @@ chao_gramaX = 0
 chao_gramaX2 = chao_grama.get_width()
 
 #Cenário 2 ------------------------------------------------------------------------------
-fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2e.png')).convert()
+fundo_score2 = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
 fundoX_score2 = 0
 fundoX2_score2 = fundo_score2.get_width()
 
@@ -581,7 +582,7 @@ while running:
         chao_arcoiris,chao_arcoirisX,chao_arcoirisX2)
 
     #escreve o score na tela
-    draw_text(screen, fontname, str(score), WIDTH/2, 10, BLACK)
+    draw_text(screen, fontname, str(score), WIDTH/2, 10, PINK)
     #mostra a vida na tela
     draw_text(screen, coracao, chr(9829)*lives, 200, 10, (255,0,0,10))
 
