@@ -884,4 +884,4 @@ while running:
 
 #------------------------------------------------------------
 
-gameover(screen)
+#gameover(screen)
