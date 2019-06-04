@@ -78,19 +78,13 @@ class Player(pygame.sprite.Sprite):
 
     def process_event(self, event):
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and (self.speedy==0 or self.speedy==1):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and (self.speedy==0 or self.rect.y ==370):
             self.speedy = -20
             self.estado = PULANDO
 
-        if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    player.speedx = -10
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 10
 
     def update(self):
-        # #when the update method is called, we will increment the index
+        #when the update method is called, we will increment the index
         self.index += 1
         if self.estado == ANDANDO:
             if self.index >= len(self.andando):
@@ -578,7 +572,7 @@ while running:
         lives-=1
         if lives == 0:
             running = gameover(screen)
-            lives=3
+            lives=2
             score=0
             if running== False:
                 pygame.quit()
