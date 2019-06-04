@@ -442,7 +442,7 @@ pygame.mixer.music.set_volume(0.4)
 
 #Sons de colisao
 hit_sound = assets["som_colisao"]
-life_sound = assets["som_colisao"]
+life_sound = assets["som_vida"]
 
 #Cenário 1 -----------------------------------------------------------------------------
 fundo_score1 = assets["fundo_grama"]
