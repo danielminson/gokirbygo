@@ -494,7 +494,7 @@ clock = pygame.time.Clock()
 
 #Score do jogo
 score = 0
-lives = 3
+lives = 2
 
 pygame.mixer.music.play(loops=-1)
 
