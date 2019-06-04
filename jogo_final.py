@@ -343,6 +343,25 @@ player = Player(assets["kirby_andando"],assets["kirby_voando"])
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 
+# Cria as plataformas.
+all_platforms = pygame.sprite.Group()
+chao = Plataforma(0, HEIGHT - 150, 1280, 140) #Plataforma principal de chao
+all_platforms.add(chao)
+pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 20 segundos aparece uma plataforma voadora
+
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
+
+#------------------------------------------------------------------
+
+clock = pygame.time.Clock()
+
+#Score do jogo
+score = 0
+lives = 3
+
+pygame.mixer.music.play(loops=-1)
+
+#------------------- LOOP PRINCIPAL ------------------------------
+Menu() #Roda o Menu antes do jogo
