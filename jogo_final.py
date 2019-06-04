@@ -150,3 +150,52 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         self.rect.x -= self.vel
         if self.rect.x < -self.width:
             self.kill()
+
+#Classe obstaculos
+class Obstaculo(pygame.sprite.Sprite):
+    # Construindo a classe
+    def __init__(self, x, y, width, height):
+
+        #Construtor da classe
+        pygame.sprite.Sprite.__init__(self)
+
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = 10
+
+        self.image = imagem_aleatoria()
+
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLUE)
+        self.rect.x = x
+        self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
+        if hits_obstaculos:
+            self.kill()
+# --------------------- FUNÇÕES ------------------------
+
+#Funcao que carrega as imagens de obstaculos
+def imagem_aleatoria():
+    obs_img1 = pygame.image.load(path.join(obs_dir, "arbusto_tipo2.png")).convert()
+
+    obs_img2 = pygame.image.load(path.join(obs_dir, "casinha.png")).convert()
+
+    obs_img3 = pygame.image.load(path.join(obs_dir, "pedra.png")).convert()
+
+    obs_img4 = pygame.image.load(path.join(obs_dir, "arbusto_tipo1.png")).convert()
+
+    obs_img5 = pygame.image.load(path.join(obs_dir, "arvore.png")).convert()
+
+    obs_img6 = pygame.image.load(path.join(obs_dir, "obstaculo1.png")).convert()
+
+    rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
+
+    return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
+
