@@ -199,3 +199,116 @@ def imagem_aleatoria():
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
+#Funcao que atualiza os fundos e desenha na tela
+def redesenhafundo(fundo,fundoX,fundoX2,chao,chaoX,chaoX2):
+    screen.blit(fundo, (fundoX, 0))
+    screen.blit(fundo, (fundoX2, 0))
+    screen.blit(chao, (chaoX, 0))
+    screen.blit(chao, (chaoX2, 0))
+    pygame.display.update()
+
+def Menu():
+    #Converte a imagem de menu
+    load_data()
+    menu_img = pygame.image.load(path.join(cenarios_dir, "menu_entrada.png")).convert()
+    menu_rect = menu_img.get_rect()
+    help_img = pygame.image.load(path.join(cenarios_dir, "menu_help.png")).convert()
+    help_rect = help_img.get_rect()
+
+    intro = True
+    tela_help = False
+    back = False
+    highscore = load_data()
+
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    intro = False
+                if event.key == pygame.K_h:
+                    tela_help = True
+                if event.key == pygame.K_b:
+                    back = True
+                    tela_help = False
+        if tela_help == False:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            draw_text(screen, fontname , "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+
+        if tela_help == True:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+
+        if back == False and tela_help == True:
+            screen.fill(BLACK)
+            screen.blit(help_img,help_rect)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+
+        if back == True and tela_help == False:
+            screen.fill(BLACK)
+            screen.blit(menu_img,menu_rect)
+            draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
+            pygame.display.flip()
+            clock.tick(15)
+
+def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir):
+    assets = {}
+    assets["fundo_grama"] = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
+    assets["fundo_castelo"] = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
+    assets["fundo_espaco"] = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo3.png')).convert()
+    assets["chao_grama"] = pygame.image.load(path.join(cenarios_dir,'chao.png')).convert()
+    assets["chao_nuvem"] = pygame.image.load(path.join(cenarios_dir,'chao2.png')).convert()
+    assets["chao_arcoiris"] = pygame.image.load(path.join(cenarios_dir,'chao3.png')).convert()
+    assets["som_colisao"] = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound.ogg'))
+    assets["som_vida"] = pygame.mixer.Sound(path.join(snd_dir, 'hit_sound2.ogg'))
+    assets["musica_fundo"] = pygame.mixer.Sound(path.join(snd_dir, 'kirby_star_ride.ogg'))
+    assets["fonte_score"] = pygame.font.Font(path.join(fnt_dir, "Retron2000.ttf"),50)
+    assets["fonte_coracao"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"),50)
+    return assets
+
+#----------------- SONS/IMAGENS/FONTES ------------------------------
+assets = load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir)
+#Carrega as Imagens de Fundo e da plataforma de chao
+
+#Cenário 1 -----------------------------------------------------------------------------
+fundo_score1 = assets["fundo_grama"]
+fundoX_score1 = 0
+fundoX2_score1 = fundo_score1.get_width()
+
+chao_grama = assets["chao_grama"]
+chao_grama.set_colorkey(BLACK)
+chao_gramaX = 0
+chao_gramaX2 = chao_grama.get_width()
+
+#Cenário 2 ------------------------------------------------------------------------------
+fundo_score2 = assets["fundo_castelo"]
+fundoX_score2 = 0
+fundoX2_score2 = fundo_score2.get_width()
+
+chao_nuvem = assets["chao_nuvem"]
+chao_nuvem.set_colorkey(GREEN)
+chao_nuvemX = 0
+chao_nuvemX2 = chao_nuvem.get_width()
+
+#Cenário 3 ------------------------------------------------------------------------------
+fundo_score3 = assets["fundo_espaco"]
+fundoX_score3 = 0
+fundoX2_score3 = fundo_score3.get_width()
+
+chao_arcoiris = assets["chao_arcoiris"]
+chao_arcoiris.set_colorkey(BLACK)
+chao_arcoirisX = 0
+chao_arcoirisX2 = chao_arcoiris.get_width()
+
+#--------------- CRIAÇÃO DOS ELEMENTOS DO JOGO -------------------
