@@ -39,7 +39,7 @@ PikaChu = path.join(path.dirname(__file__),"Imagens","PikachuMonstro")#Imagem do
 
 #Estados --------------------------------
 CHAO = 0
-PULANDO = 1
+#PULANDO = 1
 ANDANDO = 2
 # ----------------------------------------
 
@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.radius = 0.2
 
         self.andando = kirby_andando
-        self.pulando = kirby_voando
+#        self.pulando = kirby_voando
 
         self.index = 0
         self.image = self.andando[self.index]
@@ -80,14 +80,14 @@ class Player(pygame.sprite.Sprite):
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.speedy==0:
             self.speedy = -20
-            self.estado = PULANDO
+            #self.estado = PULANDO
 
-        if event.type == pygame.KEYDOWN:
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
-                    player.speedx = -10
-                if event.key == pygame.K_RIGHT:
-                    player.speedx = 10
+        # if event.type == pygame.KEYDOWN:
+        #         # Dependendo da tecla, altera a velocidade.
+        #         if event.key == pygame.K_LEFT:
+        #             player.speedx = -10
+        #         if event.key == pygame.K_RIGHT:
+        #             player.speedx = 10
 
     def update(self):
 
@@ -98,20 +98,19 @@ class Player(pygame.sprite.Sprite):
                 self.index = 0
             self.image = self.andando[self.index]
 
-        if self.estado == PULANDO:
-            if self.index >= len(self.pulando):
-                self.index = 0
-            self.image = self.pulando[self.index]
+        # if self.estado == PULANDO:
+        #     if self.index >= len(self.pulando):
+        #         self.index = 0
+        #     self.image = self.pulando[self.index]
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         self.speedy += 1
 
         # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.top < 0:
+            self.rect.top = 0
+
 
 class Plataforma(pygame.sprite.Sprite):
 
@@ -571,7 +570,7 @@ while running:
                 max_top = top
         player.speedy = 0
         player.rect.bottom = max_top
-        player.estado = ANDANDO
+#        player.estado = ANDANDO
 
     # Verifica se houve colisao entre player e obstaculo
     hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
