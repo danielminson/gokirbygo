@@ -446,35 +446,42 @@ def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir,kb
     assets["fonte_score"] = pygame.font.Font(path.join(fnt_dir, "Retron2000.ttf"),50)
     assets["fonte_coracao"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"),50)
 
+    i = 0
     kirby_andando = []
-    for i in range(8):
-        filename = 'k0{}.png'.format(i)
-        img = pygame.image.load(path.join(kirby_dir, filename)).convert()
-        img = pygame.transform.scale(img, (200, 200))
-        img.set_colorkey(WHITE)
-        kirby_andando.append(img)
+
+    while i < 8:
+        F_name = 'k0{0}.png'.format(i)
+        imagem_andando = pygame.image.load(path.join(kirby_dir,F_name)).convert()
+        imagem_andando =  pygame.transform.scale(imagem_andando,(200,200))       
+        imagem_andando.set_colorkey(WHITE)
+        kirby_andando.append(imagem_andando)
+        i+=1
     assets["kirby_andando"] = kirby_andando
 
+
+    z = 0
     kirby_voando = []
-    for i in range(26):
-        filename = 'Kirbyvoando-0{}.png'.format(i)
-        img1 = pygame.image.load(path.join(kv_dir, filename)).convert()
-        img1 = pygame.transform.scale(img1, (200, 200))
-        img1.set_colorkey(WHITE)
-        kirby_voando.append(img1)
+    while z < 26:
+        F_name = 'Kirbyvoando-0{0}.png'.format(z)
+        imagem_pulando = pygame.image.load(path.join(kv_dir,F_name)).convert()
+        imagem_pulando =  pygame.transform.scale(imagem_pulando,(200,200))       
+        imagem_pulando.set_colorkey(WHITE)
+        kirby_voando.append(imagem_pulando)
+        z+=1
     assets["kirby_voando"] = kirby_voando
 
-    kirby_batalhando = []
-    for i in range(4):
-        filename = 'Kbatalha0{}.png'.format(i)
-        img2 = pygame.image.load(path.join(kb_dir, filename)).convert()
-        img2 = pygame.transform.scale(img2, (200, 200))
-        img2.set_colorkey(WHITE)
-        kirby_voando.append(img2)
+
+    j = 0
+    kirby_batalhando =[]
+    while j < 4:
+        F_name = 'Kbatalha0{0}.png'.format(j)
+        imagem_batalhando= pygame.image.load(path.join(kb_dir,F_name)).convert()
+        imagem_batalhando =  pygame.transform.scale(imagem_batalhando,(300,300))       
+        imagem_batalhando.set_colorkey(WHITE)
+        kirby_batalhando.append(imagem_batalhando)
+        j+=1
     assets["kirby_batalhando"] = kirby_batalhando
-
     return assets
-
 
 #----------------- SONS/IMAGENS/FONTES ------------------------------
 
@@ -597,6 +604,7 @@ while running:
                 all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
 
+
         #Eventos dos obstaculos
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
@@ -617,10 +625,9 @@ while running:
         if event.type == USEREVENT+4:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                pchu = Monstro(1200, HEIGHT-270, 100, 100)
+                pchu = Monstro(1270, HEIGHT-240, 100, 100)
                 all_pikachu.add(pchu)
                 all_sprites.add(pchu)
-
     if score % 250 == 0:
         for x in obstacles:
             x.vel += 5
@@ -664,12 +671,20 @@ while running:
             lives+=1
 
 
-    #hits_Sword_Pikach = pygame.groupcollide(player, all_pikachu,True, True)
+    hits_Sword_Pikach = pygame.sprite.spritecollide(player, all_pikachu, False, pygame.sprite.collide_circle)
     #if player.estado == BATALHANDO:
-        #for hit_sp in hits_Sword_Pikach:
-            #print("Colidiu")
-    #if hits_Sword_Pikach == False:
-        #running = False
+        #print("Colidiou batalhando")
+    if hits_Sword_Pikach:
+        hit_sound.play()
+        lives -=1
+        if lives <= 0:
+            running = gameover(screen)
+            lives = 3
+            score = 0
+            if running == False:
+                pygame.quit()
+                quit()
+
 
 
     #----------------------------------------------------
