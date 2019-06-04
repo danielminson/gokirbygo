@@ -365,3 +365,4 @@ pygame.mixer.music.play(loops=-1)
 
 #------------------- LOOP PRINCIPAL ------------------------------
 Menu() #Roda o Menu antes do jogo
+print("oi")
