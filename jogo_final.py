@@ -488,7 +488,7 @@ pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 2
 
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+2, random.randrange(1000,3000)) #a cada 1 ate 3 segundos ira aparecer obstaculos
 
 #Cria os cogulemos de vida
 all_cogumelos = pygame.sprite.Group()
@@ -534,7 +534,7 @@ while running:
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 340),200,70, vel_obs)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 330),200,70, vel_obs)
                 all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
 
