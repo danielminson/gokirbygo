@@ -22,6 +22,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+PINK = (165,77,232)
 
 # ------------------- DIRETORIOS DE IMAGENS -------------------------------
 img_dir = path.join(path.dirname(__file__), 'Imagens')
@@ -588,7 +589,7 @@ while running:
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
     if hits_cogumelo:
         if lives < 3:
-            hit_sound2.play()
+            life_sound.play()
             lives+=1
 #----------------------------------------------------
 
@@ -612,7 +613,9 @@ while running:
     score+=1
 
     #escreve o score na tela
-    draw_text(screen, fontname, str(score), WIDTH/2, 10, BLACK)
+    draw_text(screen, fontname, str(score), WIDTH/2, 10, PINK)
+
+    draw_text(screen, fontname, "PRESS P TO PAUSE", 900, 630, WHITE)
     #mostra a vida na tela
     draw_text(screen, coracao, chr(9829)*lives, 200, 10, (255,0,0,10))
 
