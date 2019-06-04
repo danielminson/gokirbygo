@@ -534,7 +534,7 @@ while running:
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 340),200,70, vel_obs)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 330),200,70, vel_obs)
                 all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
 
