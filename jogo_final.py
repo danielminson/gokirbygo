@@ -275,6 +275,30 @@ def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir):
     assets["musica_fundo"] = pygame.mixer.Sound(path.join(snd_dir, 'kirby_star_ride.ogg'))
     assets["fonte_score"] = pygame.font.Font(path.join(fnt_dir, "Retron2000.ttf"),50)
     assets["fonte_coracao"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"),50)
+    X1 = 0
+    kirby_andando = []
+
+    while X1 < 8:
+        F_name = 'k0{0}.png'.format(X1)
+        imagem_andando = pygame.image.load(path.join(kirby_dir,F_name)).convert()
+        imagem_andando =  pygame.transform.scale(imagem_andando,(200,200))
+        imagem_andando.set_colorkey(WHITE)
+        kirby_andando.append(imagem_andando)
+        X1 += 1
+    assets["kirby_andando"] = kirby_andando
+
+
+    X2 = 0
+    kirby_voando = []
+    while X2 < 26:
+        F_name = 'Kirbyvoando-0{0}.png'.format(X2)
+        imagem_pulando = pygame.image.load(path.join(kv_dir,F_name)).convert()
+        imagem_pulando =  pygame.transform.scale(imagem_pulando,(200,200))
+        imagem_pulando.set_colorkey(WHITE)
+        kirby_voando.append(imagem_pulando)
+        X2 += 1
+    assets["kirby_voando"] = kirby_voando
+
     return assets
 
 #----------------- SONS/IMAGENS/FONTES ------------------------------
