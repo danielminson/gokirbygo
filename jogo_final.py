@@ -336,3 +336,13 @@ chao_arcoirisX = 0
 chao_arcoirisX2 = chao_arcoiris.get_width()
 
 #--------------- CRIAÇÃO DOS ELEMENTOS DO JOGO -------------------
+#Cria o Kirby
+player = Player(assets["kirby_andando"],assets["kirby_voando"])
+
+# Cria um grupo de todos os sprites e adiciona o Kirby
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
+
+#Cria os obstaculos
+obstacles = pygame.sprite.Group()
+pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
