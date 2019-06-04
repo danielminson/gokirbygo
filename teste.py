@@ -833,6 +833,3 @@ while running:
         chao_arcoirisX2 = chao_arcoiris.get_width()
 
 #------------------------------------------------------------
-
-#gameover(screen)
-s

@@ -80,10 +80,12 @@ class Player(pygame.sprite.Sprite):
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN \
-            and event.key == pygame.K_SPACE \
-            and self.speedy == 0:
+            and event.key == pygame.K_SPACE:
+#and self.speedy == 0
+            
             self.speedy -= 16
             self.estado = PULANDO
+
 
     def update(self):
 
@@ -208,14 +210,14 @@ class Obstaculo(pygame.sprite.Sprite):
 
 #Classe dos cogumelos
 class Cogumelo(pygame.sprite.Sprite):
-    def __init__(self,x,y,width,height):
+    def __init__(self,x,y,width,height, vel):
 
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = vel
 
         imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
         self.image = pygame.transform.scale(imagex,(126,100))
@@ -233,14 +235,14 @@ class Cogumelo(pygame.sprite.Sprite):
 
 #Classe que cria as plataformas voadoras
 class Plataforma_voadora(pygame.sprite.Sprite):
-    def __init__(self,x,y,width,height):
+    def __init__(self,x,y,width,height, vel):
 
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = vel
 
         self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_voadora.png")).convert()
         self.rect = self.image.get_rect()
@@ -587,7 +589,7 @@ while running:
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70, vel_obs)
                 all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
 
@@ -603,7 +605,7 @@ while running:
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
+                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100, vel_obs)
                 all_cogumelos.add(c_vida)
                 all_sprites.add(c_vida)
         #Eventos para o pikachu

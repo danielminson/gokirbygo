@@ -65,64 +65,53 @@ class Player(pygame.sprite.Sprite):
         self.pulando = kirby_voando
         self.batalhando = kirby_batalhando
 
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 0.2
         self.index = 0
         self.image = self.andando[self.index]
-        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
 
         # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT -140
-
         # Velocidade do kirby
         self.speedx = 0
         self.speedy = 0
 
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 0.2
         self.estado = ANDANDO
 
     def process_event(self, event):
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and self.speedy == 0:
-            print('f')
-            self.speedy = -20
+            self.speedy -= 16
             self.estado = PULANDO
 
-        if event.type == pygame.KEYDOWN \
-            and event.key == pygame.K_q:
-            self.estado = BATALHANDO
-            self.speedy = -18
 
     def update(self):
 
-        self.index += 1
         if self.estado == ANDANDO:
-            if self.index >= len(self.andando):
+
+            self.index += 1
+            if self.index >= 8:
                 self.index = 0
+
             self.image = self.andando[self.index]
 
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
+            self.speedy += 1
+
         if self.estado == PULANDO:
-            if self.index >= len(self.pulando):
+
+            self.index += 1
+            if self.index >= 26:
                 self.index = 0
             self.image = self.pulando[self.index]
-
-        if self.estado == BATALHANDO:
-            if self.index>= len(self.batalhando):
-                self.index = 0
-            self.image = self.batalhando[self.index]
-
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
-        self.speedy += 1
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
+            self.speedy += 1
 
         # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.top < 0:
+            self.rect.top = 0
 
 class Monstro(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -219,14 +208,14 @@ class Obstaculo(pygame.sprite.Sprite):
 
 #Classe dos cogumelos
 class Cogumelo(pygame.sprite.Sprite):
-    def __init__(self,x,y,width,height):
+    def __init__(self,x,y,width,height, vel):
 
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = vel
 
         imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
         self.image = pygame.transform.scale(imagex,(126,100))
@@ -244,14 +233,14 @@ class Cogumelo(pygame.sprite.Sprite):
 
 #Classe que cria as plataformas voadoras
 class Plataforma_voadora(pygame.sprite.Sprite):
-    def __init__(self,x,y,width,height):
+    def __init__(self,x,y,width,height, vel):
 
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = vel
 
         self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_voadora.png")).convert()
         self.rect = self.image.get_rect()
@@ -446,35 +435,42 @@ def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir,kb
     assets["fonte_score"] = pygame.font.Font(path.join(fnt_dir, "Retron2000.ttf"),50)
     assets["fonte_coracao"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"),50)
 
+    i = 0
     kirby_andando = []
-    for i in range(8):
-        filename = 'k0{}.png'.format(i)
-        img = pygame.image.load(path.join(kirby_dir, filename)).convert()
-        img = pygame.transform.scale(img, (200, 200))
-        img.set_colorkey(WHITE)
-        kirby_andando.append(img)
+
+    while i < 8:
+        F_name = 'k0{0}.png'.format(i)
+        imagem_andando = pygame.image.load(path.join(kirby_dir,F_name)).convert()
+        imagem_andando =  pygame.transform.scale(imagem_andando,(200,200))
+        imagem_andando.set_colorkey(WHITE)
+        kirby_andando.append(imagem_andando)
+        i+=1
     assets["kirby_andando"] = kirby_andando
 
+
+    z = 0
     kirby_voando = []
-    for i in range(26):
-        filename = 'Kirbyvoando-0{}.png'.format(i)
-        img1 = pygame.image.load(path.join(kv_dir, filename)).convert()
-        img1 = pygame.transform.scale(img1, (200, 200))
-        img1.set_colorkey(WHITE)
-        kirby_voando.append(img1)
+    while z < 26:
+        F_name = 'Kirbyvoando-0{0}.png'.format(z)
+        imagem_pulando = pygame.image.load(path.join(kv_dir,F_name)).convert()
+        imagem_pulando =  pygame.transform.scale(imagem_pulando,(200,200))
+        imagem_pulando.set_colorkey(WHITE)
+        kirby_voando.append(imagem_pulando)
+        z+=1
     assets["kirby_voando"] = kirby_voando
 
-    kirby_batalhando = []
-    for i in range(4):
-        filename = 'Kbatalha0{}.png'.format(i)
-        img2 = pygame.image.load(path.join(kb_dir, filename)).convert()
-        img2 = pygame.transform.scale(img2, (200, 200))
-        img2.set_colorkey(WHITE)
-        kirby_voando.append(img2)
+
+    j = 0
+    kirby_batalhando =[]
+    while j < 4:
+        F_name = 'Kbatalha0{0}.png'.format(j)
+        imagem_batalhando= pygame.image.load(path.join(kb_dir,F_name)).convert()
+        imagem_batalhando =  pygame.transform.scale(imagem_batalhando,(300,300))
+        imagem_batalhando.set_colorkey(WHITE)
+        kirby_batalhando.append(imagem_batalhando)
+        j+=1
     assets["kirby_batalhando"] = kirby_batalhando
-
     return assets
-
 
 #----------------- SONS/IMAGENS/FONTES ------------------------------
 
@@ -548,7 +544,6 @@ pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 
 all_cogumelos = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer cogumelos
 
-
 #Cria o PIKACHU
 all_pikachu = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+4, random.randrange(1000,10000)) #A cada 1 ate 10 segundos ira aparecer um monstro
@@ -576,7 +571,6 @@ while running:
             running = False
             pygame.quit()
             quit()
-
         #Sair do jogo com ESC
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -593,7 +587,7 @@ while running:
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
+                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 340),200,70, vel_obs)
                 all_platforms.add(p_voadora)
                 all_sprites.add(p_voadora)
 
@@ -609,22 +603,16 @@ while running:
         if event.type == USEREVENT+3:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
+                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100, vel_obs)
                 all_cogumelos.add(c_vida)
                 all_sprites.add(c_vida)
-
-                #Eventos para o pikachu
+        #Eventos para o pikachu
         if event.type == USEREVENT+4:
             r = random.randrange(0,2)
             if r == 0 or r ==1:
-                pchu = Monstro(1200, HEIGHT-270, 100, 100)
+                pchu = Monstro(1270, HEIGHT-270, 100, 100)
                 all_pikachu.add(pchu)
                 all_sprites.add(pchu)
-
-    if score % 250 == 0:
-        for x in obstacles:
-            x.vel += 5
-
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -640,44 +628,42 @@ while running:
                 max_top = top
 
         player.speedy = 0
-        player.estado = ANDANDO
         player.rect.bottom = max_top
-
+        player.estado = ANDANDO
     # Verifica se houve colisao entre player e obstaculo
     hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
     if hits_obstaculos:
         hit_sound.play()
-        lives -=1
-        player.speedy = 0
-        if lives <= 0:
+        lives-=1
+        if lives == 0:
+            print("passou")
             running = gameover(screen)
-            lives = 3
-            score = 0
-            if running == False:
+            lives=3
+            score=0
+            if running== False:
                 pygame.quit()
                 quit()
 
     # Verifica se houve colisao entre player e um sprite que dá mais vida
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
     if hits_cogumelo:
-        player.speedy = 0
         if lives < 3:
             life_sound.play()
             lives+=1
 
+    hits_pchu = pygame.sprite.spritecollide(player,all_pikachu, False, pygame.sprite.collide_circle)
+    if hits_pchu:
+        hit_sound.play()
+        lives-=1
+        if lives == 0:
+            running = False
 
-    #hits_Sword_Pikach = pygame.groupcollide(player, all_pikachu,True, True)
-    #if player.estado == BATALHANDO:
-        #for hit_sp in hits_Sword_Pikach:
-            #print("Colidiu")
-    #if hits_Sword_Pikach == False:
-        #running = False
 
 
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
-    #screen.fill(WHITE)
+    screen.fill(WHITE)
 
     score+=1
 
@@ -733,14 +719,14 @@ while running:
         fundoX_score3 -= 15
         fundoX2_score3 -= 15
 
-        chao_gramaX -= 12
-        chao_gramaX2 -= 12
-        chao_nuvemX -= 12
-        chao_nuvemX2 -= 12
-        chao_arcoirisX -= 12
-        chao_arcoirisX2 -= 12
+        chao_gramaX -= 15
+        chao_gramaX2 -= 15
+        chao_nuvemX -= 15
+        chao_nuvemX2 -= 15
+        chao_arcoirisX -= 15
+        chao_arcoirisX2 -= 15
 
-        vel_obs = 16
+        vel_obs = 15
 
 
     elif score <= 1000:
@@ -752,14 +738,14 @@ while running:
         fundoX_score3 -= 17
         fundoX2_score3 -= 17
 
-        chao_gramaX -= 15
-        chao_gramaX2 -= 15
-        chao_nuvemX -= 15
-        chao_nuvemX2 -= 15
-        chao_arcoirisX -= 15
-        chao_arcoirisX2 -= 15
+        chao_gramaX -= 17
+        chao_gramaX2 -= 17
+        chao_nuvemX -= 17
+        chao_nuvemX2 -= 17
+        chao_arcoirisX -= 17
+        chao_arcoirisX2 -= 17
 
-        vel_obs = 19
+        vel_obs = 17
 
     elif score <= 1250:
 
@@ -770,14 +756,14 @@ while running:
         fundoX_score3 -= 20
         fundoX2_score3 -= 20
 
-        chao_gramaX -= 18
-        chao_gramaX2 -= 18
-        chao_nuvemX -= 18
-        chao_nuvemX2 -= 18
-        chao_arcoirisX -= 18
-        chao_arcoirisX2 -= 18
+        chao_gramaX -= 20
+        chao_gramaX2 -= 20
+        chao_nuvemX -= 20
+        chao_nuvemX2 -= 20
+        chao_arcoirisX -= 20
+        chao_arcoirisX2 -= 20
 
-        vel_obs = 22
+        vel_obs = 20
 
     elif score <= 1500:
 
@@ -788,14 +774,14 @@ while running:
         fundoX_score3 -= 23
         fundoX2_score3 -= 23
 
-        chao_gramaX -= 21
-        chao_gramaX2 -= 21
-        chao_nuvemX -= 21
-        chao_nuvemX2 -= 21
-        chao_arcoirisX -= 21
-        chao_arcoirisX2 -= 21
+        chao_gramaX -= 23
+        chao_gramaX2 -= 23
+        chao_nuvemX -= 23
+        chao_nuvemX2 -= 23
+        chao_arcoirisX -= 23
+        chao_arcoirisX2 -= 23
 
-        vel_obs = 25
+        vel_obs = 23
 
     elif score <= 1750:
 
@@ -806,14 +792,14 @@ while running:
         fundoX_score3 -= 26
         fundoX2_score3 -= 26
 
-        chao_gramaX -= 24
-        chao_gramaX2 -= 24
-        chao_nuvemX -= 24
-        chao_nuvemX2 -= 24
-        chao_arcoirisX -= 24
-        chao_arcoirisX2 -= 24
+        chao_gramaX -= 26
+        chao_gramaX2 -= 26
+        chao_nuvemX -= 26
+        chao_nuvemX2 -= 26
+        chao_arcoirisX -= 26
+        chao_arcoirisX2 -= 26
 
-        vel_obs = 28
+        vel_obs = 26
 
     elif score <= 2000:
 
@@ -824,14 +810,14 @@ while running:
         fundoX_score3 -= 29
         fundoX2_score3 -= 29
 
-        chao_gramaX -= 27
-        chao_gramaX2 -= 27
-        chao_nuvemX -= 27
-        chao_nuvemX2 -= 27
-        chao_arcoirisX -= 27
-        chao_arcoirisX2 -= 27
+        chao_gramaX -= 29
+        chao_gramaX2 -= 29
+        chao_nuvemX -= 29
+        chao_nuvemX2 -= 29
+        chao_arcoirisX -= 29
+        chao_arcoirisX2 -= 29
 
-        vel_obs = 31
+        vel_obs = 29
 
     elif score <= 2250:
 
@@ -842,14 +828,14 @@ while running:
         fundoX_score3 -= 32
         fundoX2_score3 -= 32
 
-        chao_gramaX -= 30
-        chao_gramaX2 -= 30
-        chao_nuvemX -= 30
-        chao_nuvemX2 -= 30
-        chao_arcoirisX -= 30
-        chao_arcoirisX2 -= 30
+        chao_gramaX -= 32
+        chao_gramaX2 -= 32
+        chao_nuvemX -= 32
+        chao_nuvemX2 -= 32
+        chao_arcoirisX -= 32
+        chao_arcoirisX2 -= 32
 
-        vel_obs = 34
+        vel_obs = 32
 
     elif score <= 2500:
 
@@ -860,14 +846,14 @@ while running:
         fundoX_score3 -= 35
         fundoX2_score3 -= 35
 
-        chao_gramaX -= 33
-        chao_gramaX2 -= 33
-        chao_nuvemX -= 33
-        chao_nuvemX2 -= 33
-        chao_arcoirisX -= 33
-        chao_arcoirisX2 -= 33
+        chao_gramaX -= 35
+        chao_gramaX2 -= 35
+        chao_nuvemX -= 35
+        chao_nuvemX2 -= 35
+        chao_arcoirisX -= 35
+        chao_arcoirisX2 -= 35
 
-        vel_obs = 37
+        vel_obs = 35
 
     elif score <= 2750:
 
@@ -878,14 +864,14 @@ while running:
         fundoX_score3 -= 38
         fundoX2_score3 -= 38
 
-        chao_gramaX -= 36
-        chao_gramaX2 -= 36
-        chao_nuvemX -= 36
-        chao_nuvemX2 -= 36
-        chao_arcoirisX -= 36
-        chao_arcoirisX2 -= 36
+        chao_gramaX -= 38
+        chao_gramaX2 -= 38
+        chao_nuvemX -= 38
+        chao_nuvemX2 -= 38
+        chao_arcoirisX -= 38
+        chao_arcoirisX2 -= 38
 
-        vel_obs = 40
+        vel_obs = 38
 
     elif score <= 100000:
 
@@ -896,14 +882,14 @@ while running:
         fundoX_score3 -= 41
         fundoX2_score3 -= 41
 
-        chao_gramaX -= 39
-        chao_gramaX2 -= 39
-        chao_nuvemX -= 39
-        chao_nuvemX2 -= 39
-        chao_arcoirisX -= 39
-        chao_arcoirisX2 -= 39
+        chao_gramaX -= 41
+        chao_gramaX2 -= 41
+        chao_nuvemX -= 41
+        chao_nuvemX2 -= 41
+        chao_arcoirisX -= 41
+        chao_arcoirisX2 -= 41
 
-        vel_obs = 43
+        vel_obs = 41
 
     #Atualiza a localizacao dos fundos
 
