@@ -495,340 +495,342 @@
 # pygame.mixer.music.play(loops=-1)
 
 #------------------- LOOP PRINCIPAL ------------------------------
-Menu() #Roda o Menu antes do jogo
-running = True
-while running:
-    clock.tick(FPS)
+# Menu() #Roda o Menu antes do jogo
+# running = True
+# while running:
+#     clock.tick(FPS)
+#
+#     for event in pygame.event.get():
+#         #processar eventos do kirby (funcao dentro da classe player)
+#         player.process_event(event)
+#         if event.type == pygame.QUIT:
+#             running = False
+#             pygame.quit()
+#             quit()
 
-    for event in pygame.event.get():
-        #processar eventos do kirby (funcao dentro da classe player)
-        player.process_event(event)
-        if event.type == pygame.QUIT:
-            running = False
-            pygame.quit()
-            quit()
-        #Sair do jogo com ESC
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                running = False
-                pygame.quit()
-                quit()
+        # #Sair do jogo com ESC
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_ESCAPE:
+        #         running = False
+        #         pygame.quit()
+        #         quit()
+        #
+        # #Evento de pause no meio do jogo
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_p:
+        #         pause()
 
-        #Evento de pause no meio do jogo
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_p:
-                pause()
+        # #Eventos das plataformas
+        # if event.type == USEREVENT+1:
+        #     r = random.randrange(0,2)
+        #     if r == 0 or r == 1:
+        #         p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
+        #         all_platforms.add(p_voadora)
+        #         all_sprites.add(p_voadora)
+        #
+        # #Eventos dos obstaculos
+        # if event.type == USEREVENT+2:
+        #     r = random.randrange(0,2)
+        #     if r == 0 or r == 1:
+        #         new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
+        #         obstacles.add(new_obstacle)
+        #         all_sprites.add(new_obstacle)
 
-        #Eventos das plataformas
-        if event.type == USEREVENT+1:
-            r = random.randrange(0,2)
-            if r == 0 or r == 1:
-                p_voadora = Plataforma_voadora(random.randrange(640,1280),random.randrange(300, 400),200,70)
-                all_platforms.add(p_voadora)
-                all_sprites.add(p_voadora)
-
-        #Eventos dos obstaculos
-        if event.type == USEREVENT+2:
-            r = random.randrange(0,2)
-            if r == 0 or r == 1:
-                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
-                obstacles.add(new_obstacle)
-                all_sprites.add(new_obstacle)
-
-        #Eventos dos cogumelos
-        if event.type == USEREVENT+3:
-            r = random.randrange(0,2)
-            if r == 0 or r == 1:
-                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
-                all_cogumelos.add(c_vida)
-                all_sprites.add(c_vida)
+        # #Eventos dos cogumelos
+        # if event.type == USEREVENT+3:
+        #     r = random.randrange(0,2)
+        #     if r == 0 or r == 1:
+        #         c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
+        #         all_cogumelos.add(c_vida)
+        #         all_sprites.add(c_vida)
 
 
-    # Depois de processar os eventos.
-    # Atualiza a acao de cada sprite.
-    all_sprites.update()
-
-    #--------------- COLISÕES ------------------
-    hits_plataformas = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
-    if hits_plataformas:
-        max_top = hits_plataformas[0].rect.top
-        for p in hits_plataformas:
-            top = p.rect.top
-            bottom = p.rect.bottom
-            if top > max_top:
-                max_top = top
-
-        player.speedy = 0
-        player.rect.bottom = max_top
-        player.estado = ANDANDO
-
-    # Verifica se houve colisao entre player e obstaculo
-    hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
-    if hits_obstaculos:
-        hit_sound.play()
-        lives-=1
-        if lives == 0:
-
-            running = gameover(screen)
-            lives=3
-            score=0
-            if running== False:
-                pygame.quit()
-                quit()
-
-    # Verifica se houve colisao entre player e um sprite que dá mais vida
-    hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
-    if hits_cogumelo:
-        if lives < 3:
-            hit_sound2.play()
-            lives+=1
+    # # Depois de processar os eventos.
+    # # Atualiza a acao de cada sprite.
+    # all_sprites.update()
+    #
+    # #--------------- COLISÕES ------------------
+    # hits_plataformas = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
+    # if hits_plataformas:
+    #     max_top = hits_plataformas[0].rect.top
+    #     for p in hits_plataformas:
+    #         top = p.rect.top
+    #         bottom = p.rect.bottom
+    #         if top > max_top:
+    #             max_top = top
+    #
+    #     player.speedy = 0
+    #     player.rect.bottom = max_top
+    #     player.estado = ANDANDO
+    #
+    # # Verifica se houve colisao entre player e obstaculo
+    # hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
+    # if hits_obstaculos:
+    #     hit_sound.play()
+    #     lives-=1
+    #     if lives == 0:
+    #
+    #         running = gameover(screen)
+    #         lives=3
+    #         score=0
+    #         if running== False:
+    #             pygame.quit()
+    #             quit()
+    #
+    # # Verifica se houve colisao entre player e um sprite que dá mais vida
+    # hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
+    # if hits_cogumelo:
+    #     if lives < 3:
+    #         hit_sound2.play()
+    #         lives+=1
 
     #----------------------------------------------------
 
-    # A cada loop, redesenha o fundo e os sprites
-    screen.fill(WHITE)
-
-    if score <= 1000:
-        redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1,
-        chao_grama,chao_gramaX,chao_gramaX2)
-
-    if 1000 < score <= 2000:
-        redesenhafundo(fundo_score2,fundoX_score2,fundoX2_score2,
-        chao_nuvem,chao_nuvemX,chao_nuvemX2)
-
-    if 2000 < score:
-        redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3,
-        chao_arcoiris,chao_arcoirisX,chao_arcoirisX2)
-
-    all_sprites.draw(screen)
-
-    score+=1
+    # # A cada loop, redesenha o fundo e os sprites
+    # screen.fill(WHITE)
+    #
+    # if score <= 1000:
+    #     redesenhafundo(fundo_score1,fundoX_score1,fundoX2_score1,
+    #     chao_grama,chao_gramaX,chao_gramaX2)
+    #
+    # if 1000 < score <= 2000:
+    #     redesenhafundo(fundo_score2,fundoX_score2,fundoX2_score2,
+    #     chao_nuvem,chao_nuvemX,chao_nuvemX2)
+    #
+    # if 2000 < score:
+    #     redesenhafundo(fundo_score3,fundoX_score3,fundoX2_score3,
+    #     chao_arcoiris,chao_arcoirisX,chao_arcoirisX2)
+    #
+    # all_sprites.draw(screen)
+    #
+    # score+=1
     #escreve o score na tela
-    draw_text(screen, fontname, str(score), WIDTH/2, 10, BLACK)
-    #mostra a vida na tela
-    draw_text(screen, coracao, chr(9829)*lives, 200, 10, (255,0,0,10))
 
-    # Depois de desenhar tudo, inverte o display.
-    pygame.display.flip()
-
-    #-------------- PARAMETROS DOS FUNDOS ---------------------
-    #Velocidade dos fundos a cada score
-    if score <= 250:
-
-        fundoX_score1 -= 12
-        fundoX2_score1 -= 12
-        fundoX_score2 -= 12
-        fundoX2_score2 -= 12
-        fundoX_score3 -= 12
-        fundoX2_score3 -= 12
-
-        chao_gramaX -= 9
-        chao_gramaX2 -= 9
-        chao_nuvemX -= 9
-        chao_nuvemX2 -= 9
-        chao_arcoirisX -= 9
-        chao_arcoirisX2 -= 9
-
-    elif score <= 500:
-
-        fundoX_score1 -= 15
-        fundoX2_score1 -= 15
-        fundoX_score2 -= 15
-        fundoX2_score2 -= 15
-        fundoX_score3 -= 15
-        fundoX2_score3 -= 15
-
-        chao_gramaX -= 12
-        chao_gramaX2 -= 12
-        chao_nuvemX -= 12
-        chao_nuvemX2 -= 12
-        chao_arcoirisX -= 12
-        chao_arcoirisX2 -= 12
+    # draw_text(screen, fontname, str(score), WIDTH/2, 10, BLACK)
+    # #mostra a vida na tela
+    # draw_text(screen, coracao, chr(9829)*lives, 200, 10, (255,0,0,10))
+    #
+    # # Depois de desenhar tudo, inverte o display.
 
 
-    elif score <= 1000:
-
-        fundoX_score1 -= 17
-        fundoX2_score1 -= 17
-        fundoX_score2 -= 17
-        fundoX2_score2 -= 17
-        fundoX_score3 -= 17
-        fundoX2_score3 -= 17
-
-        chao_gramaX -= 15
-        chao_gramaX2 -= 15
-        chao_nuvemX -= 15
-        chao_nuvemX2 -= 15
-        chao_arcoirisX -= 15
-        chao_arcoirisX2 -= 15
-
-    elif score <= 1250:
-
-        fundoX_score1 -= 20
-        fundoX2_score1 -= 20
-        fundoX_score2 -= 20
-        fundoX2_score2 -= 20
-        fundoX_score3 -= 20
-        fundoX2_score3 -= 20
-
-        chao_gramaX -= 18
-        chao_gramaX2 -= 18
-        chao_nuvemX -= 18
-        chao_nuvemX2 -= 18
-        chao_arcoirisX -= 18
-        chao_arcoirisX2 -= 18
-
-    elif score <= 1500:
-
-        fundoX_score1 -= 23
-        fundoX2_score1 -= 23
-        fundoX_score2 -= 23
-        fundoX2_score2 -= 23
-        fundoX_score3 -= 23
-        fundoX2_score3 -= 23
-
-        chao_gramaX -= 21
-        chao_gramaX2 -= 21
-        chao_nuvemX -= 21
-        chao_nuvemX2 -= 21
-        chao_arcoirisX -= 21
-        chao_arcoirisX2 -= 21
-
-    elif score <= 1750:
-
-        fundoX_score1 -= 26
-        fundoX2_score1 -= 26
-        fundoX_score2 -= 26
-        fundoX2_score2 -= 26
-        fundoX_score3 -= 26
-        fundoX2_score3 -= 26
-
-        chao_gramaX -= 24
-        chao_gramaX2 -= 24
-        chao_nuvemX -= 24
-        chao_nuvemX2 -= 24
-        chao_arcoirisX -= 24
-        chao_arcoirisX2 -= 24
-
-    elif score <= 2000:
-
-        fundoX_score1 -= 29
-        fundoX2_score1 -= 29
-        fundoX_score2 -= 29
-        fundoX2_score2 -= 29
-        fundoX_score3 -= 29
-        fundoX2_score3 -= 29
-
-        chao_gramaX -= 27
-        chao_gramaX2 -= 27
-        chao_nuvemX -= 27
-        chao_nuvemX2 -= 27
-        chao_arcoirisX -= 27
-        chao_arcoirisX2 -= 27
-
-    elif score <= 2250:
-
-        fundoX_score1 -= 32
-        fundoX2_score1 -= 32
-        fundoX_score2 -= 32
-        fundoX2_score2 -= 32
-        fundoX_score3 -= 32
-        fundoX2_score3 -= 32
-
-        chao_gramaX -= 30
-        chao_gramaX2 -= 30
-        chao_nuvemX -= 30
-        chao_nuvemX2 -= 30
-        chao_arcoirisX -= 30
-        chao_arcoirisX2 -= 30
-
-    elif score <= 2500:
-
-        fundoX_score1 -= 35
-        fundoX2_score1 -= 35
-        fundoX_score2 -= 35
-        fundoX2_score2 -= 35
-        fundoX_score3 -= 35
-        fundoX2_score3 -= 35
-
-        chao_gramaX -= 33
-        chao_gramaX2 -= 33
-        chao_nuvemX -= 33
-        chao_nuvemX2 -= 33
-        chao_arcoirisX -= 33
-        chao_arcoirisX2 -= 33
-
-    elif score <= 2750:
-
-        fundoX_score1 -= 38
-        fundoX2_score1 -= 38
-        fundoX_score2 -= 38
-        fundoX2_score2 -= 38
-        fundoX_score3 -= 38
-        fundoX2_score3 -= 38
-
-        chao_gramaX -= 36
-        chao_gramaX2 -= 36
-        chao_nuvemX -= 36
-        chao_nuvemX2 -= 36
-        chao_arcoirisX -= 36
-        chao_arcoirisX2 -= 36
-
-    elif score <= 100000:
-
-        fundoX_score1 -= 41
-        fundoX2_score1 -= 41
-        fundoX_score2 -= 41
-        fundoX2_score2 -= 41
-        fundoX_score3 -= 41
-        fundoX2_score3 -= 41
-
-        chao_gramaX -= 39
-        chao_gramaX2 -= 39
-        chao_nuvemX -= 39
-        chao_nuvemX2 -= 39
-        chao_arcoirisX -= 39
-        chao_arcoirisX2 -= 39
-
-    #Atualiza a localizacao dos fundos
-
-    #Cenário 1--------------------------------------------------------------------
-    if fundoX_score1 < fundo_score1.get_width() *-1:
-        fundoX_score1 = fundo_score1.get_width()
-
-    if fundoX2_score1 < fundo_score1.get_width() *-1:
-        fundoX2_score1 = fundo_score1.get_width()
-
-    if chao_gramaX < chao_grama.get_width() *-1:
-        chao_gramaX = chao_grama.get_width()
-
-    if chao_gramaX2 < chao_grama.get_width() *-1:
-        chao_gramaX2 = chao_grama.get_width()
-
-    #Cenário 2 -------------------------------------------------------------------
-    if fundoX_score2 < fundo_score2.get_width() *-1:
-        fundoX_score2 = fundo_score2.get_width()
-
-    if fundoX2_score2 < fundo_score2.get_width() *-1:
-        fundoX2_score2 = fundo_score2.get_width()
-
-    if chao_nuvemX < chao_nuvem.get_width() *-1:
-        chao_nuvemX = chao_nuvem.get_width()
-
-    if chao_nuvemX2 < chao_nuvem.get_width() *-1:
-        chao_nuvemX2 = chao_nuvem.get_width()
-
-    #Cenário 3 -------------------------------------------------------------------
-    if fundoX_score3 < fundo_score3.get_width() *-1:
-        fundoX_score3 = fundo_score3.get_width()
-
-    if fundoX2_score3 < fundo_score3.get_width() *-1:
-        fundoX2_score3 = fundo_score3.get_width()
-
-    if chao_arcoirisX < chao_arcoiris.get_width() *-1:
-        chao_arcoirisX = chao_arcoiris.get_width()
-
-    if chao_arcoirisX2 < chao_arcoiris.get_width() *-1:
-        chao_arcoirisX2 = chao_arcoiris.get_width()
-
-#------------------------------------------------------------
+#     #-------------- PARAMETROS DOS FUNDOS ---------------------
+#     #Velocidade dos fundos a cada score
+#     if score <= 250:
+#
+#         fundoX_score1 -= 12
+#         fundoX2_score1 -= 12
+#         fundoX_score2 -= 12
+#         fundoX2_score2 -= 12
+#         fundoX_score3 -= 12
+#         fundoX2_score3 -= 12
+#
+#         chao_gramaX -= 9
+#         chao_gramaX2 -= 9
+#         chao_nuvemX -= 9
+#         chao_nuvemX2 -= 9
+#         chao_arcoirisX -= 9
+#         chao_arcoirisX2 -= 9
+#
+#     elif score <= 500:
+#
+#         fundoX_score1 -= 15
+#         fundoX2_score1 -= 15
+#         fundoX_score2 -= 15
+#         fundoX2_score2 -= 15
+#         fundoX_score3 -= 15
+#         fundoX2_score3 -= 15
+#
+#         chao_gramaX -= 12
+#         chao_gramaX2 -= 12
+#         chao_nuvemX -= 12
+#         chao_nuvemX2 -= 12
+#         chao_arcoirisX -= 12
+#         chao_arcoirisX2 -= 12
+#
+#
+#     elif score <= 1000:
+#
+#         fundoX_score1 -= 17
+#         fundoX2_score1 -= 17
+#         fundoX_score2 -= 17
+#         fundoX2_score2 -= 17
+#         fundoX_score3 -= 17
+#         fundoX2_score3 -= 17
+#
+#         chao_gramaX -= 15
+#         chao_gramaX2 -= 15
+#         chao_nuvemX -= 15
+#         chao_nuvemX2 -= 15
+#         chao_arcoirisX -= 15
+#         chao_arcoirisX2 -= 15
+#
+#     elif score <= 1250:
+#
+#         fundoX_score1 -= 20
+#         fundoX2_score1 -= 20
+#         fundoX_score2 -= 20
+#         fundoX2_score2 -= 20
+#         fundoX_score3 -= 20
+#         fundoX2_score3 -= 20
+#
+#         chao_gramaX -= 18
+#         chao_gramaX2 -= 18
+#         chao_nuvemX -= 18
+#         chao_nuvemX2 -= 18
+#         chao_arcoirisX -= 18
+#         chao_arcoirisX2 -= 18
+#
+#     elif score <= 1500:
+#
+#         fundoX_score1 -= 23
+#         fundoX2_score1 -= 23
+#         fundoX_score2 -= 23
+#         fundoX2_score2 -= 23
+#         fundoX_score3 -= 23
+#         fundoX2_score3 -= 23
+#
+#         chao_gramaX -= 21
+#         chao_gramaX2 -= 21
+#         chao_nuvemX -= 21
+#         chao_nuvemX2 -= 21
+#         chao_arcoirisX -= 21
+#         chao_arcoirisX2 -= 21
+#
+#     elif score <= 1750:
+#
+#         fundoX_score1 -= 26
+#         fundoX2_score1 -= 26
+#         fundoX_score2 -= 26
+#         fundoX2_score2 -= 26
+#         fundoX_score3 -= 26
+#         fundoX2_score3 -= 26
+#
+#         chao_gramaX -= 24
+#         chao_gramaX2 -= 24
+#         chao_nuvemX -= 24
+#         chao_nuvemX2 -= 24
+#         chao_arcoirisX -= 24
+#         chao_arcoirisX2 -= 24
+#
+#     elif score <= 2000:
+#
+#         fundoX_score1 -= 29
+#         fundoX2_score1 -= 29
+#         fundoX_score2 -= 29
+#         fundoX2_score2 -= 29
+#         fundoX_score3 -= 29
+#         fundoX2_score3 -= 29
+#
+#         chao_gramaX -= 27
+#         chao_gramaX2 -= 27
+#         chao_nuvemX -= 27
+#         chao_nuvemX2 -= 27
+#         chao_arcoirisX -= 27
+#         chao_arcoirisX2 -= 27
+#
+#     elif score <= 2250:
+#
+#         fundoX_score1 -= 32
+#         fundoX2_score1 -= 32
+#         fundoX_score2 -= 32
+#         fundoX2_score2 -= 32
+#         fundoX_score3 -= 32
+#         fundoX2_score3 -= 32
+#
+#         chao_gramaX -= 30
+#         chao_gramaX2 -= 30
+#         chao_nuvemX -= 30
+#         chao_nuvemX2 -= 30
+#         chao_arcoirisX -= 30
+#         chao_arcoirisX2 -= 30
+#
+#     elif score <= 2500:
+#
+#         fundoX_score1 -= 35
+#         fundoX2_score1 -= 35
+#         fundoX_score2 -= 35
+#         fundoX2_score2 -= 35
+#         fundoX_score3 -= 35
+#         fundoX2_score3 -= 35
+#
+#         chao_gramaX -= 33
+#         chao_gramaX2 -= 33
+#         chao_nuvemX -= 33
+#         chao_nuvemX2 -= 33
+#         chao_arcoirisX -= 33
+#         chao_arcoirisX2 -= 33
+#
+#     elif score <= 2750:
+#
+#         fundoX_score1 -= 38
+#         fundoX2_score1 -= 38
+#         fundoX_score2 -= 38
+#         fundoX2_score2 -= 38
+#         fundoX_score3 -= 38
+#         fundoX2_score3 -= 38
+#
+#         chao_gramaX -= 36
+#         chao_gramaX2 -= 36
+#         chao_nuvemX -= 36
+#         chao_nuvemX2 -= 36
+#         chao_arcoirisX -= 36
+#         chao_arcoirisX2 -= 36
+#
+#     elif score <= 100000:
+#
+#         fundoX_score1 -= 41
+#         fundoX2_score1 -= 41
+#         fundoX_score2 -= 41
+#         fundoX2_score2 -= 41
+#         fundoX_score3 -= 41
+#         fundoX2_score3 -= 41
+#
+#         chao_gramaX -= 39
+#         chao_gramaX2 -= 39
+#         chao_nuvemX -= 39
+#         chao_nuvemX2 -= 39
+#         chao_arcoirisX -= 39
+#         chao_arcoirisX2 -= 39
+#
+#     #Atualiza a localizacao dos fundos
+#
+#     #Cenário 1--------------------------------------------------------------------
+#     if fundoX_score1 < fundo_score1.get_width() *-1:
+#         fundoX_score1 = fundo_score1.get_width()
+#
+#     if fundoX2_score1 < fundo_score1.get_width() *-1:
+#         fundoX2_score1 = fundo_score1.get_width()
+#
+#     if chao_gramaX < chao_grama.get_width() *-1:
+#         chao_gramaX = chao_grama.get_width()
+#
+#     if chao_gramaX2 < chao_grama.get_width() *-1:
+#         chao_gramaX2 = chao_grama.get_width()
+#
+#     #Cenário 2 -------------------------------------------------------------------
+#     if fundoX_score2 < fundo_score2.get_width() *-1:
+#         fundoX_score2 = fundo_score2.get_width()
+#
+#     if fundoX2_score2 < fundo_score2.get_width() *-1:
+#         fundoX2_score2 = fundo_score2.get_width()
+#
+#     if chao_nuvemX < chao_nuvem.get_width() *-1:
+#         chao_nuvemX = chao_nuvem.get_width()
+#
+#     if chao_nuvemX2 < chao_nuvem.get_width() *-1:
+#         chao_nuvemX2 = chao_nuvem.get_width()
+#
+#     #Cenário 3 -------------------------------------------------------------------
+#     if fundoX_score3 < fundo_score3.get_width() *-1:
+#         fundoX_score3 = fundo_score3.get_width()
+#
+#     if fundoX2_score3 < fundo_score3.get_width() *-1:
+#         fundoX2_score3 = fundo_score3.get_width()
+#
+#     if chao_arcoirisX < chao_arcoiris.get_width() *-1:
+#         chao_arcoirisX = chao_arcoiris.get_width()
+#
+#     if chao_arcoirisX2 < chao_arcoiris.get_width() *-1:
+#         chao_arcoirisX2 = chao_arcoiris.get_width()
+#
+# #------------------------------------------------------------
