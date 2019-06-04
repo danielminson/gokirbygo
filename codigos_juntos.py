@@ -649,7 +649,7 @@ while running:
     hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
     if hits_cogumelo:
         if lives < 3:
-            hit_sound2.play()
+            life_sound.play()
             lives+=1
 
     hits_pchu = pygame.sprite.spritecollide(player,all_pikachu, False, pygame.sprite.collide_circle)
