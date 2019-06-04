@@ -76,48 +76,44 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
 
-        # Melhora a colisão estabelecendo um raio de um circulo
-        self.radius = 0.5
         self.estado = ANDANDO
 
     def process_event(self, event):
 
-        if event.type == pygame.KEYDOWN:
-
-            if event.key == pygame.K_SPACE \
+        if event.type == pygame.KEYDOWN \
+            and event.key == pygame.K_SPACE \
             and self.speedy == 0:
-                self.speedy = -20
-                self.estado = PULANDO
-            if event.key == pygame.K_q:
-                self.estado = BATALHANDO
+            self.speedy -= 16
+            self.estado = PULANDO
 
     def update(self):
 
-        self.index += 1
         if self.estado == ANDANDO:
-            if self.index >= len(self.andando):
+
+            self.speedy = 0
+            self.index += 1
+            if self.index >= 8:
                 self.index = 0
+
             self.image = self.andando[self.index]
 
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
+            self.speedy += 1
+
         if self.estado == PULANDO:
-            if self.index >= len(self.pulando):
+
+            self.index += 1
+            if self.index >= 26:
                 self.index = 0
             self.image = self.pulando[self.index]
-
-        if self.estado == BATALHANDO:
-            if self.index>= len(self.batalhando):
-                self.index = 0
-            self.image = self.batalhando[self.index]
-
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
-        self.speedy += 1
+            self.rect.x += self.speedx
+            self.rect.y += self.speedy
+            self.speedy += 1
 
         # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+        if self.rect.top < 0:
+            self.rect.top = 0
 
 class Monstro(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
@@ -186,7 +182,7 @@ class Plataforma(pygame.sprite.Sprite):
 #Classe obstaculos
 class Obstaculo(pygame.sprite.Sprite):
     # Construindo a classe
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, vel):
 
         #Construtor da classe
         pygame.sprite.Sprite.__init__(self)
@@ -195,7 +191,7 @@ class Obstaculo(pygame.sprite.Sprite):
         self.y = y
         self.width = width
         self.height = height
-        self.vel = 10
+        self.vel = vel
 
         self.image = imagem_aleatoria()
 
@@ -535,6 +531,7 @@ all_platforms.add(chao)
 pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 20 segundos aparece uma plataforma voadora
 
 #Cria os obstaculos
+vel_obs = 10
 obstacles = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
 
@@ -594,7 +591,7 @@ while running:
         if event.type == USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0 or r == 1:
-                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
+                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50, vel_obs)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
 
@@ -625,22 +622,22 @@ while running:
     #--------------- COLISÕES ------------------
     hits_plataformas = pygame.sprite.spritecollide(player, all_platforms, False, pygame.sprite.collide_rect)
     if hits_plataformas:
+        player.speedy = 0
+        player.estado = ANDANDO
         max_top = hits_plataformas[0].rect.top
         for p in hits_plataformas:
             top = p.rect.top
             bottom = p.rect.bottom
             if top > max_top:
                 max_top = top
-
-        player.speedy = 0
         player.rect.bottom = max_top
 
     # Verifica se houve colisao entre player e obstaculo
     hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
     if hits_obstaculos:
         hit_sound.play()
-        lives-=1
-        if lives == 0:
+        lives -=1
+        if lives <= 0:
             running = gameover(screen)
             lives = 3
             score = 0
@@ -712,6 +709,8 @@ while running:
         chao_arcoirisX -= 9
         chao_arcoirisX2 -= 9
 
+        vel_obs = 13
+
     elif score <= 500:
 
         fundoX_score1 -= 15
@@ -727,6 +726,8 @@ while running:
         chao_nuvemX2 -= 12
         chao_arcoirisX -= 12
         chao_arcoirisX2 -= 12
+
+        vel_obs = 16
 
 
     elif score <= 1000:
@@ -745,6 +746,8 @@ while running:
         chao_arcoirisX -= 15
         chao_arcoirisX2 -= 15
 
+        vel_obs = 19
+
     elif score <= 1250:
 
         fundoX_score1 -= 20
@@ -760,6 +763,8 @@ while running:
         chao_nuvemX2 -= 18
         chao_arcoirisX -= 18
         chao_arcoirisX2 -= 18
+
+        vel_obs = 22
 
     elif score <= 1500:
 
@@ -777,6 +782,8 @@ while running:
         chao_arcoirisX -= 21
         chao_arcoirisX2 -= 21
 
+        vel_obs = 25
+
     elif score <= 1750:
 
         fundoX_score1 -= 26
@@ -792,6 +799,8 @@ while running:
         chao_nuvemX2 -= 24
         chao_arcoirisX -= 24
         chao_arcoirisX2 -= 24
+
+        vel_obs = 28
 
     elif score <= 2000:
 
@@ -809,6 +818,8 @@ while running:
         chao_arcoirisX -= 27
         chao_arcoirisX2 -= 27
 
+        vel_obs = 31
+
     elif score <= 2250:
 
         fundoX_score1 -= 32
@@ -824,6 +835,8 @@ while running:
         chao_nuvemX2 -= 30
         chao_arcoirisX -= 30
         chao_arcoirisX2 -= 30
+
+        vel_obs = 34
 
     elif score <= 2500:
 
@@ -841,6 +854,8 @@ while running:
         chao_arcoirisX -= 33
         chao_arcoirisX2 -= 33
 
+        vel_obs = 37
+
     elif score <= 2750:
 
         fundoX_score1 -= 38
@@ -857,6 +872,8 @@ while running:
         chao_arcoirisX -= 36
         chao_arcoirisX2 -= 36
 
+        vel_obs = 40
+
     elif score <= 100000:
 
         fundoX_score1 -= 41
@@ -872,6 +889,8 @@ while running:
         chao_nuvemX2 -= 39
         chao_arcoirisX -= 39
         chao_arcoirisX2 -= 39
+
+        vel_obs = 43
 
     #Atualiza a localizacao dos fundos
 
