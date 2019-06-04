@@ -51,7 +51,7 @@ FPS = 30
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self,kirby_andando,kirby_voando,kirby_batalhando):
+    def __init__(self,kirby_andando,kirby_voando):
         # Construtor da classe pai (Sprite).
 
 
@@ -64,8 +64,7 @@ class Player(pygame.sprite.Sprite):
 
         self.andando = kirby_andando
         self.pulando = kirby_voando
-        self.batalhando = kirby_batalhando
-
+        
         self.index = 0
         self.image = self.andando[self.index]
         self.rect = self.image.get_rect()
@@ -424,17 +423,6 @@ def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir,kb
         kirby_batalhando.append(imagem_batalhando)
         X3 += 1
     assets["kirby_batalhando"] = kirby_batalhando
-
-    X4 = 0
-    pikachu_andando =[]
-    while X4 < 4:
-        F_name = 'Pikachu-{0}.png'.format(X4)
-        imagem_batalhando= pygame.image.load(path.join(PikaChu,F_name)).convert()
-        imagem_batalhando =  pygame.transform.scale(imagem_batalhando,(300,300))
-        imagem_batalhando.set_colorkey(WHITE)
-        kirby_batalhando.append(pikachu_andando)
-        X4+=1
-    assets["pikachu_andando"] = pikachu_andando
 
     return assets
 
