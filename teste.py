@@ -41,6 +41,7 @@ PikaChu = path.join(path.dirname(__file__),"Imagens","PikachuMonstro")#Imagem do
 CHAO = 0
 PULANDO = 1
 ANDANDO = 2
+BATALHANDO = 3
 # ----------------------------------------
 
 #FPS do jogo
@@ -51,7 +52,7 @@ FPS = 30
 # Classe Jogador (Kirby)
 class Player(pygame.sprite.Sprite):
     # Construtor da classe.
-    def __init__(self,kirby_andando,kirby_voando,kirby_batalhando):
+    def __init__(self,kirby_andando,kirby_voando):
         # Construtor da classe pai (Sprite).
 
 
@@ -64,7 +65,6 @@ class Player(pygame.sprite.Sprite):
 
         self.andando = kirby_andando
         self.pulando = kirby_voando
-        self.batalhando = kirby_batalhando
 
         self.index = 0
         self.image = self.andando[self.index]
@@ -227,7 +227,6 @@ def imagem_aleatoria():
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
 
-#------------------------------------ Funções -------------------------------------
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo(fundo,fundoX,fundoX2,chao,chaoX,chaoX2):
     screen.blit(fundo, (fundoX, 0))
@@ -375,7 +374,7 @@ def load_data():
     return highscore
 
 #Funcao que carrega os assets
-def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir,kb_dir,PikaChu):
+def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir):
     assets = {}
     assets["fundo_grama"] = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo.png')).convert()
     assets["fundo_castelo"] = pygame.image.load(path.join(cenarios_dir,'imagem_de_fundo2.png')).convert()
@@ -414,32 +413,10 @@ def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir,kb
     assets["kirby_voando"] = kirby_voando
 
 
-    X3 = 0
-    kirby_batalhando =[]
-    while X3 < 4:
-        F_name = 'Kbatalha0{0}.png'.format(X3)
-        imagem_batalhando= pygame.image.load(path.join(kb_dir,F_name)).convert()
-        imagem_batalhando =  pygame.transform.scale(imagem_batalhando,(300,300))
-        imagem_batalhando.set_colorkey(WHITE)
-        kirby_batalhando.append(imagem_batalhando)
-        X3 += 1
-    assets["kirby_batalhando"] = kirby_batalhando
-
-    X4 = 0
-    pikachu_andando =[]
-    while X4 < 4:
-        F_name = 'Pikachu-{0}.png'.format(X4)
-        imagem_batalhando= pygame.image.load(path.join(PikaChu,F_name)).convert()
-        imagem_batalhando =  pygame.transform.scale(imagem_batalhando,(300,300))
-        imagem_batalhando.set_colorkey(WHITE)
-        kirby_batalhando.append(pikachu_andando)
-        X4+=1
-    assets["pikachu_andando"] = pikachu_andando
-
     return assets
 
 #----------------- SONS/IMAGENS/FONTES ------------------------------
-assets = load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir,kb_dir,PikaChu)
+assets = load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir)
 # Fonte da letra usada no score e timer.
 fontname = assets["fonte_score"]
 font_size = 50
@@ -488,7 +465,7 @@ chao_arcoirisX2 = chao_arcoiris.get_width()
 #--------------- CRIAÇÃO DOS ELEMENTOS DO JOGO -------------------
 
 #Cria o Kirby
-player = Player(assets["kirby_andando"],assets["kirby_voando"],assets["kirby_batalhando"])
+player = Player(assets["kirby_andando"],assets["kirby_voando"])
 
 # Cria um grupo de todos os sprites e adiciona o Kirby
 all_sprites = pygame.sprite.Group()
@@ -567,6 +544,7 @@ while running:
                 all_cogumelos.add(c_vida)
                 all_sprites.add(c_vida)
 
+
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -604,6 +582,8 @@ while running:
         if lives < 3:
             hit_sound2.play()
             lives+=1
+
+
     #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
@@ -855,3 +835,4 @@ while running:
 #------------------------------------------------------------
 
 #gameover(screen)
+s

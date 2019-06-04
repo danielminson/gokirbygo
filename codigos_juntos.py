@@ -63,7 +63,6 @@ class Player(pygame.sprite.Sprite):
 
         self.andando = kirby_andando
         self.pulando = kirby_voando
-        self.batalhando = kirby_batalhando
 
         self.index = 0
         self.image = self.andando[self.index]
