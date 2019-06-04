@@ -90,7 +90,6 @@ class Player(pygame.sprite.Sprite):
                     player.speedx = 10
 
     def update(self):
-        print(self.rect.y)
         #when the update method is called, we will increment the index
         self.index += 1
         if self.estado == ANDANDO:
