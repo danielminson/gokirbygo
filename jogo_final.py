@@ -524,6 +524,18 @@ while running:
             pygame.quit()
             quit()
 
+        #Sair do jogo com ESC
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+                pygame.quit()
+                quit()
+
+        #Evento de pause no meio do jogo
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                pause()
+
         #Eventos das plataformas
         if event.type == USEREVENT+1:
             r = random.randrange(0,2)
@@ -540,6 +552,15 @@ while running:
                 new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
                 obstacles.add(new_obstacle)
                 all_sprites.add(new_obstacle)
+
+        #Eventos dos cogumelos
+        if event.type == USEREVENT+3:
+            r = random.randrange(0,2)
+            if r == 0 or r == 1:
+                c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
+                all_cogumelos.add(c_vida)
+                all_sprites.add(c_vida)
+
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -569,6 +590,12 @@ while running:
             if running== False:
                 pygame.quit()
                 quit()
+    # Verifica se houve colisao entre player e um sprite que dá mais vida
+    hits_cogumelo = pygame.sprite.spritecollide(player, all_cogumelos, False, pygame.sprite.collide_circle)
+    if hits_cogumelo:
+        if lives < 3:
+            hit_sound2.play()
+            lives+=1
 #----------------------------------------------------
 
     # A cada loop, redesenha o fundo e os sprites
@@ -589,7 +616,15 @@ while running:
     all_sprites.draw(screen)
 
     score+=1
-    
+
+    #escreve o score na tela
+    draw_text(screen, fontname, str(score), WIDTH/2, 10, BLACK)
+    #mostra a vida na tela
+    draw_text(screen, coracao, chr(9829)*lives, 200, 10, (255,0,0,10))
+
+    # Depois de desenhar tudo, inverte o display.
+    pygame.display.flip()
+
     #-------------- PARAMETROS DOS FUNDOS ---------------------
     #Velocidade dos fundos a cada score
     if score <= 250:
