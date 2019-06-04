@@ -151,6 +151,55 @@ class Plataforma_voadora(pygame.sprite.Sprite):
         if self.rect.x < -self.width:
             self.kill()
 
+#Classe dos cogumelos
+class Cogumelo(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height, vel):
+
+        pygame.sprite.Sprite.__init__(self)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = vel
+
+        imagex = pygame.image.load(path.join(obs_dir, "mushroom 1up.png")).convert()
+        self.image = pygame.transform.scale(imagex,(126,100))
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(BLUE)
+        self.rect.x = x
+        self.rect.y = y
+        self.radius = int(self.rect.width * 1.2)
+
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
+        if hits_cogumelo:
+            self.kill()
+
+#Classe que cria as plataformas voadoras
+class Plataforma_voadora(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height, vel):
+
+        pygame.sprite.Sprite.__init__(self)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.vel = vel
+
+        self.image = pygame.image.load(path.join(cenarios_dir, "plataforma_voadora.png")).convert()
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.radius = int(self.rect.width * .85 / 2)
+
+
+    def update(self):
+        self.rect.x -= self.vel
+        if self.rect.x < -self.width:
+            self.kill()
+
 #Classe obstaculos
 class Obstaculo(pygame.sprite.Sprite):
     # Construindo a classe
@@ -198,6 +247,14 @@ def imagem_aleatoria():
     rotate = [obs_img1,obs_img2,obs_img3,obs_img4,obs_img5,obs_img6]
 
     return pygame.transform.scale(rotate[random.randint(0, 5)], (260,200))
+
+#Escreve o score na tela
+def draw_text(surface, fontname, text, x, y, color):
+    font = fontname
+    text_surface = font.render(text, True, color)
+    text_rect=text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
 
 #Funcao que atualiza os fundos e desenha na tela
 def redesenhafundo(fundo,fundoX,fundoX2,chao,chaoX,chaoX2):
@@ -261,6 +318,79 @@ def Menu():
             draw_text(screen, fontname, "Highscore: "+str(highscore), WIDTH/2, 10, WHITE)
             pygame.display.flip()
             clock.tick(15)
+#Funcao que da pause
+def pause():
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused = True
+            if event.type == pygame.KEYDOWN:
+                paused = False
+        game_paused_img = pygame.image.load(path.join(cenarios_dir, "game_paused.png")).convert()
+        game_paused_rect = game_paused_img.get_rect()
+        screen.fill(BLACK)
+        screen.blit(game_paused_img,game_paused_rect)
+        pygame.display.flip()
+        clock.tick(5)
+
+#Funcao que aparece game over
+def gameover(screen):
+    gameover_img = pygame.image.load(path.join(cenarios_dir, "game_over.png")).convert()
+    gameover_rect = gameover_img.get_rect()
+
+    screen.fill(BLACK)
+    screen.blit(gameover_img, gameover_rect)
+
+    highscore = load_data()
+    if score > highscore:
+        highscore = score
+        draw_text(screen, fontname, "New highscore! You got: "+str(highscore)+ "points", WIDTH/2, 10, BLUE)
+        HS_FILE = "highscore.txt"
+        with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
+            f.write(str(highscore))
+    else:
+        draw_text(screen, fontname, "Highscore: "+str(highscore)+ "points", 960, 10, BLACK)
+        draw_text(screen, fontname, "Your score: "+str(score)+ "points", 340, 10, WHITE)
+
+    pygame.display.flip()
+
+    agora = pygame.time.get_ticks()
+
+    waiting = True
+    vaicontinuar = False
+    while waiting and vaicontinuar==False:
+        clock.tick(FPS)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                waiting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    waiting = False
+                    vaicontinuar = True
+
+        if (pygame.time.get_ticks() - agora) > 10000:
+        #    waiting = False
+            return False
+    if vaicontinuar:
+        return True
+
+#Funcao que le os scores
+def load_data():
+    HS_FILE = "highscore.txt"
+    try:
+        with open((path.join(snr_dir, HS_FILE)) , 'r') as f:
+            highscore = int(f.read())
+    except:
+        with open((path.join(snr_dir, HS_FILE)) , 'w') as f:
+            highscore = 0
+            f.write(str(highscore))
+    return highscore
 
 def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir):
     assets = {}
@@ -304,6 +434,19 @@ def load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir):
 #----------------- SONS/IMAGENS/FONTES ------------------------------
 assets = load_assets(img_dir,cenarios_dir,obs_dir,snd_dir,fnt_dir,kirby_dir,kv_dir)
 #Carrega as Imagens de Fundo e da plataforma de chao
+
+# Fonte da letra usada no score e timer.
+fontname = assets["fonte_score"]
+font_size = 50
+coracao = assets["fonte_coracao"]
+
+# Carrega os sons do jogo
+pygame.mixer.music.load(path.join(snd_dir, 'kirby_star_ride.ogg'))
+pygame.mixer.music.set_volume(0.4)
+
+#Sons de colisao
+hit_sound = assets["som_colisao"]
+life_sound = assets["som_colisao"]
 
 #Cenário 1 -----------------------------------------------------------------------------
 fundo_score1 = assets["fundo_grama"]
@@ -352,6 +495,10 @@ pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 2
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
+
+#Cria os cogulemos de vida
+all_cogumelos = pygame.sprite.Group()
+pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer obstaculos
 
 #------------------------------------------------------------------
 
