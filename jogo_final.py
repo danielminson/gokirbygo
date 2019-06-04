@@ -512,4 +512,41 @@ pygame.mixer.music.play(loops=-1)
 
 #------------------- LOOP PRINCIPAL ------------------------------
 Menu() #Roda o Menu antes do jogo
-print("oi")
+running = True
+while running:
+    clock.tick(FPS)
+
+    for event in pygame.event.get():
+        #processar eventos do kirby (funcao dentro da classe player)
+        player.process_event(event)
+        if event.type == pygame.QUIT:
+            running = False
+            pygame.quit()
+            quit()
+
+
+        #Eventos dos obstaculos
+        if event.type == USEREVENT+2:
+            r = random.randrange(0,2)
+            if r == 0 or r == 1:
+                new_obstacle = Obstaculo(1270, HEIGHT-300, 50, 50)
+                obstacles.add(new_obstacle)
+                all_sprites.add(new_obstacle)
+    # Depois de processar os eventos.
+    # Atualiza a acao de cada sprite.
+    all_sprites.update()
+#--------------- COLISÕES ----------------------------
+
+    player.estado = ANDANDO
+    # Verifica se houve colisao entre player e obstaculo
+    hits_obstaculos = pygame.sprite.spritecollide(player, obstacles , False, pygame.sprite.collide_circle)
+    if hits_obstaculos:
+        hit_sound.play()
+        lives-=1
+        if lives == 0:
+            running = gameover(screen)
+            lives=3
+            score=0
+            if running== False:
+                pygame.quit()
+                quit()
