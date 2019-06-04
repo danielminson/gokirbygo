@@ -78,7 +78,7 @@ class Player(pygame.sprite.Sprite):
 
     def process_event(self, event):
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and (self.speedy==0 or self.speedy==1):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and (self.speedy==0 or self.rect.y ==370):
             self.speedy = -20
             self.estado = PULANDO
 
@@ -90,7 +90,8 @@ class Player(pygame.sprite.Sprite):
                     player.speedx = 10
 
     def update(self):
-        # #when the update method is called, we will increment the index
+        print(self.rect.y)
+        #when the update method is called, we will increment the index
         self.index += 1
         if self.estado == ANDANDO:
             if self.index >= len(self.andando):
@@ -488,7 +489,7 @@ pygame.time.set_timer(USEREVENT+1, random.randrange(5000,20000)) #a cada 5 ate 2
 
 #Cria os obstaculos
 obstacles = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 segundos ira aparecer obstaculos
+pygame.time.set_timer(USEREVENT+2, random.randrange(1000,3000)) #a cada 1 ate 3 segundos ira aparecer obstaculos
 
 #Cria os cogulemos de vida
 all_cogumelos = pygame.sprite.Group()
