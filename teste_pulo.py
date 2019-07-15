@@ -287,55 +287,7 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-class Monstro(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height):
 
-        #Construtor da classe
-        pygame.sprite.Sprite.__init__(self)
-
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.vel = 8
-    # -------------------------------------------fotos do monstro--------------------------------------
-        pikachu1 = pygame.image.load(path.join(PikaChu, "Pikachu-0.png")).convert()
-        pikachu1.set_colorkey(WHITE)
-        pikachu1 = pygame.transform.scale(pikachu1,(200,200))
-
-        pikachu2 = pygame.image.load(path.join(PikaChu, "Pikachu-1.png")).convert()
-        pikachu2.set_colorkey(WHITE)
-        pikachu2 = pygame.transform.scale(pikachu2,(200,200))
-
-        pikachu3 = pygame.image.load(path.join(PikaChu, "Pikachu-2.png")).convert()
-        pikachu3.set_colorkey(WHITE)
-        pikachu3 = pygame.transform.scale(pikachu3,(200,200))
-
-        pikachu4 = pygame.image.load(path.join(PikaChu, "Pikachu-3.png")).convert()
-        pikachu4.set_colorkey(WHITE)
-        pikachu4 = pygame.transform.scale(pikachu4,(200,200))
-    # ------------------------------------------- acaba aqui fotos do monstro--------------------------------------
-
-        # Criando a animação do monstro
-        self.andando = [pikachu1,pikachu2,pikachu3,pikachu4]
-        self.estado = ANDANDO
-        self.index = 0
-        self.image = self.andando[self.index]
-        self.rect = self.image.get_rect()
-        self.radius = int(self.rect.width * 1.2)
-
-    def update(self):
-        self.rect.x -= self.vel
-        self.index += 1
-        if self.estado == ANDANDO:
-            if self.index >= len(self.andando):
-                self.index = 0
-            self.image = self.andando[self.index]
-
-        if self.rect.x < -self.width:
-            self.kill()
-        #if hits_pchu or hits_Sword_Pikach:
-            #self.kill()
 #Funcao que cria a plataforma principal
 class Plataforma(pygame.sprite.Sprite):
 
@@ -666,9 +618,6 @@ pygame.time.set_timer(USEREVENT+2, random.randrange(1000,5000)) #a cada 1 ate 8 
 all_cogumelos = pygame.sprite.Group()
 pygame.time.set_timer(USEREVENT+3, random.randrange(25000,60000)) #a cada 25 ate 60 segundos ira aparecer obstaculos
 
-#Cria o PIKACHU
-all_pikachu = pygame.sprite.Group()
-pygame.time.set_timer(USEREVENT+4, random.randrange(1000,10000)) #A cada 1 ate 10 segundos ira aparecer um monstro
 #------------------------------------------------------------------
 
 clock = pygame.time.Clock()
@@ -727,13 +676,7 @@ while running:
                 c_vida = Cogumelo(1270, HEIGHT-250, 100, 100)
                 all_cogumelos.add(c_vida)
                 all_sprites.add(c_vida)
-        #Eventos para o pikachu
-        if event.type == USEREVENT+4:
-            r = random.randrange(0,2)
-            if r == 0 or r ==1:
-                pchu = Monstro(1270, HEIGHT-270, 100, 100)
-                all_pikachu.add(pchu)
-                all_sprites.add(pchu)
+
     # Depois de processar os eventos.
     # Atualiza a acao de cada sprite.
     all_sprites.update()
@@ -757,7 +700,6 @@ while running:
         hit_sound.play()
         lives-=1
         if lives == 0:
-            print("passou")
             running = gameover(screen)
             lives=3
             score=0
@@ -772,19 +714,7 @@ while running:
             hit_sound2.play()
             lives+=1
 
-    hits_pchu = pygame.sprite.spritecollide(player,all_pikachu, False, pygame.sprite.collide_circle)
-    if hits_pchu:
-        hit_sound.play()
-        lives-=1
-        if lives == 0:
-            running = False
 
-    #hits_Sword_Pikach = pygame.groupcollide(player, all_pikachu,True, True)
-    #if player.estado == BATALHANDO:
-        #for hit_sp in hits_Sword_Pikach:
-            #print("Colidiu")
-    #if hits_Sword_Pikach == False:
-        #running = False
 
     #----------------------------------------------------
 
